@@ -1,0 +1,721 @@
+{
+  "name": "ElevenLabs Hybrid Cloudinary Upload - Signed & Unsigned",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "voice-victor",
+              "name": "victorVoiceId",
+              "value": "T9xTMubBGC4Y9y6oHUza",
+              "type": "string"
+            },
+            {
+              "id": "test-text",
+              "name": "text",
+              "value": "This is a test of the ElevenLabs voice generation system with Cloudinary hybrid upload. This workflow supports both signed and unsigned uploads for maximum reliability.",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-folder",
+              "name": "cloudinaryFolder",
+              "value": "elevenlabs-audio/tests",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-cloud-name",
+              "name": "cloudName",
+              "value": "dly199qqv",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-api-key",
+              "name": "apiKey",
+              "value": "497685786324925",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-api-secret",
+              "name": "apiSecret",
+              "value": "IIOcT0xjXBOfBvIqjBC0oFod2wg",
+              "type": "string"
+            },
+            {
+              "id": "upload-preset-id",
+              "name": "uploadPresetId",
+              "value": "n8n_unsigned",
+              "type": "string"
+            },
+            {
+              "id": "try-signed-first",
+              "name": "trySignedFirst",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-variables",
+      "name": "Set Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🚀 HYBRID CLOUDINARY UPLOAD');\nconsole.log('✅ ElevenLabs: Ready');\nconsole.log('✅ Cloudinary Signed: Ready');\nconsole.log('✅ Cloudinary Unsigned: Ready');\nconsole.log('📋 Upload preset:', $input.item.json.uploadPresetId);\nconsole.log('🔧 Try signed first:', $input.item.json.trySignedFirst);\n\nreturn $input.all();"
+      },
+      "id": "log-setup",
+      "name": "Log Setup",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.victorVoiceId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": {{ JSON.stringify($json.text) }},\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.5,\n    \"similarity_boost\": 0.5,\n    \"style\": 0.0,\n    \"use_speaker_boost\": true\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "generate-audio",
+      "name": "Generate Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [850, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs_api_credential",
+          "name": "ElevenLabs API Key"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-audio-success",
+      "name": "Check Audio Generation",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const timestamp = Math.round(Date.now() / 1000);\nconst fileName = `test_hybrid_${timestamp}`;\nconst publicId = `${$input.item.json.cloudinaryFolder}/${fileName}`;\nconst apiSecret = $input.item.json.apiSecret;\nconst stringToSign = `public_id=${publicId}&timestamp=${timestamp}` + apiSecret;\nconst binaryData = $input.item.binary.data;\nconst base64Data = binaryData.data;\n\nconsole.log('🎵 Audio ready for upload');\nconsole.log('📄 File:', fileName + '.wav');\nconsole.log('⏰ Timestamp:', timestamp);\n\nreturn [{\n  json: {\n    ...($input.item.json || {}),\n    fileName: fileName + '.wav',\n    publicId: publicId,\n    timestamp: timestamp,\n    stringToSign: stringToSign,\n    fileData: `data:audio/wav;base64,${base64Data}`\n  }\n}];"
+      },
+      "id": "prepare-upload-data",
+      "name": "Prepare Upload Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 240]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "signed-first-check",
+              "leftValue": "={{ $json.trySignedFirst }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-upload-method",
+      "name": "Check Upload Method",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1450, 240]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.hashify.net/hash/sha1/hex?value={{ encodeURIComponent($json.stringToSign) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "calculate-sha1-signed",
+      "name": "Calculate SHA1 for Signed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1650, 180],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/video/upload",
+        "sendBody": true,
+        "specifyBody": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "file",
+              "value": "={{ $json.fileData }}"
+            },
+            {
+              "name": "upload_preset",
+              "value": "={{ $json.uploadPresetId }}"
+            },
+            {
+              "name": "public_id",
+              "value": "={{ $json.publicId }}"
+            },
+            {
+              "name": "resource_type",
+              "value": "video"
+            },
+            {
+              "name": "overwrite",
+              "value": "true"
+            },
+            {
+              "name": "tags",
+              "value": "elevenlabs,test,hybrid-unsigned-first"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "try-unsigned-first",
+      "name": "Try Unsigned Upload First",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1650, 320],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/video/upload",
+        "sendBody": true,
+        "specifyBody": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "file",
+              "value": "={{ $json.fileData }}"
+            },
+            {
+              "name": "api_key",
+              "value": "={{ $json.apiKey }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ $json.timestamp }}"
+            },
+            {
+              "name": "signature",
+              "value": "={{ $json.Digest }}"
+            },
+            {
+              "name": "public_id",
+              "value": "={{ $json.publicId }}"
+            },
+            {
+              "name": "resource_type",
+              "value": "video"
+            },
+            {
+              "name": "overwrite",
+              "value": "true"
+            },
+            {
+              "name": "tags",
+              "value": "elevenlabs,test,hybrid-signed-first"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "try-signed-first",
+      "name": "Try Signed Upload First",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1850, 180],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "signed-success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-signed-result",
+      "name": "Check Signed Result",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [2050, 180]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "unsigned-success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-unsigned-result",
+      "name": "Check Unsigned Result",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1850, 320]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/video/upload",
+        "sendBody": true,
+        "specifyBody": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "file",
+              "value": "={{ $json.fileData }}"
+            },
+            {
+              "name": "upload_preset",
+              "value": "={{ $json.uploadPresetId }}"
+            },
+            {
+              "name": "public_id",
+              "value": "={{ $json.publicId }}"
+            },
+            {
+              "name": "resource_type",
+              "value": "video"
+            },
+            {
+              "name": "overwrite",
+              "value": "true"
+            },
+            {
+              "name": "tags",
+              "value": "elevenlabs,test,hybrid-unsigned-fallback"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "fallback-to-unsigned",
+      "name": "Fallback to Unsigned",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2250, 240],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.hashify.net/hash/sha1/hex?value={{ encodeURIComponent($json.stringToSign) }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "calculate-sha1-fallback",
+      "name": "Calculate SHA1 for Fallback",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2050, 380],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/video/upload",
+        "sendBody": true,
+        "specifyBody": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "file",
+              "value": "={{ $json.fileData }}"
+            },
+            {
+              "name": "api_key",
+              "value": "={{ $json.apiKey }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ $json.timestamp }}"
+            },
+            {
+              "name": "signature",
+              "value": "={{ $json.Digest }}"
+            },
+            {
+              "name": "public_id",
+              "value": "={{ $json.publicId }}"
+            },
+            {
+              "name": "resource_type",
+              "value": "video"
+            },
+            {
+              "name": "overwrite",
+              "value": "true"
+            },
+            {
+              "name": "tags",
+              "value": "elevenlabs,test,hybrid-signed-fallback"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "fallback-to-signed",
+      "name": "Fallback to Signed",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [2250, 380],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const result = $input.item.json;\nconst method = result.tags && result.tags.includes('signed-first') ? 'SIGNED (Primary)' :\n              result.tags && result.tags.includes('unsigned-first') ? 'UNSIGNED (Primary)' :\n              result.tags && result.tags.includes('signed-fallback') ? 'SIGNED (Fallback)' :\n              result.tags && result.tags.includes('unsigned-fallback') ? 'UNSIGNED (Fallback)' : 'SUCCESS';\n\nconsole.log('🎉 HYBRID UPLOAD SUCCESS!');\nconsole.log('📄 File:', result.original_filename || 'test_hybrid');\nconsole.log('🆔 Public ID:', result.public_id);\nconsole.log('🔗 URL:', result.secure_url);\nconsole.log('📊 Size:', Math.round(result.bytes / 1024) + ' KB');\nconsole.log('🔧 Method:', method);\n\nconst mp3Url = result.secure_url.replace(/\\.(\\w+)$/, '.mp3').replace('/upload/', '/upload/f_mp3/');\nconsole.log('🔄 Formats:');\nconsole.log('   WAV:', result.secure_url);\nconsole.log('   MP3:', mp3Url);\n\nif (method.includes('Fallback')) {\n  console.log('\\n⚠️ Primary method failed, fallback succeeded');\n} else {\n  console.log('\\n✅ Primary method worked perfectly');\n}\n\nreturn [{\n  json: {\n    success: true,\n    method: method,\n    fileName: result.original_filename || 'test_hybrid.wav',\n    publicId: result.public_id,\n    secureUrl: result.secure_url,\n    mp3Url: mp3Url,\n    fileSize: Math.round(result.bytes / 1024) + ' KB'\n  }\n}];"
+      },
+      "id": "log-success",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2450, 280]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.error('❌ AUDIO GENERATION FAILED');\nconsole.error('Error:', $input.item.json.error?.message || 'Unknown error');\nreturn [{ json: { success: false, stage: 'audio_generation' } }];"
+      },
+      "id": "log-audio-error",
+      "name": "Log Audio Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 380]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.error('❌ ALL UPLOAD METHODS FAILED');\nconsole.error('Both signed and unsigned uploads failed');\nconsole.error('Check account status and configuration');\nreturn [{ json: { success: false, stage: 'all_uploads_failed' } }];"
+      },
+      "id": "log-total-failure",
+      "name": "Log Total Failure",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2450, 420]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Configuration": {
+      "main": [
+        [
+          {
+            "node": "Log Setup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Setup": {
+      "main": [
+        [
+          {
+            "node": "Generate Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Audio": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Generation": {
+      "main": [
+        [
+          {
+            "node": "Prepare Upload Data",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Audio Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Upload Data": {
+      "main": [
+        [
+          {
+            "node": "Check Upload Method",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Upload Method": {
+      "main": [
+        [
+          {
+            "node": "Calculate SHA1 for Signed",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Try Unsigned Upload First",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate SHA1 for Signed": {
+      "main": [
+        [
+          {
+            "node": "Try Signed Upload First",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Try Signed Upload First": {
+      "main": [
+        [
+          {
+            "node": "Check Signed Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Try Unsigned Upload First": {
+      "main": [
+        [
+          {
+            "node": "Check Unsigned Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Signed Result": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fallback to Unsigned",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Unsigned Result": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Calculate SHA1 for Fallback",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fallback to Unsigned": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Total Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate SHA1 for Fallback": {
+      "main": [
+        [
+          {
+            "node": "Fallback to Signed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fallback to Signed": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Total Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

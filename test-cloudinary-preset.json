@@ -1,0 +1,199 @@
+{
+  "name": "Test Cloudinary Upload Preset - Debug",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cloudinary-cloud-name",
+              "name": "cloudName",
+              "value": "dly199qqv",
+              "type": "string"
+            },
+            {
+              "id": "upload-preset",
+              "name": "uploadPreset",
+              "value": "n8n_unsigned",
+              "type": "string"
+            },
+            {
+              "id": "test-file",
+              "name": "testFile",
+              "value": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-test-data",
+      "name": "Set Test Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🔍 CLOUDINARY PRESET DEBUG TEST');\nconsole.log('☁️ Cloud name:', $input.item.json.cloudName);\nconsole.log('📋 Upload preset:', $input.item.json.uploadPreset);\nconsole.log('🔗 Test URL: https://api.cloudinary.com/v1_1/' + $input.item.json.cloudName + '/image/upload');\nconsole.log('');\nconsole.log('📝 Form data that will be sent:');\nconsole.log('   - file: [small test GIF]');\nconsole.log('   - upload_preset:', $input.item.json.uploadPreset);\nconsole.log('');\nconsole.log('⚠️ If this fails with \"Upload preset must be specified\":');\nconsole.log('   1. Check preset name exactly matches in Cloudinary dashboard');\nconsole.log('   2. Verify preset is set to \"Unsigned\" mode');\nconsole.log('   3. Ensure preset allows \"image\" resource type');\nconsole.log('   4. Check if account has unsigned upload restrictions');\n\nreturn $input.all();"
+      },
+      "id": "log-debug-info",
+      "name": "Log Debug Info",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/image/upload",
+        "sendBody": true,
+        "specifyBody": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "file",
+              "value": "={{ $json.testFile }}"
+            },
+            {
+              "name": "upload_preset",
+              "value": "={{ $json.uploadPreset }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "test-preset-upload",
+      "name": "Test Preset Upload",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [850, 300],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-upload-result",
+      "name": "Check Upload Result",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const result = $input.item.json;\n\nconsole.log('✅ SUCCESS! Upload preset is working correctly!');\nconsole.log('🎉 Test image uploaded to Cloudinary');\nconsole.log('🆔 Public ID:', result.public_id);\nconsole.log('🔗 Secure URL:', result.secure_url);\nconsole.log('📋 Used preset:', result.upload_preset || 'Not returned');\nconsole.log('📊 File size:', result.bytes, 'bytes');\nconsole.log('🏷️ Format:', result.format);\nconsole.log('📝 Resource type:', result.resource_type);\n\nconsole.log('');\nconsole.log('🎯 DIAGNOSIS: Upload preset configuration is CORRECT');\nconsole.log('✅ Preset name is valid and accessible');\nconsole.log('✅ Account allows unsigned uploads');\nconsole.log('✅ Form data format is correct');\nconsole.log('✅ API endpoint is working');\n\nconsole.log('');\nconsole.log('🔧 NEXT STEPS:');\nconsole.log('• Upload preset works for images');\nconsole.log('• Issue might be with audio/video resource type');\nconsole.log('• Check if preset allows \"video\" resource type for audio files');\nconsole.log('• Try the same preset with your ElevenLabs audio workflow');\n\nreturn [{\n  json: {\n    success: true,\n    message: 'Upload preset test successful',\n    presetName: result.upload_preset || $input.item.json.uploadPreset,\n    cloudinaryUrl: result.secure_url,\n    publicId: result.public_id,\n    diagnosis: 'PRESET_WORKING_CORRECTLY'\n  }\n}];"
+      },
+      "id": "log-success",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $input.item.json.error || {};\nconst statusCode = error.httpCode || 'unknown';\nconst message = error.message || 'Upload failed';\n\nconsole.error('❌ UPLOAD PRESET TEST FAILED');\nconsole.error('📊 Status:', statusCode);\nconsole.error('📝 Message:', message);\nconsole.error('📋 Preset tried:', $input.first().json.uploadPreset);\nconsole.error('☁️ Cloud name:', $input.first().json.cloudName);\n\nif (message.includes('Upload preset must be specified')) {\n  console.error('');\n  console.error('🔍 SPECIFIC DIAGNOSIS: Upload preset not recognized');\n  console.error('💡 POSSIBLE CAUSES:');\n  console.error('   1. Preset name mismatch:');\n  console.error('      - Check exact spelling: \"n8n_unsigned\" vs actual name');\n  console.error('      - Case sensitive: \"N8N_Unsigned\" ≠ \"n8n_unsigned\"');\n  console.error('      - Extra spaces or characters');\n  console.error('');\n  console.error('   2. Preset not properly configured:');\n  console.error('      - Signing mode must be \"Unsigned\"');\n  console.error('      - Preset must be \"Enabled\"');\n  console.error('      - Check preset status in dashboard');\n  console.error('');\n  console.error('   3. Account restrictions:');\n  console.error('      - Account may not allow unsigned uploads');\n  console.error('      - Free tier limitations');\n  console.error('      - Security settings blocking unsigned uploads');\n  console.error('');\n  console.error('   4. Form data format issue:');\n  console.error('      - Parameter name should be \"upload_preset\"');\n  console.error('      - Not \"uploadPreset\" or \"preset\"');\n  console.error('      - Check N8N form data encoding');\n\n} else if (statusCode === 401) {\n  console.error('');\n  console.error('🔍 DIAGNOSIS: Authentication issue');\n  console.error('💡 Even unsigned uploads can fail with 401 if:');\n  console.error('   - Account is suspended/disabled');\n  console.error('   - Cloud name is incorrect');\n  console.error('   - API access is restricted');\n\n} else if (statusCode === 403) {\n  console.error('');\n  console.error('🔍 DIAGNOSIS: Forbidden - account restrictions');\n  console.error('💡 Account may not allow unsigned uploads at all');\n}\n\nconsole.error('');\nconsole.error('🛠️ IMMEDIATE FIXES TO TRY:');\nconsole.error('1. Go to Cloudinary Dashboard → Settings → Upload presets');\nconsole.error('2. Find your preset and copy the EXACT name');\nconsole.error('3. Verify signing mode is \"Unsigned\"');\nconsole.error('4. Check if preset is \"Enabled\"');\nconsole.error('5. Try creating a new preset with a simple name like \"test\"');\n\nconsole.error('');\nconsole.error('📋 PRESET CHECKLIST:');\nconsole.error('   ☐ Preset exists in dashboard');\nconsole.error('   ☐ Exact name match (case sensitive)');\nconsole.error('   ☐ Signing mode = \"Unsigned\"');\nconsole.error('   ☐ Status = \"Enabled\"');\nconsole.error('   ☐ Resource type allows \"image\" (for this test)');\nconsole.error('   ☐ Account allows unsigned uploads');\n\nreturn [{\n  json: {\n    success: false,\n    error: message,\n    statusCode: statusCode,\n    presetTested: $input.first().json.uploadPreset,\n    cloudName: $input.first().json.cloudName,\n    diagnosis: message.includes('Upload preset must be specified') ? \n      'PRESET_NOT_RECOGNIZED' : \n      'OTHER_UPLOAD_ERROR',\n    recommendations: [\n      'Verify exact preset name in Cloudinary dashboard',\n      'Ensure preset signing mode is \"Unsigned\"',\n      'Check preset is enabled and active',\n      'Verify account allows unsigned uploads',\n      'Try creating new simple preset for testing'\n    ]\n  }\n}];"
+      },
+      "id": "log-failure",
+      "name": "Log Failure & Diagnosis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 360]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Test Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Test Data": {
+      "main": [
+        [
+          {
+            "node": "Log Debug Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Debug Info": {
+      "main": [
+        [
+          {
+            "node": "Test Preset Upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test Preset Upload": {
+      "main": [
+        [
+          {
+            "node": "Check Upload Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Upload Result": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Failure & Diagnosis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

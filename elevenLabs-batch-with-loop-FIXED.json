@@ -1,0 +1,489 @@
+{
+  "name": "ElevenLabs Batch Processor with Loop - FIXED",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 400]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "episode-number",
+              "name": "episodeNumber",
+              "value": "001",
+              "type": "string"
+            },
+            {
+              "id": "episode-title",
+              "name": "episodeTitle",
+              "value": "AI and Creative Industries",
+              "type": "string"
+            },
+            {
+              "id": "victor-voice",
+              "name": "victorVoiceId",
+              "value": "21m00Tcm4TlvDq8ikWAM",
+              "type": "string"
+            },
+            {
+              "id": "lenny-voice",
+              "name": "lennyVoiceId",
+              "value": "pNInz6obpgDQGcFmaJgB",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-cloud",
+              "name": "cloudinaryCloud",
+              "value": "dtybbysxt",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-preset",
+              "name": "cloudinaryPreset",
+              "value": "podcast_audio",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-folder",
+              "name": "cloudinaryFolder",
+              "value": "podcast/episode-001",
+              "type": "string"
+            },
+            {
+              "id": "output-format",
+              "name": "outputFormat",
+              "value": "mp3_44100_128",
+              "type": "string"
+            },
+            {
+              "id": "model-id",
+              "name": "modelId",
+              "value": "eleven_monolingual_v1",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "episode-config",
+      "name": "Episode Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const episodeConfig = $input.item.json;\n\nconst scriptLines = [\n  {\n    lineNumber: 1,\n    speaker: \"Victor\",\n    voiceId: episodeConfig.victorVoiceId,\n    section: \"ColdOpen\",\n    text: \"Welcome to another episode of our podcast. Today we're diving deep into the world of artificial intelligence and its impact on creative industries.\"\n  },\n  {\n    lineNumber: 2,\n    speaker: \"Lenny\",\n    voiceId: episodeConfig.lennyVoiceId,\n    section: \"ColdOpen\",\n    text: \"That's right Victor. And we have some incredible insights to share about how AI is revolutionizing content creation.\"\n  },\n  {\n    lineNumber: 3,\n    speaker: \"Victor\",\n    voiceId: episodeConfig.victorVoiceId,\n    section: \"Intro\",\n    text: \"Let's start with the basics. AI-powered tools are now capable of generating text, images, audio, and even video content at unprecedented speed and quality.\"\n  },\n  {\n    lineNumber: 4,\n    speaker: \"Lenny\",\n    voiceId: episodeConfig.lennyVoiceId,\n    section: \"Intro\",\n    text: \"Absolutely. But what's really fascinating is how these tools are being used to augment human creativity rather than replace it.\"\n  },\n  {\n    lineNumber: 5,\n    speaker: \"Victor\",\n    voiceId: episodeConfig.victorVoiceId,\n    section: \"ActOne\",\n    text: \"Speaking of augmentation, let's talk about voice synthesis. The technology has advanced so much that synthetic voices are now virtually indistinguishable from human recordings.\"\n  },\n  {\n    lineNumber: 6,\n    speaker: \"Lenny\",\n    voiceId: episodeConfig.lennyVoiceId,\n    section: \"ActOne\",\n    text: \"It's remarkable. And the implications for accessibility, content localization, and creative projects are enormous.\"\n  }\n];\n\nconsole.log('━'.repeat(60));\nconsole.log('📋 EPISODE SCRIPT LOADED');\nconsole.log('━'.repeat(60));\nconsole.log('📺 Episode:', episodeConfig.episodeNumber, '-', episodeConfig.episodeTitle);\nconsole.log('📊 RAW scriptLines.length:', scriptLines.length);\nconsole.log('🎤 Speakers:', [...new Set(scriptLines.map(l => l.speaker))].join(', '));\nconsole.log('📑 Sections:', [...new Set(scriptLines.map(l => l.section))].join(', '));\n\nconst result = scriptLines.map(line => ({\n  json: {\n    ...line,\n    ...episodeConfig\n  }\n}));\n\nconsole.log('━'.repeat(60));\nconsole.log('✅ RETURNING TO NEXT NODE');\nconsole.log('📦 Array length:', result.length);\nconsole.log('📦 Is Array?:', Array.isArray(result));\nconsole.log('📦 First item lineNumber:', result[0].json.lineNumber);\nconsole.log('📦 Last item lineNumber:', result[result.length - 1].json.lineNumber);\nconsole.log('━'.repeat(60));\n\n// Explicitly return array of items\nreturn result;"
+      },
+      "id": "load-script",
+      "name": "Load Episode Script",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 400]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "loop-over-items",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [850, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('\\n🚨 LOG LINE START NODE EXECUTING!');\nconsole.log('🚨 THIS MEANS THE LOOP IS WORKING!');\n\nconst item = $input.item.json;\nconst lineNumber = item.lineNumber;\n\nconsole.log('\\n' + '━'.repeat(60));\nconsole.log(`🎬 PROCESSING LINE ${lineNumber}`);\nconsole.log('━'.repeat(60));\nconsole.log('🎤 Speaker:', item.speaker);\nconsole.log('📝 Section:', item.section);\nconsole.log('💬 Text:', item.text.substring(0, 80) + (item.text.length > 80 ? '...' : ''));\nconsole.log('🎵 Voice ID:', item.voiceId);\nconsole.log('━'.repeat(60));\nconsole.log('🔄 About to return item to next node');\n\nreturn [$input.item];"
+      },
+</text>
+
+<old_text line=93>
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "log-line-start",
+      "name": "Log Line Start",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.voiceId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": \"{{ $json.text }}\",\n  \"model_id\": \"{{ $json.modelId }}\",\n  \"voice_settings\": {\n    \"stability\": 0.5,\n    \"similarity_boost\": 0.75\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 60000
+        }
+      },
+      "id": "generate-audio",
+      "name": "Generate Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1250, 400],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs-api-key",
+          "name": "ElevenLabs API Key"
+        }
+      },
+      "continueOnFail": true,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "audio-success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-audio-success",
+      "name": "Check Audio Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1450, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\n\n// Generate clean filename\nconst filename = `ep${item.episodeNumber}_line${String(item.lineNumber).padStart(3, '0')}_${item.speaker.toLowerCase()}_${item.section.toLowerCase()}.mp3`;\nconst publicId = `${item.cloudinaryFolder}/${filename.replace('.mp3', '')}`;\n\nconsole.log('📦 Preparing metadata for upload');\nconsole.log('   Filename:', filename);\nconsole.log('   Public ID:', publicId);\n\nreturn [{\n  json: {\n    ...item,\n    filename: filename,\n    publicId: publicId\n  },\n  binary: $input.item.binary\n}];"
+      },
+      "id": "prepare-metadata",
+      "name": "Prepare Metadata",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 340]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudinaryCloud }}/auto/upload",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "upload_preset",
+              "value": "={{ $json.cloudinaryPreset }}"
+            },
+            {
+              "name": "public_id",
+              "value": "={{ $json.publicId }}"
+            },
+            {
+              "name": "resource_type",
+              "value": "auto"
+            },
+            {
+              "name": "tags",
+              "value": "=podcast,episode-{{ $json.episodeNumber }},{{ $json.speaker }},{{ $json.section }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "upload-cloudinary",
+      "name": "Upload to Cloudinary",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1850, 340],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "upload-success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-upload",
+      "name": "Check Upload",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [2050, 340]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\n\nconsole.log('✅ SUCCESS - Line', item.lineNumber);\nconsole.log('   Cloudinary URL:', item.secure_url || item.url || 'N/A');\nconsole.log('   Public ID:', item.public_id || 'N/A');\n\nreturn [$input.item];"
+      },
+      "id": "log-success",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 280]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\n\nconsole.error('❌ AUDIO ERROR - Line', item.lineNumber);\nconsole.error('   Speaker:', item.speaker);\nconsole.error('   Error:', item.error || 'Unknown error');\n\nreturn [$input.item];"
+      },
+      "id": "log-audio-error",
+      "name": "Log Audio Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 460]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\n\nconsole.error('❌ UPLOAD ERROR - Line', item.lineNumber);\nconsole.error('   Filename:', item.filename);\nconsole.error('   Error:', item.error || 'Unknown error');\n\nreturn [$input.item];"
+      },
+      "id": "log-upload-error",
+      "name": "Log Upload Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconsole.log('\\n' + '═'.repeat(60));\nconsole.log('📊 FINAL SUMMARY');\nconsole.log('═'.repeat(60));\nconsole.log('Total items processed:', items.length);\nconsole.log('═'.repeat(60));\n\nreturn items;"
+      },
+      "id": "final-summary",
+      "name": "Final Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 160]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Episode Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Episode Configuration": {
+      "main": [
+        [
+          {
+            "node": "Load Episode Script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Episode Script": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Log Line Start",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Final Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Line Start": {
+      "main": [
+        [
+          {
+            "node": "Generate Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Audio": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Success": {
+      "main": [
+        [
+          {
+            "node": "Prepare Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Audio Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Metadata": {
+      "main": [
+        [
+          {
+            "node": "Upload to Cloudinary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to Cloudinary": {
+      "main": [
+        [
+          {
+            "node": "Check Upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Upload": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Upload Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Success": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Audio Error": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Upload Error": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}

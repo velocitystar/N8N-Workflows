@@ -1,0 +1,336 @@
+{
+  "name": "ElevenLabs with Proven Cloudinary Upload Method",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "voice-victor",
+              "name": "victorVoiceId",
+              "value": "T9xTMubBGC4Y9y6oHUza",
+              "type": "string"
+            },
+            {
+              "id": "test-text",
+              "name": "text",
+              "value": "This is a test of the ElevenLabs voice generation system with the proven Cloudinary upload method. This uses the exact same approach as the working ACG workflow.",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-cloud-name",
+              "name": "cloudName",
+              "value": "dly199qqv",
+              "type": "string"
+            },
+            {
+              "id": "upload-preset",
+              "name": "uploadPreset",
+              "value": "n8n_unsigned",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-config",
+      "name": "Set Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🚀 PROVEN CLOUDINARY UPLOAD METHOD');\nconsole.log('✅ Using exact method from working ACG workflow');\nconsole.log('☁️ Cloud name:', $input.item.json.cloudName);\nconsole.log('📋 Upload preset:', $input.item.json.uploadPreset);\nconsole.log('');\nconsole.log('🔧 KEY DIFFERENCES FROM PREVIOUS ATTEMPTS:');\nconsole.log('• Using /auto/upload endpoint (not /video/upload)');\nconsole.log('• Using formBinaryData (not base64 encoding)');\nconsole.log('• Only upload_preset needed (no authentication)');\nconsole.log('• No signature calculation required');\nconsole.log('• No Authorization headers');\nconsole.log('');\nconsole.log('✨ This is the proven working method!');\n\nreturn $input.all();"
+      },
+      "id": "log-setup",
+      "name": "Log Setup Info",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.victorVoiceId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": {{ JSON.stringify($json.text) }},\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.5,\n    \"similarity_boost\": 0.5,\n    \"style\": 0.0,\n    \"use_speaker_boost\": true\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "generate-audio",
+      "name": "Generate Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [850, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs_api_credential",
+          "name": "ElevenLabs API Key"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-audio-success",
+      "name": "Check Audio Generation",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🎵 Audio generated successfully');\nconsole.log('📦 Binary data available:', $input.item.binary.data ? 'YES' : 'NO');\nconsole.log('🔄 Ready for Cloudinary upload using proven method');\nconsole.log('');\nconsole.log('📝 UPLOAD DETAILS:');\nconsole.log('• Endpoint: /auto/upload (automatic resource type detection)');\nconsole.log('• Method: formBinaryData (direct binary, no base64)');\nconsole.log('• Auth: upload_preset only (no signatures needed)');\n\nreturn $input.all();"
+      },
+      "id": "log-audio-ready",
+      "name": "Log Audio Ready",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 240]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/auto/upload",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "upload_preset",
+              "value": "={{ $json.uploadPreset }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "upload-proven-method",
+      "name": "Upload with Proven Method",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1450, 240],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "upload-success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-upload-success",
+      "name": "Check Upload Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1650, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "const uploadResult = $input.item.json;\nconst secureUrl = uploadResult.secure_url;\nconst publicId = uploadResult.public_id;\nconst resourceType = uploadResult.resource_type;\nconst format = uploadResult.format;\nconst bytes = uploadResult.bytes;\nconst duration = uploadResult.duration;\n\nconsole.log('🎉 SUCCESS! PROVEN METHOD WORKS!');\nconsole.log('=' .repeat(50));\nconsole.log('✅ Audio uploaded to Cloudinary successfully');\nconsole.log('');\nconsole.log('📊 UPLOAD DETAILS:');\nconsole.log('🔗 Secure URL:', secureUrl);\nconsole.log('🆔 Public ID:', publicId);\nconsole.log('📝 Resource Type:', resourceType);\nconsole.log('🎵 Format:', format);\nconsole.log('📦 File Size:', Math.round(bytes / 1024) + ' KB');\nif (duration) {\n  console.log('⏱️ Duration:', Math.round(duration) + ' seconds');\n}\n\nconsole.log('');\nconsole.log('🎯 METHOD USED:');\nconsole.log('✅ Endpoint: /auto/upload (proven working)');\nconsole.log('✅ Binary upload: formBinaryData (no base64)');\nconsole.log('✅ Authentication: upload_preset only');\nconsole.log('✅ No signatures: Simple and secure');\n\nconsole.log('');\nconsole.log('🔄 AVAILABLE FORMATS:');\nconst mp3Url = secureUrl.replace(/\\.(\\w+)$/, '.mp3').replace('/upload/', '/upload/f_mp3/');\nconsole.log('• Original:', secureUrl);\nconsole.log('• MP3:', mp3Url);\n\nconsole.log('');\nconsole.log('✨ INTEGRATION SUCCESS:');\nconsole.log('✅ ElevenLabs API: Working');\nconsole.log('✅ Cloudinary Upload: Working');\nconsole.log('✅ Proven Method: Confirmed');\nconsole.log('✅ CDN URLs: Generated');\nconsole.log('');\nconsole.log('🎊 PROBLEM SOLVED!');\nconsole.log('The working ACG method was the key!');\n\nreturn [{\n  json: {\n    success: true,\n    method: 'PROVEN_ACG_METHOD',\n    message: 'Cloudinary upload successful using proven working method',\n    secureUrl: secureUrl,\n    mp3Url: mp3Url,\n    publicId: publicId,\n    resourceType: resourceType,\n    format: format,\n    fileSize: Math.round(bytes / 1024) + ' KB',\n    duration: duration ? Math.round(duration) + 's' : 'N/A',\n    uploadMethod: '/auto/upload with formBinaryData and upload_preset',\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "log-proven-success",
+      "name": "Log Proven Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 180]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $input.item.json.error || {};\nconst statusCode = error.httpCode || 'unknown';\nconst message = error.message || 'Unknown error';\n\nconsole.error('❌ AUDIO GENERATION FAILED');\nconsole.error('Status:', statusCode);\nconsole.error('Message:', message);\n\nif (statusCode === 401) {\n  console.error('🔑 Check ElevenLabs API credential');\n} else if (statusCode === 429) {\n  console.error('⏱️ Rate limit exceeded');\n}\n\nreturn [{ json: { success: false, error: message, stage: 'audio_generation' } }];"
+      },
+      "id": "log-audio-error",
+      "name": "Log Audio Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 360]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $input.item.json.error || {};\nconst statusCode = error.httpCode || 'unknown';\nconst message = error.message || 'Cloudinary upload failed';\n\nconsole.error('❌ PROVEN METHOD UPLOAD FAILED');\nconsole.error('Status:', statusCode);\nconsole.error('Message:', message);\nconsole.error('');\n\nif (statusCode === 401) {\n  if (message.includes('cloud_name is disabled')) {\n    console.error('🚨 ACCOUNT STILL DISABLED');\n    console.error('Even the proven method cannot work with disabled account');\n    console.error('This confirms it is 100% an account issue, not code issue');\n    console.error('');\n    console.error('🔧 IMMEDIATE ACTION:');\n    console.error('• Contact Cloudinary support urgently');\n    console.error('• Request immediate account reactivation');\n    console.error('• Provide this error log as proof');\n    console.error('• Ask for escalation if needed');\n  } else {\n    console.error('🔑 Authentication error with upload preset');\n    console.error('Check that upload preset exists and is enabled');\n  }\n} else if (statusCode === 400) {\n  if (message.includes('Upload preset must be specified')) {\n    console.error('📋 UPLOAD PRESET ERROR');\n    console.error('Preset name may be incorrect or not exist');\n    console.error('Current preset:', $input.first().json.uploadPreset);\n    console.error('');\n    console.error('🔧 FIXES:');\n    console.error('1. Verify preset exists in Cloudinary dashboard');\n    console.error('2. Check preset name is exactly correct (case sensitive)');\n    console.error('3. Ensure preset signing mode is \"Unsigned\"');\n    console.error('4. Confirm preset is \"Enabled\"');\n  } else {\n    console.error('📝 Bad request:', message);\n  }\n} else if (statusCode === 403) {\n  console.error('🚫 Forbidden - account restrictions');\n} else if (statusCode === 500) {\n  console.error('🔧 Cloudinary server error');\n}\n\nconsole.error('');\nconsole.error('📊 PROVEN METHOD ANALYSIS:');\nconsole.error('• This method works in ACG workflow');\nconsole.error('• Same code, different result = account issue');\nconsole.error('• Not a coding problem');\nconsole.error('• Cloudinary account needs attention');\n\nreturn [{\n  json: {\n    success: false,\n    error: message,\n    statusCode: statusCode,\n    stage: 'proven_method_upload',\n    method: '/auto/upload with formBinaryData',\n    uploadPreset: $input.first().json.uploadPreset,\n    recommendation: statusCode === 401 && message.includes('cloud_name is disabled') ?\n      'Account disabled - escalate support ticket immediately' :\n      'Check upload preset configuration in Cloudinary dashboard'\n  }\n}];"
+      },
+      "id": "log-proven-error",
+      "name": "Log Proven Method Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 300]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Configuration": {
+      "main": [
+        [
+          {
+            "node": "Log Setup Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Setup Info": {
+      "main": [
+        [
+          {
+            "node": "Generate Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Audio": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Generation": {
+      "main": [
+        [
+          {
+            "node": "Log Audio Ready",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Audio Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Audio Ready": {
+      "main": [
+        [
+          {
+            "node": "Upload with Proven Method",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload with Proven Method": {
+      "main": [
+        [
+          {
+            "node": "Check Upload Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Upload Success": {
+      "main": [
+        [
+          {
+            "node": "Log Proven Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Proven Method Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

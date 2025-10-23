@@ -1,0 +1,588 @@
+{
+  "name": "Cloudinary Comprehensive Test - All Methods",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cloudinary-cloud-name",
+              "name": "cloudName",
+              "value": "dly199qqv",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-api-key",
+              "name": "apiKey",
+              "value": "497685786324925",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-api-secret",
+              "name": "apiSecret",
+              "value": "IIOcT0xjXBOfBvIqjBC0oFod2wg",
+              "type": "string"
+            },
+            {
+              "id": "upload-preset-1",
+              "name": "preset1",
+              "value": "n8n_unsigned",
+              "type": "string"
+            },
+            {
+              "id": "upload-preset-2",
+              "name": "preset2",
+              "value": "ml_default",
+              "type": "string"
+            },
+            {
+              "id": "upload-preset-3",
+              "name": "preset3",
+              "value": "test",
+              "type": "string"
+            },
+            {
+              "id": "test-file",
+              "name": "testFile",
+              "value": "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-config",
+      "name": "Set Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🧪 CLOUDINARY COMPREHENSIVE TEST');\nconsole.log('=' .repeat(50));\nconsole.log('☁️ Cloud name:', $input.item.json.cloudName);\nconsole.log('🔑 API Key:', $input.item.json.apiKey ? 'SET' : 'NOT SET');\nconsole.log('🔐 API Secret:', $input.item.json.apiSecret ? 'SET' : 'NOT SET');\nconsole.log('');\nconsole.log('📋 Upload presets to test:');\nconsole.log('   1.', $input.item.json.preset1);\nconsole.log('   2.', $input.item.json.preset2);\nconsole.log('   3.', $input.item.json.preset3);\nconsole.log('');\nconsole.log('🔄 Test sequence:');\nconsole.log('   1. Test unsigned upload with preset 1');\nconsole.log('   2. If fails, try preset 2');\nconsole.log('   3. If fails, try preset 3');\nconsole.log('   4. If all fail, try signed upload');\nconsole.log('   5. Test account status directly');\n\nreturn $input.all();"
++      },
++      "id": "log-init",
++      "name": "Log Initialization",
++      "type": "n8n-nodes-base.code",
++      "typeVersion": 2,
++      "position": [650, 300]
++    },
++    {
++      "parameters": {
++        "method": "POST",
++        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/image/upload",
++        "sendBody": true,
++        "specifyBody": "multipart-form-data",
++        "bodyParameters": {
++          "parameters": [
++            {
++              "name": "file",
++              "value": "={{ $json.testFile }}"
++            },
++            {
++              "name": "upload_preset",
++              "value": "={{ $json.preset1 }}"
++            },
++            {
++              "name": "resource_type",
++              "value": "auto"
++            }
++          ]
++        },
++        "options": {
++          "timeout": 30000
++        }
++      },
++      "id": "test-unsigned-1",
++      "name": "Test Unsigned Upload 1",
++      "type": "n8n-nodes-base.httpRequest",
++      "typeVersion": 4.2,
++      "position": [850, 200],
++      "continueOnFail": true
++    },
++    {
++      "parameters": {
++        "conditions": {
++          "options": {
++            "caseSensitive": true,
++            "leftValue": "",
++            "typeValidation": "strict"
++          },
++          "conditions": [
++            {
++              "id": "success-check-1",
++              "leftValue": "={{ $json.error }}",
++              "rightValue": "",
++              "operator": {
++                "type": "object",
++                "operation": "empty",
++                "singleValue": true
++              }
++            }
++          ],
++          "combinator": "and"
++        },
++        "options": {}
++      },
++      "id": "check-result-1",
++      "name": "Check Result 1",
++      "type": "n8n-nodes-base.if",
++      "typeVersion": 2,
++      "position": [1050, 200]
++    },
++    {
++      "parameters": {
++        "method": "POST",
++        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/image/upload",
++        "sendBody": true,
++        "specifyBody": "multipart-form-data",
++        "bodyParameters": {
++          "parameters": [
++            {
++              "name": "file",
++              "value": "={{ $json.testFile }}"
++            },
++            {
++              "name": "upload_preset",
++              "value": "={{ $json.preset2 }}"
++            },
++            {
++              "name": "resource_type",
++              "value": "auto"
++            }
++          ]
++        },
++        "options": {
++          "timeout": 30000
++        }
++      },
++      "id": "test-unsigned-2",
++      "name": "Test Unsigned Upload 2",
++      "type": "n8n-nodes-base.httpRequest",
++      "typeVersion": 4.2,
++      "position": [850, 320],
++      "continueOnFail": true
++    },
++    {
++      "parameters": {
++        "conditions": {
++          "options": {
++            "caseSensitive": true,
++            "leftValue": "",
++            "typeValidation": "strict"
++          },
++          "conditions": [
++            {
++              "id": "success-check-2",
++              "leftValue": "={{ $json.error }}",
++              "rightValue": "",
++              "operator": {
++                "type": "object",
++                "operation": "empty",
++                "singleValue": true
++              }
++            }
++          ],
++          "combinator": "and"
++        },
++        "options": {}
++      },
++      "id": "check-result-2",
++      "name": "Check Result 2",
++      "type": "n8n-nodes-base.if",
++      "typeVersion": 2,
++      "position": [1050, 320]
++    },
++    {
++      "parameters": {
++        "method": "POST",
++        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/image/upload",
++        "sendBody": true,
++        "specifyBody": "multipart-form-data",
++        "bodyParameters": {
++          "parameters": [
++            {
++              "name": "file",
++              "value": "={{ $json.testFile }}"
++            },
++            {
++              "name": "upload_preset",
++              "value": "={{ $json.preset3 }}"
++            },
++            {
++              "name": "resource_type",
++              "value": "auto"
++            }
++          ]
++        },
++        "options": {
++          "timeout": 30000
++        }
++      },
++      "id": "test-unsigned-3",
++      "name": "Test Unsigned Upload 3",
++      "type": "n8n-nodes-base.httpRequest",
++      "typeVersion": 4.2,
++      "position": [850, 440],
++      "continueOnFail": true
++    },
++    {
++      "parameters": {
++        "conditions": {
++          "options": {
++            "caseSensitive": true,
++            "leftValue": "",
++            "typeValidation": "strict"
++          },
++          "conditions": [
++            {
++              "id": "success-check-3",
++              "leftValue": "={{ $json.error }}",
++              "rightValue": "",
++              "operator": {
++                "type": "object",
++                "operation": "empty",
++                "singleValue": true
++              }
++            }
++          ],
++          "combinator": "and"
++        },
++        "options": {}
++      },
++      "id": "check-result-3",
++      "name": "Check Result 3",
++      "type": "n8n-nodes-base.if",
++      "typeVersion": 2,
++      "position": [1050, 440]
++    },
++    {
++      "parameters": {
++        "jsCode": "// Calculate signature for signed upload test\nconst timestamp = Math.round(Date.now() / 1000);\nconst publicId = 'test_signed_' + timestamp;\nconst apiSecret = $input.item.json.apiSecret;\n\nconst stringToSign = `public_id=${publicId}&timestamp=${timestamp}` + apiSecret;\n\nconsole.log('🔏 Preparing signed upload test');\nconsole.log('⏰ Timestamp:', timestamp);\nconsole.log('🆔 Public ID:', publicId);\nconsole.log('📝 String to sign prepared');\n\nreturn [{\n  json: {\n    ...($input.item.json || {}),\n    timestamp: timestamp,\n    publicId: publicId,\n    stringToSign: stringToSign\n  }\n}];"
++      },
++      "id": "prepare-signed-test",
++      "name": "Prepare Signed Test",
++      "type": "n8n-nodes-base.code",
++      "typeVersion": 2,
++      "position": [850, 560]
++    },
++    {
++      "parameters": {
++        "method": "GET",
++        "url": "=https://api.hashify.net/hash/sha1/hex?value={{ encodeURIComponent($json.stringToSign) }}",
++        "options": {
++          "timeout": 10000
++        }
++      },
++      "id": "calc-signature",
++      "name": "Calculate Signature",
++      "type": "n8n-nodes-base.httpRequest",
++      "typeVersion": 4.2,
++      "position": [1050, 560],
++      "continueOnFail": true
++    },
++    {
++      "parameters": {
++        "method": "POST",
++        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/image/upload",
++        "sendBody": true,
++        "specifyBody": "multipart-form-data",
++        "bodyParameters": {
++          "parameters": [
++            {
++              "name": "file",
++              "value": "={{ $json.testFile }}"
++            },
++            {
++              "name": "api_key",
++              "value": "={{ $json.apiKey }}"
++            },
++            {
++              "name": "timestamp",
++              "value": "={{ $json.timestamp }}"
++            },
++            {
++              "name": "signature",
++              "value": "={{ $json.Digest }}"
++            },
++            {
++              "name": "public_id",
++              "value": "={{ $json.publicId }}"
++            }
++          ]
++        },
++        "options": {
++          "timeout": 30000
++        }
++      },
++      "id": "test-signed",
++      "name": "Test Signed Upload",
++      "type": "n8n-nodes-base.httpRequest",
++      "typeVersion": 4.2,
++      "position": [1250, 560],
++      "continueOnFail": true
++    },
++    {
++      "parameters": {
++        "conditions": {
++          "options": {
++            "caseSensitive": true,
++            "leftValue": "",
++            "typeValidation": "strict"
++          },
++          "conditions": [
++            {
++              "id": "success-check-signed",
++              "leftValue": "={{ $json.error }}",
++              "rightValue": "",
++              "operator": {
++                "type": "object",
++                "operation": "empty",
++                "singleValue": true
++              }
++            }
++          ],
++          "combinator": "and"
++        },
++        "options": {}
++      },
++      "id": "check-signed-result",
++      "name": "Check Signed Result",
++      "type": "n8n-nodes-base.if",
++      "typeVersion": 2,
++      "position": [1450, 560]
++    },
++    {
++      "parameters": {
++        "jsCode": "const result = $input.item.json;\nconst presetUsed = $input.first().json.preset1;\n\nconsole.log('✅ SUCCESS! Unsigned upload working with preset:', presetUsed);\nconsole.log('🎉 Test completed successfully');\nconsole.log('🆔 Public ID:', result.public_id);\nconsole.log('🔗 Secure URL:', result.secure_url);\nconsole.log('📋 Working preset:', presetUsed);\nconsole.log('');\nconsole.log('🎯 SOLUTION: Use this preset for your ElevenLabs workflow');\nconsole.log('✅ Preset configuration is correct');\nconsole.log('✅ Account allows unsigned uploads');\nconsole.log('✅ API endpoint is accessible');\n\nreturn [{\n  json: {\n    success: true,\n    method: 'unsigned_upload',\n    workingPreset: presetUsed,\n    cloudinaryUrl: result.secure_url,\n    publicId: result.public_id\n  }\n}];"
++      },
++      "id": "success-preset-1",
++      "name": "Success - Preset 1",
++      "type": "n8n-nodes-base.code",
++      "typeVersion": 2,
++      "position": [1250, 160]
++    },
++    {
++      "parameters": {
++        "jsCode": "const result = $input.item.json;\nconst presetUsed = $input.first().json.preset2;\n\nconsole.log('✅ SUCCESS! Unsigned upload working with preset:', presetUsed);\nconsole.log('🎉 Test completed successfully');\nconsole.log('🆔 Public ID:', result.public_id);\nconsole.log('🔗 Secure URL:', result.secure_url);\nconsole.log('📋 Working preset:', presetUsed);\nconsole.log('');\nconsole.log('🎯 SOLUTION: Use this preset for your ElevenLabs workflow');\n\nreturn [{\n  json: {\n    success: true,\n    method: 'unsigned_upload',\n    workingPreset: presetUsed,\n    cloudinaryUrl: result.secure_url,\n    publicId: result.public_id\n  }\n}];"
++      },
++      "id": "success-preset-2",
++      "name": "Success - Preset 2",
++      "type": "n8n-nodes-base.code",
++      "typeVersion": 2,
++      "position": [1250, 280]
++    },
++    {
++      "parameters": {
++        "jsCode": "const result = $input.item.json;\nconst presetUsed = $input.first().json.preset3;\n\nconsole.log('✅ SUCCESS! Unsigned upload working with preset:', presetUsed);\nconsole.log('🎉 Test completed successfully');\nconsole.log('🆔 Public ID:', result.public_id);\nconsole.log('🔗 Secure URL:', result.secure_url);\nconsole.log('📋 Working preset:', presetUsed);\nconsole.log('');\nconsole.log('🎯 SOLUTION: Use this preset for your ElevenLabs workflow');\n\nreturn [{\n  json: {\n    success: true,\n    method: 'unsigned_upload',\n    workingPreset: presetUsed,\n    cloudinaryUrl: result.secure_url,\n    publicId: result.public_id\n  }\n}];"
++      },
++      "id": "success-preset-3",
++      "name": "Success - Preset 3",
++      "type": "n8n-nodes-base.code",
++      "typeVersion": 2,
++      "position": [1250, 400]
++    },
++    {
++      "parameters": {
++        "jsCode": "const result = $input.item.json;\n\nconsole.log('✅ SUCCESS! Signed upload working!');\nconsole.log('🎉 Signed authentication successful');\nconsole.log('🆔 Public ID:', result.public_id);\nconsole.log('🔗 Secure URL:', result.secure_url);\nconsole.log('🔏 Signature authentication works');\nconsole.log('');\nconsole.log('🎯 SOLUTION: Use signed uploads for your ElevenLabs workflow');\nconsole.log('✅ API credentials are valid');\nconsole.log('✅ Account allows signed uploads');\nconsole.log('✅ Signature calculation is correct');\n\nreturn [{\n  json: {\n    success: true,\n    method: 'signed_upload',\n    cloudinaryUrl: result.secure_url,\n    publicId: result.public_id\n  }\n}];"
++      },
++      "id": "success-signed",
++      "name": "Success - Signed",
++      "type": "n8n-nodes-base.code",
++      "typeVersion": 2,
++      "position": [1650, 520]
++    },
++    {
++      "parameters": {
++        "jsCode": "console.log('❌ ALL UPLOAD METHODS FAILED');\nconsole.log('=' .repeat(40));\n\n// Collect all error information\nconst errors = {\n  preset1: null,\n  preset2: null, \n  preset3: null,\n  signed: null\n};\n\n// Get errors from each test\nconst allItems = $input.all();\nallItems.forEach((item, index) => {\n  if (item.json.error) {\n    const errorMsg = item.json.error.message || item.json.error;\n    const statusCode = item.json.error.httpCode || 'unknown';\n    \n    console.log(`Test ${index + 1} Error:`, statusCode, '-', errorMsg);\n    \n    if (index === 0) errors.preset1 = { status: statusCode, message: errorMsg };\n    else if (index === 1) errors.preset2 = { status: statusCode, message: errorMsg };\n    else if (index === 2) errors.preset3 = { status: statusCode, message: errorMsg };\n    else if (index === 3) errors.signed = { status: statusCode, message: errorMsg };\n  }\n});\n\nconsole.log('');\nconsole.log('🔍 COMPREHENSIVE DIAGNOSIS:');\n\n// Check for common patterns\nconst hasPresetError = Object.values(errors).some(e => \n  e && e.message && e.message.includes('Upload preset must be specified')\n);\n\nconst hasCloudNameError = Object.values(errors).some(e => \n  e && e.message && e.message.includes('cloud_name is disabled')\n);\n\nconst hasAuthError = Object.values(errors).some(e => \n  e && (e.status === 401 || e.status === 403)\n);\n\nif (hasCloudNameError) {\n  console.log('🚨 PRIMARY ISSUE: Account disabled (\"cloud_name is disabled\")');\n  console.log('💡 ROOT CAUSE: Cloudinary account has been suspended/disabled');\n  console.log('🔧 SOLUTION: Contact Cloudinary support immediately');\n  console.log('   - Account may be suspended due to billing, ToS violation, or inactivity');\n  console.log('   - This affects ALL upload methods (signed and unsigned)');\n  console.log('   - No workaround possible until account is reactivated');\n  \n} else if (hasPresetError && hasAuthError) {\n  console.log('🚨 DUAL ISSUES: Preset configuration + Account restrictions');\n  console.log('💡 DIAGNOSIS: Multiple account-level problems');\n  console.log('🔧 SOLUTIONS:');\n  console.log('   1. Check upload preset configuration in dashboard');\n  console.log('   2. Verify account allows unsigned uploads');\n  console.log('   3. Contact support about account restrictions');\n  \n} else if (hasPresetError) {\n  console.log('🚨 PRIMARY ISSUE: Upload preset configuration');\n  console.log('💡 ROOT CAUSE: No valid unsigned upload presets found');\n  console.log('🔧 SOLUTIONS:');\n  console.log('   1. Create new upload preset: Signing mode = \"Unsigned\"');\n  console.log('   2. Verify preset names match exactly (case sensitive)');\n  console.log('   3. Ensure presets are \"Enabled\" in dashboard');\n  console.log('   4. Check if account allows unsigned uploads');\n  \n} else if (hasAuthError) {\n  console.log('🚨 PRIMARY ISSUE: Authentication/Authorization');\n  console.log('💡 ROOT CAUSE: Account restrictions or invalid credentials');\n  console.log('🔧 SOLUTIONS:');\n  console.log('   1. Verify API key and secret are correct');\n  console.log('   2. Check account status and billing');\n  console.log('   3. Ensure API access is enabled');\n  console.log('   4. Contact support about account restrictions');\n  \n} else {\n  console.log('🚨 PRIMARY ISSUE: Unknown error pattern');\n  console.log('💡 DIAGNOSIS: Multiple or unusual errors');\n  console.log('🔧 RECOMMENDATION: Review individual error messages above');\n}\n\nconsole.log('');\nconsole.log('📋 IMMEDIATE ACTION ITEMS:');\nconsole.log('1. 🎫 Check your Cloudinary support ticket status');\nconsole.log('2. 💳 Verify billing and account status in dashboard');\nconsole.log('3. 📧 Contact Cloudinary support with these error details');\nconsole.log('4. 🔄 Consider alternative cloud storage temporarily');\n\nconsole.log('');\nconsole.log('📊 ERROR SUMMARY:');\nconsole.log('Preset 1 (' + $input.first().json.preset1 + '):', errors.preset1?.message || 'No error');\nconsole.log('Preset 2 (' + $input.first().json.preset2 + '):', errors.preset2?.message || 'No error');\nconsole.log('Preset 3 (' + $input.first().json.preset3 + '):', errors.preset3?.message || 'No error');\nconsole.log('Signed upload:', errors.signed?.message || 'No error');\n\nreturn [{\n  json: {\n    success: false,\n    allMethodsFailed: true,\n    errors: errors,\n    primaryIssue: hasCloudNameError ? 'account_disabled' : \n                  hasPresetError ? 'preset_configuration' :\n                  hasAuthError ? 'authentication' : 'unknown',\n    requiresSupportTicket: hasCloudNameError || hasAuthError,\n    recommendation: hasCloudNameError ? \n      'Account disabled - contact support immediately' :\n      'Check preset configuration and account settings'\n  }\n}];"
++      },
++      "id": "comprehensive-failure",
++      "name": "Comprehensive Failure Analysis",
++      "type": "n8n-nodes-base.code",
++      "typeVersion": 2,
++      "position": [1650, 680]
++    }
++  ],
++  "connections": {
++    "Start": {
++      "main": [
++        [
++          {
++            "node": "Set Configuration",
++            "type": "main",
++            "index": 0
++          }
++        ]
++      ]
++    },
++    "Set Configuration": {
++      "main": [
++        [
++          {
++            "node": "Log Initialization",
++            "type": "main",
++            "index": 0
++          }
++        ]
++      ]
++    },
++    "Log Initialization": {
++      "main": [
++        [
++          {
++            "node": "Test Unsigned Upload 1",
++            "type": "main",
++            "index": 0
++          }
++        ]
++      ]
++    },
++    "Test Unsigned Upload 1": {
++      "main": [
++        [
++          {
++            "node": "Check Result 1",
++            "type": "main",
++            "index": 0
++          }
++        ]
++      ]
++    },
++    "Check Result 1": {
++      "main": [
++        [
++          {
++            "node": "Success - Preset 1",
++            "type": "main",
++            "index": 0
++          }
++        ],
++        [
++          {
++            "node": "Test Unsigned Upload 2",
++            "type": "main",
++            "index": 0
++          }
++        ]
++      ]
++    },
++    "Test Unsigned Upload 2": {
++      "main": [
++        [
++          {
++            "node": "Check Result 2",
++            "type": "main",
++            "index": 0
++          }
++        ]
++      ]
++    },
++    "Check Result 2": {
++      "main": [
++        [
++          {
++            "node": "Success - Preset 2",
++            "type": "main",
++            "index": 0
++          }
++        ],
++        [
++          {
++            "node": "Test Unsigned Upload 3",
++            "type": "main",
++            "index": 0
++          }
++        ]
++      ]
++    },
++    "Test Unsigned Upload 3": {
++      "main": [
++        [
++          {
++            "node": "Check Result 3",
++            "type": "main",
++            "index": 0
++          }
++        ]
++      ]
++    },
++    "Check Result 3": {
++      "main": [
++        [
++          {
++            "node": "Success - Preset 3",
++            "type": "main",
++            "index": 0
++          }
++        ],
++        [
++          {
++            "node": "Prepare Signed Test",
++            "type": "main",
++            "index": 0
++          }
++        ]
++      ]
++    },
++    "Prepare Signed Test": {
++      "main": [
++        [
++          {
++            "node": "Calculate Signature",
++            "type": "main",
++            "index": 0
++          }
++        ]
++      ]
++    },
++    "Calculate Signature": {
++      "main": [
++        [
++          {
++            "node": "Test Signed Upload",
++            "type": "main",
++            "index": 0
++          }
++        ]
++      ]
++    },
++    "Test Signed Upload": {
++      "main": [
++        [
++          {
++            "node": "Check Signed Result",
++            "type": "main",
++            "index": 0
++          }
++        ]
++      ]
++    },
++    "Check Signed Result": {
++      "main": [
++        [
++          {
++            "node": "Success - Signed",
++            "type": "main",
++            "index": 0
++          }
++        ],
++        [
++          {
++            "node": "Comprehensive Failure Analysis",
++            "type": "main",
++            "index": 0
++          }
++        ]
++      ]
++    }
++  },
++  "pinData": {}
++}

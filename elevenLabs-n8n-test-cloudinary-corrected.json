@@ -1,0 +1,429 @@
+{
+  "name": "ElevenLabs Test with Cloudinary Signed Upload (Corrected String)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "voice-victor",
+              "name": "victorVoiceId",
+              "value": "T9xTMubBGC4Y9y6oHUza",
+              "type": "string"
+            },
+            {
+              "id": "voice-lenny",
+              "name": "lennyVoiceId",
+              "value": "WbI4Toj5UDP91WAiEInp",
+              "type": "string"
+            },
+            {
+              "id": "test-text",
+              "name": "text",
+              "value": "This is a test of the ElevenLabs voice generation system with Cloudinary signed upload using corrected string format. If you can hear this clearly, the integration is working perfectly.",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-folder",
+              "name": "cloudinaryFolder",
+              "value": "elevenlabs-audio/tests",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-cloud-name",
+              "name": "cloudName",
+              "value": "dly199qqv",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-api-key",
+              "name": "apiKey",
+              "value": "497685786324925",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-api-secret",
+              "name": "apiSecret",
+              "value": "IIOcT0xjXBOfBvIqjBC0oFod2wg",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-variables",
+      "name": "Set Variables",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🔐 Using N8N credentials for ElevenLabs authentication');\nconsole.log('☁️ Files will be uploaded to Cloudinary using SIGNED uploads');\nconsole.log('🎤 Using Victor voice for test');\nconsole.log('📝 Test text:', $input.item.json.text);\nconsole.log('📁 Cloudinary folder:', $input.item.json.cloudinaryFolder);\nconsole.log('🏷️ Cloud name:', $input.item.json.cloudName);\nconsole.log('🔑 API Key:', $input.item.json.apiKey ? 'SET' : 'NOT SET');\nconsole.log('🔐 API Secret:', $input.item.json.apiSecret ? 'SET' : 'NOT SET');\nconsole.log('✨ Using corrected string preparation for signature calculation');\n\nreturn $input.all();"
+      },
+      "id": "log-setup",
+      "name": "Log Setup Info",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.victorVoiceId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": {{ JSON.stringify($json.text) }},\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.5,\n    \"similarity_boost\": 0.5,\n    \"style\": 0.0,\n    \"use_speaker_boost\": true\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "generate-audio",
+      "name": "Generate Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [850, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs_api_credential",
+          "name": "ElevenLabs API Key"
+        }
+      },
+      "continueOnFail": true,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-audio-success",
+      "name": "Check Audio Generation",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// CORRECTED: Prepare string exactly as in successful test\n\n// Use integer timestamp (not Date.now() which can cause precision issues)\nconst timestamp = Math.round(Date.now() / 1000);\n\n// Create simple filename without complex date formatting\nconst fileName = `test_audio_${timestamp}`;\n\n// Create public_id exactly like successful test format\nconst publicId = `${$input.item.json.cloudinaryFolder}/${fileName}`;\n\nconsole.log('🎵 Audio generated successfully, preparing CORRECTED signature parameters');\nconsole.log('📄 File name:', fileName + '.wav');\nconsole.log('🆔 Cloudinary public ID:', publicId);\nconsole.log('⏰ Timestamp (integer):', timestamp);\nconsole.log('🔧 Using corrected format matching successful test');\n\n// CRITICAL: Create string exactly as in successful test\nconst apiSecret = $input.item.json.apiSecret;\n\n// This MUST match format: public_id=VALUE&timestamp=VALUE (no other params!)\nconst paramString = `public_id=${publicId}&timestamp=${timestamp}`;\nconst stringToSign = paramString + apiSecret;\n\nconsole.log('📝 Parameter string:', paramString);\nconsole.log('🔏 String to sign prepared (format matches successful test)');\nconsole.log('📏 String length:', stringToSign.length);\n\n// Convert binary data to base64\nconst binaryData = $input.item.binary.data;\nconst base64Data = binaryData.data;\n\nreturn [{\n  json: {\n    ...($input.item.json || {}),\n    fileName: fileName + '.wav',\n    publicId: publicId,\n    timestamp: timestamp,\n    stringToSign: stringToSign,\n    paramString: paramString,\n    fileData: `data:audio/wav;base64,${base64Data}`\n  }\n}];"
+      },
+      "id": "prepare-corrected-string",
+      "name": "Prepare Corrected String",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 240]
+    },
+    {
+      "parameters": {
+        "action": "hash",
+        "type": "SHA1",
+        "value": "={{ $json.stringToSign }}",
+        "encoding": "hex"
+      },
+      "id": "calculate-sha1",
+      "name": "Calculate SHA1",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [1450, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Finalize upload data with calculated signature\n\nconst signature = $input.item.json.data;\nconst inputData = $input.item.json;\n\nconsole.log('🔏 SHA1 Signature calculated:', signature);\nconsole.log('📝 Used parameter string:', inputData.paramString);\nconsole.log('⏰ Used timestamp:', inputData.timestamp);\nconsole.log('🆔 Used public_id:', inputData.publicId);\nconsole.log('✅ Ready for Cloudinary signed upload with corrected format');\n\n// Verification log\nif (signature.length === 40) {\n  console.log('✅ SHA1 signature has correct length (40 hex chars)');\n} else {\n  console.log('❌ SHA1 signature has incorrect length:', signature.length);\n}\n\nreturn [{\n  json: {\n    ...inputData,\n    signature: signature\n  }\n}];"
+      },
+      "id": "finalize-upload-data",
+      "name": "Finalize Upload Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 240]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/video/upload",
+        "sendBody": true,
+        "specifyBody": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "file",
+              "value": "={{ $json.fileData }}"
+            },
+            {
+              "name": "api_key",
+              "value": "={{ $json.apiKey }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ $json.timestamp }}"
+            },
+            {
+              "name": "signature",
+              "value": "={{ $json.signature }}"
+            },
+            {
+              "name": "public_id",
+              "value": "={{ $json.publicId }}"
+            },
+            {
+              "name": "resource_type",
+              "value": "video"
+            },
+            {
+              "name": "format",
+              "value": "wav"
+            },
+            {
+              "name": "overwrite",
+              "value": "true"
+            },
+            {
+              "name": "tags",
+              "value": "elevenlabs,test,audio"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "upload-to-cloudinary",
+      "name": "Upload to Cloudinary",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1850, 240],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "upload-success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-upload-success",
+      "name": "Check Upload Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [2050, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "const uploadResult = $input.item.json;\nconst publicId = uploadResult.public_id;\nconst secureUrl = uploadResult.secure_url;\nconst originalFileName = uploadResult.original_filename || 'test_audio';\nconst format = uploadResult.format;\nconst resourceType = uploadResult.resource_type;\nconst bytes = uploadResult.bytes;\nconst duration = uploadResult.duration;\nconst signature = uploadResult.signature;\n\nconsole.log('🎉 SUCCESS! Audio file uploaded to Cloudinary using CORRECTED SIGNED authentication!');\nconsole.log('📄 Original file name:', originalFileName + '.' + format);\nconsole.log('🆔 Cloudinary public ID:', publicId);\nconsole.log('🔗 Secure URL:', secureUrl);\nconsole.log('📊 File size:', Math.round(bytes / 1024) + ' KB');\nif (duration) {\n  console.log('⏱️ Duration:', Math.round(duration) + ' seconds');\n}\nconsole.log('🔏 Upload signature:', signature);\nconsole.log('✅ ElevenLabs + Cloudinary signed integration working perfectly!');\nconsole.log('🔧 Using N8N Crypto node with corrected string preparation');\n\n// Check if eager transformations were created\nif (uploadResult.eager && uploadResult.eager.length > 0) {\n  console.log('🔄 Available formats:');\n  uploadResult.eager.forEach(eager => {\n    console.log(`   - ${eager.format}: ${eager.secure_url}`);\n  });\n} else {\n  // Generate MP3 URL manually\n  const mp3Url = secureUrl.replace(/\\.(\\w+)$/, '.mp3').replace('/upload/', '/upload/f_mp3/');\n  console.log('🔄 Available formats:');\n  console.log(`   - wav: ${secureUrl}`);\n  console.log(`   - mp3: ${mp3Url}`);\n}\n\nconsole.log('\\n🎯 INTEGRATION SUCCESS SUMMARY:');\nconsole.log('✅ ElevenLabs API: Working');\nconsole.log('✅ Cloudinary Signed Upload: Working');\nconsole.log('✅ String Format Correction: Working');\nconsole.log('✅ N8N Crypto SHA1: Working');\nconsole.log('✅ File Processing: Complete');\nconsole.log('✅ CDN URLs: Generated');\nconsole.log('\\n🔧 PROBLEM SOLVED:');\nconsole.log('✅ Fixed string preparation to match successful test format');\nconsole.log('✅ Used correct timestamp format (integer)');\nconsole.log('✅ Used correct parameter string format');\nconsole.log('✅ N8N Crypto node now produces correct signature');\n\nreturn [{ \n  json: { \n    success: true, \n    message: 'Test completed successfully with corrected Cloudinary signed upload',\n    fileName: originalFileName + '.' + format,\n    cloudinaryPublicId: publicId,\n    secureUrl: secureUrl,\n    fileSize: Math.round(bytes / 1024) + ' KB',\n    duration: duration ? Math.round(duration) + 's' : 'N/A',\n    authMethod: 'Cloudinary Signed Authentication (Corrected N8N Implementation)',\n    uploadSignature: signature,\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "log-success",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 180]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $input.item.json.error || {};\nconst statusCode = error.httpCode || 'unknown';\nconst message = error.message || 'Unknown error occurred';\n\nconsole.error('❌ AUDIO GENERATION FAILED!');\nconsole.error('Status Code:', statusCode);\nconsole.error('Error Message:', message);\n\n// Common error explanations\nif (statusCode === 401) {\n  console.error('🔑 This is likely a credential issue:');\n  console.error('   - Check that your ElevenLabs API credential is set up correctly');\n  console.error('   - Verify the API key is valid and active');\n} else if (statusCode === 429) {\n  console.error('⏱️ Rate limit exceeded. Wait a moment and try again.');\n} else if (statusCode === 400) {\n  console.error('📝 Bad request - check your voice ID or text content.');\n} else if (statusCode === 422) {\n  console.error('🎤 Voice ID may be invalid or voice settings are incorrect.');\n} else if (statusCode === 403) {\n  console.error('🚫 Forbidden - check your ElevenLabs account status.');\n}\n\nreturn [{ \n  json: { \n    success: false, \n    error: message,\n    statusCode: statusCode,\n    stage: 'audio_generation',\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "log-audio-error",
+      "name": "Log Audio Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 360]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $input.item.json.error || {};\nconst statusCode = error.httpCode || 'unknown';\nconst message = error.message || 'Cloudinary signed upload failed';\n\nconsole.error('❌ CLOUDINARY SIGNED UPLOAD FAILED!');\nconsole.error('Status Code:', statusCode);\nconsole.error('Error Message:', message);\n\n// Enhanced error analysis for corrected workflow\nif (statusCode === 401) {\n  console.error('🔑 Authentication failed:');\n  console.error('   - Signature mismatch (even with correction)');\n  console.error('   - Check if API key/secret changed');\n  console.error('   - Verify timestamp is not too old');\n} else if (statusCode === 400) {\n  if (message && message.includes('Upload preset')) {\n    console.error('📝 Still getting upload preset error:');\n    console.error('   - Signature is still not being recognized');\n    console.error('   - Check string preparation logic');\n    console.error('   - Verify parameter format matches Cloudinary expectations');\n  } else {\n    console.error('📝 Bad request:');\n    console.error('   - Check file format, public_id, or other parameters');\n  }\n} else if (statusCode === 500) {\n  console.error('🔧 Cloudinary server error - try again later');\n}\n\nconsole.error('💡 Corrected Workflow Troubleshooting:');\nconsole.error('   1. Verify the corrected string format is working');\nconsole.error('   2. Check that timestamp is integer format');\nconsole.error('   3. Ensure public_id format is valid');\nconsole.error('   4. Confirm N8N Crypto SHA1 is working correctly');\nconsole.error('   5. Check Cloudinary dashboard for account status');\n\nreturn [{ \n  json: { \n    success: false, \n    error: message,\n    statusCode: statusCode,\n    stage: 'cloudinary_signed_upload_corrected',\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "log-upload-error",
+      "name": "Log Upload Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 300]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Variables": {
+      "main": [
+        [
+          {
+            "node": "Log Setup Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Setup Info": {
+      "main": [
+        [
+          {
+            "node": "Generate Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Audio": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Generation": {
+      "main": [
+        [
+          {
+            "node": "Prepare Corrected String",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Audio Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Corrected String": {
+      "main": [
+        [
+          {
+            "node": "Calculate SHA1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate SHA1": {
+      "main": [
+        [
+          {
+            "node": "Finalize Upload Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finalize Upload Data": {
+      "main": [
+        [
+          {
+            "node": "Upload to Cloudinary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to Cloudinary": {
+      "main": [
+        [
+          {
+            "node": "Check Upload Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Upload Success": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Upload Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

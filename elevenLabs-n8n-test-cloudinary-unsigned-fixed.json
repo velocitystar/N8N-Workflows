@@ -1,0 +1,123 @@
+{
+  "name": "ElevenLabs Test with Cloudinary Unsigned Upload (Fixed Preset)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "voice-victor",
+              "name": "victorVoiceId",
+              "value": "T9xTMubBGC4Y9y6oHUza",
+              "type": "string"
+            },
+            {
+              "id": "voice-lenny",
+              "name": "lennyVoiceId",
+              "value": "WbI4Toj5UDP91WAiEInp",
+              "type": "string"
+            },
+            {
+              "id": "test-text",
+              "name": "text",
+              "value": "This is a test of the ElevenLabs voice generation system with Cloudinary unsigned upload using custom preset. This should work once the upload preset is configured.",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-folder",
+              "name": "cloudinaryFolder",
+              "value": "elevenlabs-audio/tests",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-cloud-name",
+              "name": "cloudName",
+              "value": "dly199qqv",
+              "type": "string"
+            },
+            {
+              "id": "upload-preset-primary",
+              "name": "uploadPreset",
+              "value": "n8n_unsigned",
+              "type": "string"
+            },
+            {
+              "id": "upload-preset-fallback1",
+              "name": "fallbackPreset1",
+              "value": "ml_default",
+              "type": "string"
+            },
+            {
+              "id": "upload-preset-fallback2",
+              "name": "fallbackPreset2",
+              "value": "unsigned_preset",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-variables",
+      "name": "Set Variables",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🔓 UNSIGNED UPLOAD with Custom Preset');\nconsole.log('📋 Primary preset:', $input.item.json.uploadPreset);\nconsole.log('📋 Fallback presets:', $input.item.json.fallbackPreset1, ',', $input.item.json.fallbackPreset2);\nconsole.log('🏷️ Cloud name:', $input.item.json.cloudName);\nconsole.log('📁 Upload folder:', $input.item.json.cloudinaryFolder);\nconsole.log('');\nconsole.log('⚠️ SETUP REQUIRED:');\nconsole.log('1. Go to Cloudinary Console → Settings → Upload presets');\nconsole.log('2. Create preset named \"n8n_unsigned\"');\nconsole.log('3. Set: Signing mode = Unsigned, Resource type = Video');\nconsole.log('4. Enable: Overwrite = Yes, Format = Auto');\nconsole.log('5. Save the preset');\nconsole.log('');\nconsole.log('🔄 This workflow will try presets in order until one works');\n\nreturn $input.all();"
+      },
+      "id": "log-setup",
+      "name": "Log Setup Info",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.victorVoiceId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": {{ JSON.stringify($json.text) }},\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.5,\n    \"similarity_boost\": 0.5,\n    \"style\": 0.0,\n    \"use_speaker_boost\": true\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "generate-audio",
+      "name": "Generate Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [850, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs_api_credential",
+          "name": "ElevenLabs API Key"
+        }
+      },
+      "continueOnFail": true,
+      "

@@ -1,0 +1,459 @@
+{
+  "name": "ElevenLabs Batch Processor - PROVEN METHOD",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 400]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "episode-number",
+              "name": "episodeNumber",
+              "value": "01",
+              "type": "string"
+            },
+            {
+              "id": "episode-title",
+              "name": "episodeTitle",
+              "value": "Distortion Check Episode 1",
+              "type": "string"
+            },
+            {
+              "id": "voice-victor",
+              "name": "victorVoiceId",
+              "value": "T9xTMubBGC4Y9y6oHUza",
+              "type": "string"
+            },
+            {
+              "id": "voice-lenny",
+              "name": "lennyVoiceId",
+              "value": "WbI4Toj5UDP91WAiEInp",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-cloud-name",
+              "name": "cloudName",
+              "value": "dly199qqv",
+              "type": "string"
+            },
+            {
+              "id": "upload-preset",
+              "name": "uploadPreset",
+              "value": "n8n_unsigned",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-folder",
+              "name": "cloudinaryFolder",
+              "value": "elevenlabs-audio/episode-01",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "episode-config",
+      "name": "Episode Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const config = $input.item.json;\n\nconst scriptLines = [\n  {row: 2, speaker: 'Victor', fileName: 'EP01_Victor_ColdOpen_01.wav', text: 'January 15th, 1981. A Tuesday. Louisville, Kentucky. Three people sitting in a living room. One of them, a woman named Carla Rueckert, just left her body. And something else, someone else, started speaking through her.'},\n  {row: 3, speaker: 'Lenny', fileName: 'EP01_Lenny_ColdOpen_02.wav', text: 'For the next three years, this would happen 105 more times. The voice called itself Ra. It claimed to be a social memory complex from the sixth density. And it said it had a message to correct, one it botched 11,000 years ago in Egypt.'},\n  {row: 4, speaker: 'Victor', fileName: 'EP01_Victor_ColdOpen_03.wav', text: 'This is that story. And the wild part? A lot of what Ra said in 1981, we are only now starting to prove.'},\n  {row: 7, speaker: 'Victor', fileName: 'EP01_Victor_Intro_01.wav', text: 'Welcome to Distortion Check: The Ra Material. I am Victor Emil.'},\n  {row: 8, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_02.wav', text: 'And I am Lenny Peppidge. And if you have never heard of the Ra Material, buckle up. If you have heard of it, we are about to poke at it in ways that might make you uncomfortable. And that is the point.'},\n  {row: 9, speaker: 'Victor', fileName: 'EP01_Victor_Intro_03.wav', text: 'Yeah, we are not here to worship at the altar of Ra. We are also not here to dismiss it as New Age nonsense. We are here to examine it. Critically. With curiosity. And maybe a little bit of that Brooklyn-Boston tension that keeps things honest.'},\n  {row: 10, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_04.wav', text: 'Victor is from South Brooklyn. I grew up near MIT in Boston. We both love consciousness research, quantum weirdness, and calling out BS when we see it. But we also know that some of the most profound truths sound absolutely insane until they do not.'},\n  {row: 11, speaker: 'Victor', fileName: 'EP01_Victor_Intro_05.wav', text: 'Right. And the Ra Material? It sounded insane in 1981. But here is the thing, a lot of what Ra talked about back then? Consciousness as fundamental to reality. The observer effect in quantum mechanics. The interconnectedness of all things. Non-locality. Time as an illusion.'},\n  {row: 12, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_06.wav', text: 'That stuff was not mainstream in 81. Now? It is showing up in peer-reviewed journals. So either Ra was a really good guesser, or something else was going on.'},\n  {row: 13, speaker: 'Victor', fileName: 'EP01_Victor_Intro_07.wav', text: 'Over the next however-many episodes this takes, because there are 106 sessions, we are going to walk through this material. Session by session. We are going to challenge it. Question it. See where it holds up and where it falls apart.'},\n  {row: 14, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_08.wav', text: 'And we are going to do it with respect for the three people who risked everything to bring this through. Because whatever you believe about channeling, about Ra, about any of this, Don Elkins, Carla Rueckert, and Jim McCarty were serious people doing serious work.'},\n  {row: 15, speaker: 'Victor', fileName: 'EP01_Victor_Intro_09.wav', text: 'So. Let us start at the beginning. Who were these three people? How did they end up in a living room in Louisville, talking to an alleged extraterrestrial intelligence? And what happened on January 15th, 1981, that changed everything?'},\n  {row: 16, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_10.wav', text: 'Let us boil it down.'},\n  {row: 17, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_01.wav', text: 'Alright. Don Elkins. Physics professor. Airline pilot. UFO researcher. This guy was not some fringe weirdo. He taught at the University of Louisville. He flew commercial jets. And he was obsessed, obsessed, with one question: Are we alone?'},\n  {row: 18, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_02.wav', text: 'And not in a little green men way. Don wanted to understand consciousness. He wanted to know if there were intelligences out there more advanced than us, and if so, what they knew that we did not.'},\n  {row: 19, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_03.wav', text: 'In 1962, almost 20 years before the Ra contact, Don started experimenting with channeling. And I know, I know, channeling sounds like séance-table nonsense. But here is the thing: Don approached it like a scientist. He was not trying to talk to dead relatives. He was trying to establish contact with non-human intelligence.'},\n  {row: 20, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_04.wav', text: 'And he was meticulous. He recorded everything. He tested protocols. He refined the process. For years. And most of what came through? Introductory stuff. Basic metaphysical concepts. Nothing groundbreaking.'},\n  {row: 21, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_05.wav', text: 'Enter Carla Rueckert. Carla met Don in 1962 at one of his channeling experiments. She was a librarian. Deeply spiritual. Kind of ethereal, from what I have read. And she had a gift for this work.'},\n  {row: 22, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_06.wav', text: 'Don recognized it immediately. In 1974, twelve years after they met, he asked Carla to become the primary channel for their research group, which they called L/L Research.'},\n  {row: 23, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_07.wav', text: 'And this is where it gets interesting. Up until this point, all of Carla channeling was conscious. Meaning she was aware of what was coming through her. She could hear it, remember it, even question it in real time.'},\n  {row: 24, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_08.wav', text: 'But the quality of the material jumped once Carla took over. She refined Don protocols. She developed what they called tuning the instrument, basically getting into a meditative state that made the channel clearer, more stable.'},\n  {row: 25, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_09.wav', text: 'Now. Third member of the trio: Jim McCarty. Jim was living off the grid in rural Kentucky in 1978. Built his own log cabin. 132 acres. No electricity. Just him, the woods, and a battery-powered radio.'},\n  {row: 26, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_10.wav', text: 'One night, he is listening to this radio station out of Lexington, and he hears an interview with Don and Carla talking about UFOs. And something about it just clicked for him. He thought, I need to meet these people.'},\n  {row: 27, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_11.wav', text: 'A year later, he does. Mutual friends introduce them. Jim starts driving to Louisville every Sunday night, an hour each way, to attend their channeling meditations. He does this for a year.'},\n  {row: 28, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_12.wav', text: 'And then, in December 1980, Don and Carla invite him to move in and help with the research full-time. Jim arrives on December 23rd, 1980.'},\n  {row: 29, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_13.wav', text: 'Twenty-three days later, everything changes.'},\n  {row: 31, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_14.wav', text: 'January 15th, 1981. Carla is teaching a student how to channel. It is a normal session. Conscious channeling, like she had done hundreds of times before.'},\n  {row: 33, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_15.wav', text: 'And then a voice comes through her and says, I am Ra.'},\n  {row: 34, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_16.wav', text: 'And Carla leaves. Not the room. Her body. She goes completely unconscious. And this voice, Ra, starts speaking through her in a way that is mechanically operating her vocal cords.'}\n];\n\nconsole.log('━'.repeat(60));\nconsole.log('📋 DISTORTION CHECK EP01 SCRIPT - PROVEN METHOD');\nconsole.log('━'.repeat(60));\nconsole.log('📺 Episode:', config.episodeNumber, '-', config.episodeTitle);\nconsole.log('📊 Total lines:', scriptLines.length);\nconsole.log('🎤 Speakers:', [...new Set(scriptLines.map(l => l.speaker))].join(', '));\nconsole.log('━'.repeat(60));\nconsole.log('☁️ Cloudinary Method: PROVEN ACG METHOD');\nconsole.log('✅ Upload Preset:', config.uploadPreset);\nconsole.log('✅ Endpoint: /auto/upload');\nconsole.log('✅ Binary Method: formBinaryData');\nconsole.log('━'.repeat(60));\n\n// Return array of items - n8n will process each one automatically\nconst result = scriptLines.map((line, index) => ({\n  json: {\n    lineNumber: line.row,\n    speaker: line.speaker,\n    fileName: line.fileName,\n    text: line.text,\n    voiceId: line.speaker === 'Victor' ? config.victorVoiceId : config.lennyVoiceId,\n    episodeNumber: config.episodeNumber,\n    episodeTitle: config.episodeTitle,\n    cloudName: config.cloudName,\n    uploadPreset: config.uploadPreset,\n    cloudinaryFolder: config.cloudinaryFolder,\n    itemIndex: index + 1,\n    totalItems: scriptLines.length\n  }\n}));\n\nconsole.log('🚀 RETURNING', result.length, 'ITEMS TO BATCH PROCESS');\nconsole.log('📋 Lines to process:', result.map(r => `Row ${r.json.lineNumber} (${r.json.speaker})`).join(', '));\nconsole.log('━'.repeat(60));\n\nreturn result;"
+      },
+      "id": "load-script",
+      "name": "Load Episode Script",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 400]
+    },
+    {
+      "parameters": {
+        "unit": "seconds",
+        "amount": 2
+      },
+      "id": "wait-between-items",
+      "name": "Wait 2 Seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [850, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\n\nconsole.log('\\n' + '━'.repeat(60));\nconsole.log(`🎬 PROCESSING LINE ${item.lineNumber} (${item.itemIndex} of ${item.totalItems})`);\nconsole.log('━'.repeat(60));\nconsole.log('🎤 Speaker:', item.speaker);\nconsole.log('🎵 Voice ID:', item.voiceId);\nconsole.log('📝 Filename:', item.fileName);\nconsole.log('━'.repeat(60));\nconsole.log('📝 FULL TEXT TO BE SENT TO ELEVENLABS:');\nconsole.log('\"' + item.text + '\"');\nconsole.log('📏 Text Length:', item.text.length, 'characters');\nconsole.log('━'.repeat(60));\n\nreturn [$input.item];"
+      },
+      "id": "log-line",
+      "name": "Log Line",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.voiceId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": {{ JSON.stringify($json.text) }},\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.5,\n    \"similarity_boost\": 0.75\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 60000
+        }
+      },
+      "id": "generate-audio",
+      "name": "Generate Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1250, 400],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs_api_credential",
+          "name": "ElevenLabs API Key"
+        }
+      },
+      "continueOnFail": true,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "audio-success",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-audio",
+      "name": "Check Audio Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1450, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\nconst lineNum = String(item.lineNumber).padStart(3, '0');\nconst filename = `EP${item.episodeNumber}_Line${lineNum}_${item.speaker}_${item.section}`;\nconst publicId = `${item.cloudinaryFolder}/${filename}`;\n\nconst tags = `elevenlabs,episode-${item.episodeNumber},${item.speaker},${item.section},line-${lineNum}`;\n\nconsole.log('✅ Audio generated successfully');\nconsole.log('📦 Preparing Cloudinary upload');\nconsole.log('   Filename:', filename);\nconsole.log('   Public ID:', publicId);\nconsole.log('   Tags:', tags);\n\nreturn [{\n  json: {\n    ...item,\n    cloudinaryFilename: filename,\n    cloudinaryPublicId: publicId,\n    cloudinaryTags: tags\n  },\n  binary: $input.item.binary\n}];"
+      },
+      "id": "prepare-upload",
+      "name": "Prepare Upload Metadata",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 340]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/auto/upload",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "upload_preset",
+              "value": "={{ $json.uploadPreset }}"
+            },
+            {
+              "name": "public_id",
+              "value": "={{ $json.cloudinaryPublicId }}"
+            },
+            {
+              "name": "tags",
+              "value": "={{ $json.cloudinaryTags }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "upload-cloudinary",
+      "name": "Upload to Cloudinary - PROVEN METHOD",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1850, 340],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "upload-success",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-upload",
+      "name": "Check Upload Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [2050, 340]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\n\nconsole.log('✅ SUCCESS - Line', item.lineNumber);\nconsole.log('   🔗 URL:', item.secure_url);\nconsole.log('   🆔 Public ID:', item.public_id);\nconsole.log('   📦 Size:', Math.round(item.bytes / 1024), 'KB');\nif (item.duration) {\n  console.log('   ⏱️ Duration:', Math.round(item.duration), 'seconds');\n}\n\nreturn [{\n  json: {\n    lineNumber: item.lineNumber,\n    speaker: item.speaker,\n    section: item.section,\n    status: 'success',\n    secureUrl: item.secure_url,\n    publicId: item.public_id,\n    format: item.format,\n    fileSize: Math.round(item.bytes / 1024) + ' KB',\n    duration: item.duration ? Math.round(item.duration) + 's' : 'N/A'\n  }\n}];"
+      },
+      "id": "log-success",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 280]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\n\nconsole.error('❌ AUDIO ERROR - Line', item.lineNumber);\nconsole.error('   Speaker:', item.speaker);\nconsole.error('   Error:', item.error || 'Unknown error');\n\nreturn [{\n  json: {\n    lineNumber: item.lineNumber,\n    speaker: item.speaker,\n    section: item.section,\n    status: 'audio_error',\n    error: item.error || 'Audio generation failed'\n  }\n}];"
+      },
+      "id": "log-audio-error",
+      "name": "Log Audio Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 460]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\n\nconsole.error('❌ UPLOAD ERROR - Line', item.lineNumber || 'unknown');\nconsole.error('   Filename:', item.cloudinaryFilename || 'N/A');\nconsole.error('   Error:', item.error || 'Upload failed');\n\nif (item.error && item.error.includes && item.error.includes('cloud_name is disabled')) {\n  console.error('');\n  console.error('🚨 CLOUDINARY ACCOUNT DISABLED');\n  console.error('   This is an ACCOUNT ISSUE, not a code issue');\n  console.error('   Contact Cloudinary support immediately');\n}\n\nreturn [{\n  json: {\n    lineNumber: item.lineNumber,\n    speaker: item.speaker,\n    section: item.section,\n    status: 'upload_error',\n    error: item.error || 'Cloudinary upload failed'\n  }\n}];"
+      },
+      "id": "log-upload-error",
+      "name": "Log Upload Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconsole.log('\\n' + '═'.repeat(60));\nconsole.log('📊 BATCH PROCESSING COMPLETE');\nconsole.log('═'.repeat(60));\n\nconst successItems = items.filter(i => i.json.status === 'success');\nconst audioErrors = items.filter(i => i.json.status === 'audio_error');\nconst uploadErrors = items.filter(i => i.json.status === 'upload_error');\n\nconsole.log('Total items:', items.length);\nconsole.log('✅ Successful:', successItems.length);\nconsole.log('❌ Audio errors:', audioErrors.length);\nconsole.log('❌ Upload errors:', uploadErrors.length);\n\nconsole.log('');\nconsole.log('DETAILED RESULTS:');\nconsole.log('─'.repeat(60));\n\nitems.forEach(item => {\n  const data = item.json;\n  const icon = data.status === 'success' ? '✅' : '❌';\n  console.log(`${icon} Line ${data.lineNumber} (${data.speaker} - ${data.section}): ${data.status}`);\n  \n  if (data.status === 'success') {\n    console.log(`   URL: ${data.secureUrl}`);\n    console.log(`   Size: ${data.fileSize}, Duration: ${data.duration}`);\n  } else if (data.error) {\n    console.log(`   Error: ${data.error}`);\n  }\n  console.log('');\n});\n\nconsole.log('═'.repeat(60));\nconsole.log('🏁 WORKFLOW COMPLETE');\nconsole.log('═'.repeat(60));\n\nreturn [{\n  json: {\n    summary: {\n      totalProcessed: items.length,\n      successful: successItems.length,\n      audioErrors: audioErrors.length,\n      uploadErrors: uploadErrors.length,\n      successRate: Math.round((successItems.length / items.length) * 100) + '%'\n    },\n    results: items.map(i => i.json),\n    timestamp: new Date().toISOString(),\n    method: 'PROVEN_ACG_CLOUDINARY_METHOD'\n  }\n}];"
+      },
+      "id": "final-summary",
+      "name": "Final Summary",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 560]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Episode Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Episode Configuration": {
+      "main": [
+        [
+          {
+            "node": "Load Episode Script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Episode Script": {
+      "main": [
+        [
+          {
+            "node": "Wait 2 Seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 2 Seconds": {
+      "main": [
+        [
+          {
+            "node": "Log Line",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Line": {
+      "main": [
+        [
+          {
+            "node": "Generate Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Audio": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Success": {
+      "main": [
+        [
+          {
+            "node": "Prepare Upload Metadata",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Audio Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Upload Metadata": {
+      "main": [
+        [
+          {
+            "node": "Upload to Cloudinary - PROVEN METHOD",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to Cloudinary - PROVEN METHOD": {
+      "main": [
+        [
+          {
+            "node": "Check Upload Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Upload Success": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Upload Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Success": {
+      "main": [
+        [
+          {
+            "node": "Final Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Audio Error": {
+      "main": [
+        [
+          {
+            "node": "Final Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Upload Error": {
+      "main": [
+        [
+          {
+            "node": "Final Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}

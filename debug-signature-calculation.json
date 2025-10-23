@@ -1,0 +1,176 @@
+{
+  "name": "Debug Cloudinary Signature Calculation",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cloudinary-api-key",
+              "name": "apiKey",
+              "value": "497685786324925",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-api-secret",
+              "name": "apiSecret",
+              "value": "IIOcT0xjXBOfBvIqjBC0oFod2wg",
+              "type": "string"
+            },
+            {
+              "id": "test-public-id",
+              "name": "publicId",
+              "value": "test_debug_signature",
+              "type": "string"
+            },
+            {
+              "id": "test-timestamp",
+              "name": "timestamp",
+              "value": "1640000000",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-test-data",
+      "name": "Set Test Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Create the string to sign exactly as Cloudinary expects\nconst publicId = $input.item.json.publicId;\nconst timestamp = $input.item.json.timestamp;\nconst apiSecret = $input.item.json.apiSecret;\n\n// Cloudinary signature format: params in alphabetical order + API secret\nconst paramString = `public_id=${publicId}&timestamp=${timestamp}`;\nconst stringToSign = paramString + apiSecret;\n\nconsole.log('🔍 DEBUG: Signature Calculation');\nconsole.log('📝 Public ID:', publicId);\nconsole.log('⏰ Timestamp:', timestamp);\nconsole.log('🔑 API Secret:', apiSecret ? '[SET]' : '[NOT SET]');\nconsole.log('📋 Parameter string:', paramString);\nconsole.log('📝 String to sign:', stringToSign);\nconsole.log('📏 String length:', stringToSign.length);\n\nreturn [{\n  json: {\n    ...($input.item.json || {}),\n    paramString: paramString,\n    stringToSign: stringToSign,\n    expectedSignature: 'Will be calculated by Crypto node'\n  }\n}];"
+      },
+      "id": "prepare-string",
+      "name": "Prepare String for Signing",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "action": "hash",
+        "type": "SHA1",
+        "value": "={{ $json.stringToSign }}",
+        "encoding": "hex"
+      },
+      "id": "calculate-sha1",
+      "name": "Calculate SHA1 (N8N Crypto)",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Check what the N8N Crypto node produced\nconst calculatedSignature = $input.item.json.data;\nconst originalData = $input.item.json;\n\nconsole.log('🔍 DEBUG: N8N Crypto Node Results');\nconsole.log('🔏 N8N calculated signature:', calculatedSignature);\nconsole.log('📝 Original string to sign:', originalData.stringToSign);\nconsole.log('📋 Parameter string:', originalData.paramString);\n\n// What we expect from our successful test\nconst expectedFromTest = 'ddfac0543ed717dde99060e9e7bc55b0a4a8a1a3';\nconsole.log('✅ Expected from successful test:', expectedFromTest);\nconsole.log('🎯 Signatures match:', calculatedSignature === expectedFromTest ? 'YES' : 'NO');\n\nif (calculatedSignature !== expectedFromTest) {\n  console.log('❌ MISMATCH DETECTED!');\n  console.log('   N8N Crypto result:', calculatedSignature);\n  console.log('   Expected result:', expectedFromTest);\n  console.log('   This explains why Cloudinary rejects the signature!');\n} else {\n  console.log('✅ SIGNATURES MATCH - N8N Crypto node is working correctly!');\n}\n\n// Test with exact values from our successful test\nconst testTimestamp = 1761240422;\nconst testPublicId = 'test_signed_fixed_1761240422';\nconst testString = `public_id=${testPublicId}&timestamp=${testTimestamp}` + originalData.apiSecret;\n\nconsole.log('\\n🧪 COMPARISON WITH SUCCESSFUL TEST:');\nconsole.log('   Test string:', testString);\nconsole.log('   Test signature should be:', expectedFromTest);\n\nreturn [{\n  json: {\n    ...originalData,\n    n8nSignature: calculatedSignature,\n    expectedSignature: expectedFromTest,\n    signaturesMatch: calculatedSignature === expectedFromTest,\n    testString: testString\n  }\n}];"
+      },
+      "id": "analyze-results",
+      "name": "Analyze Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "action": "hash",
+        "type": "SHA1",
+        "value": "={{ $json.testString }}",
+        "encoding": "hex"
+      },
+      "id": "test-crypto-with-known-values",
+      "name": "Test with Known Values",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Final comparison and diagnosis\nconst knownTestSignature = $input.item.json.data;\nconst expectedSignature = 'ddfac0543ed717dde99060e9e7bc55b0a4a8a1a3';\nconst originalN8NSignature = $input.item.json.n8nSignature;\n\nconsole.log('🎯 FINAL DIAGNOSIS:');\nconsole.log('✅ Expected signature (from successful test):', expectedSignature);\nconsole.log('🔧 N8N Crypto with test values:', knownTestSignature);\nconsole.log('🔧 N8N Crypto with workflow values:', originalN8NSignature);\n\nif (knownTestSignature === expectedSignature) {\n  console.log('\\n✅ SUCCESS: N8N Crypto node is working correctly!');\n  console.log('💡 The issue is likely in how we prepare the string or timestamp in the main workflow.');\n  console.log('🔧 SOLUTION: Check timestamp format and string preparation in the main workflow.');\n} else {\n  console.log('\\n❌ PROBLEM: N8N Crypto node produces different results than expected.');\n  console.log('💡 This explains why Cloudinary rejects our signatures.');\n  console.log('🔧 SOLUTION: Need to find alternative way to calculate SHA1 in N8N.');\n}\n\nconsole.log('\\n📋 NEXT STEPS:');\nif (knownTestSignature === expectedSignature) {\n  console.log('1. ✅ N8N Crypto works - fix string preparation in main workflow');\n  console.log('2. 🔧 Ensure timestamp is integer, not string');\n  console.log('3. 🔧 Double-check public_id format');\n  console.log('4. 🔧 Verify parameter order (alphabetical)');\n} else {\n  console.log('1. ❌ N8N Crypto produces wrong SHA1 - need workaround');\n  console.log('2. 🔧 Try different encoding or hash method');\n  console.log('3. 🔧 Consider using HTTP Request to external SHA1 service');\n  console.log('4. 🔧 Check if N8N has other crypto options');\n}\n\nreturn [{\n  json: {\n    diagnosis: knownTestSignature === expectedSignature ? 'N8N_CRYPTO_WORKS' : 'N8N_CRYPTO_BROKEN',\n    expectedSignature: expectedSignature,\n    n8nKnownValuesSignature: knownTestSignature,\n    n8nWorkflowSignature: originalN8NSignature,\n    recommendation: knownTestSignature === expectedSignature ? \n      'Fix string preparation in main workflow' : \n      'N8N Crypto node incompatible - need alternative method'\n  }\n}];"
+      },
+      "id": "final-diagnosis",
+      "name": "Final Diagnosis",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1450, 300]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Test Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Test Data": {
+      "main": [
+        [
+          {
+            "node": "Prepare String for Signing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare String for Signing": {
+      "main": [
+        [
+          {
+            "node": "Calculate SHA1 (N8N Crypto)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate SHA1 (N8N Crypto)": {
+      "main": [
+        [
+          {
+            "node": "Analyze Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Results": {
+      "main": [
+        [
+          {
+            "node": "Test with Known Values",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test with Known Values": {
+      "main": [
+        [
+          {
+            "node": "Final Diagnosis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

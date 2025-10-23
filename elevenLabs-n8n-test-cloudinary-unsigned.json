@@ -1,0 +1,366 @@
+{
+  "name": "ElevenLabs Test with Cloudinary Unsigned Upload (Temporary)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "voice-victor",
+              "name": "victorVoiceId",
+              "value": "T9xTMubBGC4Y9y6oHUza",
+              "type": "string"
+            },
+            {
+              "id": "voice-lenny",
+              "name": "lennyVoiceId",
+              "value": "WbI4Toj5UDP91WAiEInp",
+              "type": "string"
+            },
+            {
+              "id": "test-text",
+              "name": "text",
+              "value": "This is a test of the ElevenLabs voice generation system with Cloudinary unsigned upload. This is a temporary workaround while waiting for account support.",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-folder",
+              "name": "cloudinaryFolder",
+              "value": "elevenlabs-audio/tests",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-cloud-name",
+              "name": "cloudName",
+              "value": "dly199qqv",
+              "type": "string"
+            },
+            {
+              "id": "upload-preset",
+              "name": "uploadPreset",
+              "value": "ml_default",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-variables",
+      "name": "Set Variables",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🔓 TEMPORARY WORKAROUND: Using Cloudinary UNSIGNED uploads');\nconsole.log('⚠️ This bypasses account restrictions temporarily');\nconsole.log('🔐 Using N8N credentials for ElevenLabs authentication');\nconsole.log('🎤 Using Victor voice for test');\nconsole.log('📝 Test text:', $input.item.json.text);\nconsole.log('📁 Cloudinary folder:', $input.item.json.cloudinaryFolder);\nconsole.log('🏷️ Cloud name:', $input.item.json.cloudName);\nconsole.log('📋 Upload preset:', $input.item.json.uploadPreset);\nconsole.log('✨ No signature required for unsigned uploads');\nconsole.log('🎯 This should work immediately while account support resolves the issue');\n\nreturn $input.all();"
+      },
+      "id": "log-setup",
+      "name": "Log Setup Info",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.victorVoiceId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": {{ JSON.stringify($json.text) }},\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.5,\n    \"similarity_boost\": 0.5,\n    \"style\": 0.0,\n    \"use_speaker_boost\": true\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "generate-audio",
+      "name": "Generate Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [850, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs_api_credential",
+          "name": "ElevenLabs API Key"
+        }
+      },
+      "continueOnFail": true,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-audio-success",
+      "name": "Check Audio Generation",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare file for Cloudinary unsigned upload\nconst timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);\nconst fileName = `test_audio_unsigned_${timestamp}`;\nconst publicId = `${$input.item.json.cloudinaryFolder}/${fileName}`;\n\nconsole.log('🎵 Audio generated successfully, preparing for unsigned upload');\nconsole.log('📄 File name:', fileName + '.wav');\nconsole.log('🆔 Cloudinary public ID:', publicId);\nconsole.log('🔓 Using unsigned upload (no signature required)');\n\n// Convert binary data to base64 for Cloudinary\nconst binaryData = $input.item.binary.data;\nconst base64Data = binaryData.data;\n\nreturn [{\n  json: {\n    ...($input.item.json || {}),\n    fileName: fileName + '.wav',\n    publicId: publicId,\n    uploadReady: true,\n    fileData: `data:audio/wav;base64,${base64Data}`\n  }\n}];"
+      },
+      "id": "prepare-unsigned-upload",
+      "name": "Prepare Unsigned Upload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 240]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/video/upload",
+        "sendBody": true,
+        "specifyBody": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "file",
+              "value": "={{ $json.fileData }}"
+            },
+            {
+              "name": "upload_preset",
+              "value": "={{ $json.uploadPreset }}"
+            },
+            {
+              "name": "public_id",
+              "value": "={{ $json.publicId }}"
+            },
+            {
+              "name": "resource_type",
+              "value": "video"
+            },
+            {
+              "name": "tags",
+              "value": "elevenlabs,test,unsigned-upload,temporary"
+            },
+            {
+              "name": "overwrite",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "upload-unsigned-to-cloudinary",
+      "name": "Upload Unsigned to Cloudinary",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1450, 240],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "upload-success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-unsigned-success",
+      "name": "Check Unsigned Upload Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1650, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "const uploadResult = $input.item.json;\nconst publicId = uploadResult.public_id;\nconst secureUrl = uploadResult.secure_url;\nconst originalFileName = uploadResult.original_filename || 'test_audio_unsigned';\nconst format = uploadResult.format;\nconst resourceType = uploadResult.resource_type;\nconst bytes = uploadResult.bytes;\nconst duration = uploadResult.duration;\n\nconsole.log('🎉 SUCCESS! Unsigned upload to Cloudinary working!');\nconsole.log('📄 Original file name:', originalFileName + '.' + format);\nconsole.log('🆔 Cloudinary public ID:', publicId);\nconsole.log('🔗 Secure URL:', secureUrl);\nconsole.log('📊 File size:', Math.round(bytes / 1024) + ' KB');\nif (duration) {\n  console.log('⏱️ Duration:', Math.round(duration) + ' seconds');\n}\nconsole.log('✅ ElevenLabs + Cloudinary unsigned integration working!');\n\n// Generate format URLs\nconst mp3Url = secureUrl.replace(/\\.(\\w+)$/, '.mp3').replace('/upload/', '/upload/f_mp3/');\nconsole.log('🔄 Available formats:');\nconsole.log(`   - wav: ${secureUrl}`);\nconsole.log(`   - mp3: ${mp3Url}`);\n\nconsole.log('\\n🎯 TEMPORARY WORKAROUND SUCCESS:');\nconsole.log('✅ ElevenLabs API: Working');\nconsole.log('✅ Cloudinary Unsigned Upload: Working');\nconsole.log('✅ File Processing: Complete');\nconsole.log('✅ CDN URLs: Generated');\nconsole.log('🔓 No authentication issues with unsigned uploads');\n\nconsole.log('\\n⚠️ IMPORTANT NOTES:');\nconsole.log('• This is a temporary workaround using unsigned uploads');\nconsole.log('• Less secure than signed uploads (anyone with preset name can upload)');\nconsole.log('• Switch back to signed uploads once account support resolves the issue');\nconsole.log('• Keep monitoring your Cloudinary usage and quotas');\n\nconsole.log('\\n🔄 NEXT STEPS:');\nconsole.log('• Monitor Cloudinary support ticket progress');\nconsole.log('• Once account is reactivated, switch back to signed upload workflow');\nconsole.log('• This proves your integration architecture is solid');\n\nreturn [{ \n  json: { \n    success: true, \n    message: 'Temporary unsigned upload successful - integration confirmed working',\n    fileName: originalFileName + '.' + format,\n    cloudinaryPublicId: publicId,\n    secureUrl: secureUrl,\n    mp3Url: mp3Url,\n    fileSize: Math.round(bytes / 1024) + ' KB',\n    duration: duration ? Math.round(duration) + 's' : 'N/A',\n    authMethod: 'Cloudinary Unsigned Upload (Temporary Workaround)',\n    uploadType: 'TEMPORARY_UNSIGNED',\n    note: 'Switch to signed uploads once account support resolves cloud_name disabled issue',\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "log-unsigned-success",
+      "name": "Log Unsigned Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 180]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $input.item.json.error || {};\nconst statusCode = error.httpCode || 'unknown';\nconst message = error.message || 'Unknown error occurred';\n\nconsole.error('❌ AUDIO GENERATION FAILED!');\nconsole.error('Status Code:', statusCode);\nconsole.error('Error Message:', message);\n\n// Common error explanations\nif (statusCode === 401) {\n  console.error('🔑 This is likely a credential issue:');\n  console.error('   - Check that your ElevenLabs API credential is set up correctly');\n  console.error('   - Verify the API key is valid and active');\n} else if (statusCode === 429) {\n  console.error('⏱️ Rate limit exceeded. Wait a moment and try again.');\n} else if (statusCode === 400) {\n  console.error('📝 Bad request - check your voice ID or text content.');\n} else if (statusCode === 422) {\n  console.error('🎤 Voice ID may be invalid or voice settings are incorrect.');\n} else if (statusCode === 403) {\n  console.error('🚫 Forbidden - check your ElevenLabs account status.');\n}\n\nreturn [{ \n  json: { \n    success: false, \n    error: message,\n    statusCode: statusCode,\n    stage: 'audio_generation',\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "log-audio-error",
+      "name": "Log Audio Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 360]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $input.item.json.error || {};\nconst statusCode = error.httpCode || 'unknown';\nconst message = error.message || 'Cloudinary unsigned upload failed';\n\nconsole.error('❌ CLOUDINARY UNSIGNED UPLOAD FAILED!');\nconsole.error('Status Code:', statusCode);\nconsole.error('Error Message:', message);\n\n// Common Cloudinary unsigned upload error explanations\nif (statusCode === 401) {\n  console.error('🔑 Authentication failed even with unsigned upload:');\n  console.error('   - This suggests the cloud_name disabled issue affects all uploads');\n  console.error('   - Wait for Cloudinary support to resolve account issue');\n} else if (statusCode === 400) {\n  if (message.includes('Upload preset')) {\n    console.error('📝 Upload preset error:');\n    console.error('   - Upload preset \"ml_default\" may not exist or be disabled');\n    console.error('   - Try different preset names: \"ml_default\", \"unsigned_preset\"');\n    console.error('   - Check your Cloudinary dashboard for available presets');\n  } else if (message.includes('Invalid')) {\n    console.error('📝 Invalid parameter:');\n    console.error('   - Check file format, public_id format');\n    console.error('   - Ensure base64 data is properly formatted');\n  } else {\n    console.error('📝 Bad request:');\n    console.error('   - Check all form parameters');\n    console.error('   - Verify cloud name is correct');\n  }\n} else if (statusCode === 403) {\n  console.error('🚫 Forbidden:');\n  console.error('   - Account restrictions may block all uploads');\n  console.error('   - Wait for support to resolve account status');\n} else if (statusCode === 500) {\n  console.error('🔧 Cloudinary server error - try again later');\n}\n\nconsole.error('💡 Unsigned Upload Troubleshooting:');\nconsole.error('   1. Check if any upload preset works in Cloudinary dashboard');\nconsole.error('   2. Try creating a new unsigned upload preset');\nconsole.error('   3. Verify account allows unsigned uploads in settings');\nconsole.error('   4. If all uploads fail, account issue affects everything');\nconsole.error('   5. Consider using alternative cloud storage temporarily');\n\nconsole.log('\\n🔄 ALTERNATIVE OPTIONS WHILE WAITING:');\nconsole.log('• Use different cloud storage service (AWS S3, Google Cloud)');\nconsole.log('• Save files locally temporarily');\nconsole.log('• Wait for Cloudinary support resolution');\nconsole.log('• Try different Cloudinary account if available');\n\nreturn [{ \n  json: { \n    success: false, \n    error: message,\n    statusCode: statusCode,\n    stage: 'cloudinary_unsigned_upload',\n    uploadMethod: 'unsigned',\n    recommendation: statusCode === 401 || statusCode === 403 ? \n      'Account restrictions affect all uploads - wait for support' : \n      'Try different upload preset or check account settings',\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "log-unsigned-error",
+      "name": "Log Unsigned Upload Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1850, 300]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Variables": {
+      "main": [
+        [
+          {
+            "node": "Log Setup Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Setup Info": {
+      "main": [
+        [
+          {
+            "node": "Generate Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Audio": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Generation": {
+      "main": [
+        [
+          {
+            "node": "Prepare Unsigned Upload",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Audio Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Unsigned Upload": {
+      "main": [
+        [
+          {
+            "node": "Upload Unsigned to Cloudinary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Unsigned to Cloudinary": {
+      "main": [
+        [
+          {
+            "node": "Check Unsigned Upload Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Unsigned Upload Success": {
+      "main": [
+        [
+          {
+            "node": "Log Unsigned Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Unsigned Upload Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

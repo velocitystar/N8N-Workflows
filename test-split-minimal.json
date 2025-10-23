@@ -1,0 +1,80 @@
+{
+  "name": "Minimal Split In Batches Test",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('Creating 3 test items...');\n\nreturn [\n  { json: { id: 1, name: 'Item One' } },\n  { json: { id: 2, name: 'Item Two' } },\n  { json: { id: 3, name: 'Item Three' } }\n];"
+      },
+      "id": "create-items",
+      "name": "Create Items",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "split",
+      "name": "Split",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item = $input.item.json;\nconsole.log('Processing:', item.id, item.name);\nreturn [$input.item];"
+      },
+      "id": "process",
+      "name": "Process",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('DONE! All items processed.');\nreturn $input.all();"
+      },
+      "id": "done",
+      "name": "Done",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 450]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [[{"node": "Create Items", "type": "main", "index": 0}]]
+    },
+    "Create Items": {
+      "main": [[{"node": "Split", "type": "main", "index": 0}]]
+    },
+    "Split": {
+      "main": [
+        [{"node": "Process", "type": "main", "index": 0}],
+        [{"node": "Done", "type": "main", "index": 0}]
+      ]
+    },
+    "Process": {
+      "main": [[{"node": "Split", "type": "main", "index": 0}]]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "1"
+}

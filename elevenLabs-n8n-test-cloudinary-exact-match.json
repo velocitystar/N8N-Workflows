@@ -1,0 +1,426 @@
+{
+  "name": "ElevenLabs Test with Cloudinary Signed Upload (Exact Match Test)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "voice-victor",
+              "name": "victorVoiceId",
+              "value": "T9xTMubBGC4Y9y6oHUza",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-cloud-name",
+              "name": "cloudName",
+              "value": "dly199qqv",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-api-key",
+              "name": "apiKey",
+              "value": "497685786324925",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-api-secret",
+              "name": "apiSecret",
+              "value": "IIOcT0xjXBOfBvIqjBC0oFod2wg",
+              "type": "string"
+            },
+            {
+              "id": "fixed-timestamp",
+              "name": "fixedTimestamp",
+              "value": 1761240422,
+              "type": "number"
+            },
+            {
+              "id": "fixed-public-id",
+              "name": "fixedPublicId",
+              "value": "elevenlabs-audio/tests/test_exact_match_1761240422",
+              "type": "string"
+            },
+            {
+              "id": "test-text",
+              "name": "text",
+              "value": "This is an exact match test using the same signature calculation that worked in our standalone test.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-exact-values",
+      "name": "Set Exact Test Values",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🧪 EXACT MATCH TEST - Using values from successful standalone test');\nconsole.log('⏰ Fixed timestamp:', $input.item.json.fixedTimestamp);\nconsole.log('🆔 Fixed public ID:', $input.item.json.fixedPublicId);\nconsole.log('🔏 Expected signature: ddfac0543ed717dde99060e9e7bc55b0a4a8a1a3');\nconsole.log('✨ This should produce identical results to successful test');\n\nreturn $input.all();"
+      },
+      "id": "log-test-info",
+      "name": "Log Test Info",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.victorVoiceId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": {{ JSON.stringify($json.text) }},\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.5,\n    \"similarity_boost\": 0.5,\n    \"style\": 0.0,\n    \"use_speaker_boost\": true\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "generate-audio",
+      "name": "Generate Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [850, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs_api_credential",
+          "name": "ElevenLabs API Key"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-audio-success",
+      "name": "Check Audio Generation",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Use EXACT values from successful test - no dynamic generation\nconst timestamp = $input.item.json.fixedTimestamp; // 1761240422\nconst publicId = $input.item.json.fixedPublicId;   // elevenlabs-audio/tests/test_exact_match_1761240422\nconst apiSecret = $input.item.json.apiSecret;\n\nconsole.log('🔧 EXACT MATCH: Using fixed values from successful test');\nconsole.log('⏰ Using timestamp:', timestamp);\nconsole.log('🆔 Using public_id:', publicId);\n\n// Create string EXACTLY as successful test\nconst paramString = `public_id=${publicId}&timestamp=${timestamp}`;\nconst stringToSign = paramString + apiSecret;\n\nconsole.log('📝 Parameter string:', paramString);\nconsole.log('📏 String to sign length:', stringToSign.length);\nconsole.log('✅ String format matches successful test exactly');\n\n// Convert binary data\nconst binaryData = $input.item.binary.data;\nconst base64Data = binaryData.data;\n\nreturn [{\n  json: {\n    ...($input.item.json || {}),\n    publicId: publicId,\n    timestamp: timestamp,\n    stringToSign: stringToSign,\n    fileData: `data:audio/wav;base64,${base64Data}`\n  }\n}];"
+      },
+      "id": "prepare-exact-string",
+      "name": "Prepare Exact String",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 240]
+    },
+    {
+      "parameters": {
+        "action": "hash",
+        "type": "SHA1",
+        "value": "={{ $json.stringToSign }}",
+        "encoding": "hex"
+      },
+      "id": "calculate-exact-sha1",
+      "name": "Calculate Exact SHA1",
+      "type": "n8n-nodes-base.crypto",
+      "typeVersion": 1,
+      "position": [1450, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Verify exact match with successful test\nconst signature = $input.item.json.data;\nconst expectedSignature = 'ddfac0543ed717dde99060e9e7bc55b0a4a8a1a3';\nconst inputData = $input.item.json;\n\nconsole.log('🔍 SIGNATURE VERIFICATION:');\nconsole.log('✅ Expected signature:', expectedSignature);\nconsole.log('🔧 N8N calculated:', signature);\nconsole.log('🎯 Exact match:', signature === expectedSignature ? 'YES ✅' : 'NO ❌');\n\nif (signature === expectedSignature) {\n  console.log('🎉 PERFECT! Signature matches successful test exactly!');\n  console.log('🚀 This should work with Cloudinary');\n} else {\n  console.log('❌ MISMATCH! Even with exact values, signature differs');\n  console.log('🔧 This indicates an issue with N8N Crypto node or string handling');\n}\n\nreturn [{\n  json: {\n    ...inputData,\n    signature: signature,\n    expectedSignature: expectedSignature,\n    signatureMatch: signature === expectedSignature\n  }\n}];"
+      },
+      "id": "verify-exact-match",
+      "name": "Verify Exact Match",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 240]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/video/upload",
+        "sendBody": true,
+        "specifyBody": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "file",
+              "value": "={{ $json.fileData }}"
+            },
+            {
+              "name": "api_key",
+              "value": "={{ $json.apiKey }}"
+            },
+            {
+              "name": "timestamp",
+              "value": "={{ $json.timestamp }}"
+            },
+            {
+              "name": "signature",
+              "value": "={{ $json.signature }}"
+            },
+            {
+              "name": "public_id",
+              "value": "={{ $json.publicId }}"
+            },
+            {
+              "name": "resource_type",
+              "value": "video"
+            },
+            {
+              "name": "format",
+              "value": "wav"
+            },
+            {
+              "name": "overwrite",
+              "value": "true"
+            },
+            {
+              "name": "tags",
+              "value": "elevenlabs,test,exact-match"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "upload-exact-test",
+      "name": "Upload Exact Test",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1850, 240],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "upload-success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-exact-upload",
+      "name": "Check Exact Upload",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [2050, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "const uploadResult = $input.item.json;\n\nconsole.log('🎉 SUCCESS! EXACT MATCH TEST WORKED!');\nconsole.log('✅ Signature verification: PASSED');\nconsole.log('✅ Cloudinary upload: PASSED');\nconsole.log('🔗 Secure URL:', uploadResult.secure_url);\nconsole.log('🆔 Public ID:', uploadResult.public_id);\nconsole.log('📊 File size:', Math.round(uploadResult.bytes / 1024) + ' KB');\n\nconsole.log('\\n🎯 TEST CONCLUSION:');\nconsole.log('✅ N8N Crypto node works correctly with exact values');\nconsole.log('✅ Cloudinary accepts the signature when calculated properly');\nconsole.log('✅ The approach is valid - issue was in dynamic value generation');\n\nconsole.log('\\n🔧 NEXT STEPS:');\nconsole.log('1. ✅ Exact values work - confirmed');\nconsole.log('2. 🔧 Fix dynamic timestamp/public_id generation in main workflow');\nconsole.log('3. 🔧 Ensure clean string formatting without encoding issues');\nconsole.log('4. 🔧 Test with current timestamp but same string format');\n\nconst mp3Url = uploadResult.secure_url.replace(/\\.(\\w+)$/, '.mp3').replace('/upload/', '/upload/f_mp3/');\nconsole.log('\\n🔄 Available formats:');\nconsole.log('   - wav:', uploadResult.secure_url);\nconsole.log('   - mp3:', mp3Url);\n\nreturn [{\n  json: {\n    success: true,\n    testType: 'EXACT_MATCH_SUCCESS',\n    message: 'Exact match test passed - approach confirmed working',\n    cloudinaryUrl: uploadResult.secure_url,\n    publicId: uploadResult.public_id,\n    signatureUsed: uploadResult.signature || 'unknown',\n    conclusion: 'Issue is in dynamic value generation, not signature calculation method'\n  }\n}];"
+      },
+      "id": "log-exact-success",
+      "name": "Log Exact Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 180]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $input.item.json.error || {};\nconst statusCode = error.httpCode || 'unknown';\nconst message = error.message || 'Audio generation failed';\n\nconsole.error('❌ AUDIO GENERATION FAILED IN EXACT TEST');\nconsole.error('   This means the issue is not with Cloudinary but with ElevenLabs');\nconsole.error('   Status:', statusCode);\nconsole.error('   Message:', message);\n\nreturn [{\n  json: {\n    success: false,\n    error: message,\n    stage: 'audio_generation_exact_test'\n  }\n}];"
+      },
+      "id": "log-audio-error-exact",
+      "name": "Log Audio Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 360]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $input.item.json.error || {};\nconst statusCode = error.httpCode || 'unknown';\nconst message = error.message || 'Exact upload test failed';\nconst inputData = $input.item.json;\n\nconsole.error('❌ EXACT MATCH TEST FAILED!');\nconsole.error('   Status:', statusCode);\nconsole.error('   Message:', message);\n\nconsole.log('\\n🔍 DIAGNOSIS:');\nif (inputData.signatureMatch === true) {\n  console.log('✅ Signature matched expected value exactly');\n  console.log('❌ BUT Cloudinary still rejected it');\n  console.log('💡 This suggests:');\n  console.log('   - Timestamp might be too old (from our test)');\n  console.log('   - Form data format issue in N8N');\n  console.log('   - Multipart encoding problem');\n  console.log('   - Cloudinary expects different parameter order');\n} else if (inputData.signatureMatch === false) {\n  console.log('❌ Signature did NOT match expected value');\n  console.log('💡 This confirms N8N Crypto node has encoding/format differences');\n  console.log('   - Need alternative SHA1 calculation method');\n  console.log('   - Or investigate N8N Crypto node settings');\n} else {\n  console.log('❓ Signature match status unknown');\n}\n\nif (message.includes('Upload preset')) {\n  console.log('\\n📝 Still getting \"Upload preset\" error means:');\n  console.log('   - Signature is not being recognized by Cloudinary');\n  console.log('   - Even with exact values, something is different');\n  console.log('   - May need to use external SHA1 service approach');\n}\n\nconsole.log('\\n🔧 RECOMMENDATIONS:');\nif (inputData.signatureMatch === false) {\n  console.log('1. 🌐 Use external SHA1 service instead of N8N Crypto');\n  console.log('2. 🔧 Try different encoding/format options in N8N Crypto');\n  console.log('3. 📞 Contact N8N support about Crypto node SHA1 implementation');\n} else {\n  console.log('1. ⏰ Try with current timestamp instead of old test timestamp');\n  console.log('2. 📝 Check multipart form data encoding');\n  console.log('3. 🔄 Try different parameter order or format');\n}\n\nreturn [{\n  json: {\n    success: false,\n    testType: 'EXACT_MATCH_FAILED',\n    error: message,\n    statusCode: statusCode,\n    signatureMatch: inputData.signatureMatch,\n    calculatedSignature: inputData.signature,\n    expectedSignature: inputData.expectedSignature,\n    diagnosis: inputData.signatureMatch ? 'SIGNATURE_OK_BUT_UPLOAD_FAILED' : 'SIGNATURE_CALCULATION_ISSUE'\n  }\n}];"
+      },
+      "id": "log-exact-failure",
+      "name": "Log Exact Failure",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [2250, 300]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Exact Test Values",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Exact Test Values": {
+      "main": [
+        [
+          {
+            "node": "Log Test Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Test Info": {
+      "main": [
+        [
+          {
+            "node": "Generate Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Audio": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Generation": {
+      "main": [
+        [
+          {
+            "node": "Prepare Exact String",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Audio Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Exact String": {
+      "main": [
+        [
+          {
+            "node": "Calculate Exact SHA1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculate Exact SHA1": {
+      "main": [
+        [
+          {
+            "node": "Verify Exact Match",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Exact Match": {
+      "main": [
+        [
+          {
+            "node": "Upload Exact Test",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Exact Test": {
+      "main": [
+        [
+          {
+            "node": "Check Exact Upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Exact Upload": {
+      "main": [
+        [
+          {
+            "node": "Log Exact Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Exact Failure",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

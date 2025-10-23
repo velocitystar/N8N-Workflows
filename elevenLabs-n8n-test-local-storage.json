@@ -1,0 +1,275 @@
+{
+  "name": "ElevenLabs Test with Local File Storage (Temporary Workaround)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "voice-victor",
+              "name": "victorVoiceId",
+              "value": "T9xTMubBGC4Y9y6oHUza",
+              "type": "string"
+            },
+            {
+              "id": "voice-lenny",
+              "name": "lennyVoiceId",
+              "value": "WbI4Toj5UDP91WAiEInp",
+              "type": "string"
+            },
+            {
+              "id": "test-text",
+              "name": "text",
+              "value": "This is a test of the ElevenLabs voice generation system with local file storage. This is a temporary workaround while Cloudinary support resolves the account issues.",
+              "type": "string"
+            },
+            {
+              "id": "local-storage-path",
+              "name": "localStoragePath",
+              "value": "/tmp/elevenlabs-audio",
+              "type": "string"
+            },
+            {
+              "id": "enable-local-server",
+              "name": "enableLocalServer",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "local-server-port",
+              "name": "localServerPort",
+              "value": 3000,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-variables",
+      "name": "Set Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('💾 LOCAL STORAGE WORKAROUND - Temporary Solution');\nconsole.log('⚠️ Using local file storage while Cloudinary support resolves account issues');\nconsole.log('🔐 ElevenLabs authentication: Ready');\nconsole.log('🎤 Using Victor voice for test');\nconsole.log('📝 Test text:', $input.item.json.text);\nconsole.log('📁 Local storage path:', $input.item.json.localStoragePath);\nconsole.log('🌐 Local server enabled:', $input.item.json.enableLocalServer);\nif ($input.item.json.enableLocalServer) {\n  console.log('🔗 Files will be accessible at: http://localhost:' + $input.item.json.localServerPort + '/audio/');\n}\nconsole.log('');\nconsole.log('✅ BENEFITS OF THIS APPROACH:');\nconsole.log('• No dependency on external cloud services');\nconsole.log('• Immediate file access and processing');\nconsole.log('• Full control over file storage and naming');\nconsole.log('• Works regardless of cloud service account status');\nconsole.log('• Easy to migrate to cloud storage later');\nconsole.log('');\nconsole.log('🔄 MIGRATION PATH:');\nconsole.log('• Use this workflow to continue development/testing');\nconsole.log('• Once Cloudinary account is restored, switch back to cloud uploads');\nconsole.log('• Files can be bulk uploaded to cloud storage later if needed');\n\nreturn $input.all();"
+      },
+      "id": "log-setup",
+      "name": "Log Setup Info",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.victorVoiceId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": {{ JSON.stringify($json.text) }},\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.5,\n    \"similarity_boost\": 0.5,\n    \"style\": 0.0,\n    \"use_speaker_boost\": true\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "generate-audio",
+      "name": "Generate Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [850, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs_api_credential",
+          "name": "ElevenLabs API Key"
+        }
+      },
+      "continueOnFail": true,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-audio-success",
+      "name": "Check Audio Generation",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Prepare file for local storage\nconst timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);\nconst fileName = `test_audio_local_${timestamp}.wav`;\nconst localPath = $input.item.json.localStoragePath;\nconst fullPath = `${localPath}/${fileName}`;\n\nconsole.log('🎵 Audio generated successfully, preparing for local storage');\nconsole.log('📄 File name:', fileName);\nconsole.log('📁 Storage directory:', localPath);\nconsole.log('🗂️ Full file path:', fullPath);\nconsole.log('📊 Audio data size:', $input.item.binary.data.data ? 'Present' : 'Missing');\n\n// Calculate file size\nconst binaryData = $input.item.binary.data;\nconst fileSizeBytes = binaryData.data ? Buffer.from(binaryData.data, 'base64').length : 0;\nconst fileSizeKB = Math.round(fileSizeBytes / 1024);\n\nconsole.log('📈 Estimated file size:', fileSizeKB, 'KB');\n\nreturn [{\n  json: {\n    ...($input.item.json || {}),\n    fileName: fileName,\n    fullPath: fullPath,\n    localPath: localPath,\n    fileSizeBytes: fileSizeBytes,\n    fileSizeKB: fileSizeKB,\n    timestamp: timestamp,\n    ready: true\n  },\n  binary: {\n    data: $input.item.binary.data\n  }\n}];"
+      },
+      "id": "prepare-local-storage",
+      "name": "Prepare Local Storage",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 240]
+    },
+    {
+      "parameters": {
+        "fileName": "={{ $json.fileName }}",
+        "dataPropertyName": "data",
+        "directory": "={{ $json.localPath }}"
+      },
+      "id": "save-to-local-file",
+      "name": "Save to Local File",
+      "type": "n8n-nodes-base.writeLocalFile",
+      "typeVersion": 1,
+      "position": [1450, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "const result = $input.item.json;\nconst fileName = result.fileName || 'unknown';\nconst fullPath = result.fullPath || 'unknown';\nconst fileSizeKB = result.fileSizeKB || 0;\nconst enableLocalServer = result.enableLocalServer;\nconst localServerPort = result.localServerPort || 3000;\n\nconsole.log('🎉 SUCCESS! Audio file saved to local storage!');\nconsole.log('📄 File name:', fileName);\nconsole.log('🗂️ Full path:', fullPath);\nconsole.log('📊 File size:', fileSizeKB, 'KB');\nconsole.log('✅ ElevenLabs + Local Storage integration working perfectly!');\n\n// Local access instructions\nconsole.log('');\nconsole.log('📂 LOCAL FILE ACCESS:');\nconsole.log('• Direct file path:', fullPath);\nconsole.log('• You can play the file directly from the filesystem');\nconsole.log('• File is immediately available for processing');\n\nif (enableLocalServer) {\n  const serverUrl = `http://localhost:${localServerPort}/audio/${fileName}`;\n  console.log('');\n  console.log('🌐 LOCAL SERVER ACCESS:');\n  console.log('• Set up a simple HTTP server to serve files');\n  console.log('• Potential URL:', serverUrl);\n  console.log('• Command to start server: python3 -m http.server', localServerPort, 'from', result.localPath);\n  console.log('• Or use Node.js: npx http-server', result.localPath, '-p', localServerPort);\n}\n\nconsole.log('');\nconsole.log('🎯 LOCAL STORAGE SUCCESS SUMMARY:');\nconsole.log('✅ ElevenLabs API: Working');\nconsole.log('✅ Local File Storage: Working');\nconsole.log('✅ File Processing: Complete');\nconsole.log('✅ No Cloud Dependencies: Independent');\nconsole.log('✅ Immediate Access: Available now');\n\nconsole.log('');\nconsole.log('🔄 NEXT STEPS:');\nconsole.log('• File is ready for immediate use');\nconsole.log('• Can be processed by other audio tools');\nconsole.log('• Easy to convert to MP3 using ffmpeg if needed');\nconsole.log('• Can be uploaded to any cloud service later');\nconsole.log('• Switch back to cloud uploads once Cloudinary is resolved');\n\nconsole.log('');\nconsole.log('💡 FILE CONVERSION EXAMPLES:');\nconsole.log('• Convert to MP3: ffmpeg -i', fullPath, fullPath.replace('.wav', '.mp3'));\nconsole.log('• Compress: ffmpeg -i', fullPath, '-b:a 128k', fullPath.replace('.wav', '_compressed.mp3'));\nconsole.log('• Get info: ffmpeg -i', fullPath, '2>&1 | grep Duration');\n\nreturn [{ \n  json: { \n    success: true, \n    solution: 'LOCAL_STORAGE_SUCCESS',\n    message: 'Audio file successfully saved to local storage - no cloud dependencies',\n    fileName: fileName,\n    fullPath: fullPath,\n    fileSize: fileSizeKB + ' KB',\n    storageMethod: 'Local File System',\n    accessMethod: 'Direct file access + optional HTTP server',\n    localServerEnabled: enableLocalServer,\n    potentialServerUrl: enableLocalServer ? `http://localhost:${localServerPort}/audio/${fileName}` : null,\n    timestamp: new Date().toISOString(),\n    advantages: [\n      'No cloud service dependencies',\n      'Immediate file access',\n      'Full control over storage',\n      'Works regardless of external service status',\n      'Easy migration to cloud later'\n    ],\n    nextSteps: [\n      'File ready for immediate use',\n      'Can start HTTP server for web access',\n      'Convert to other formats as needed',\n      'Upload to cloud when services restored'\n    ]\n  }\n}];"
+      },
+      "id": "log-local-success",
+      "name": "Log Local Storage Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1650, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $input.item.json.error || {};\nconst statusCode = error.httpCode || 'unknown';\nconst message = error.message || 'Unknown error occurred';\n\nconsole.error('❌ AUDIO GENERATION FAILED!');\nconsole.error('Status Code:', statusCode);\nconsole.error('Error Message:', message);\n\n// Common error explanations\nif (statusCode === 401) {\n  console.error('🔑 This is likely a credential issue:');\n  console.error('   - Check that your ElevenLabs API credential is set up correctly');\n  console.error('   - Verify the API key is valid and active');\n} else if (statusCode === 429) {\n  console.error('⏱️ Rate limit exceeded. Wait a moment and try again.');\n} else if (statusCode === 400) {\n  console.error('📝 Bad request - check your voice ID or text content.');\n} else if (statusCode === 422) {\n  console.error('🎤 Voice ID may be invalid or voice settings are incorrect.');\n} else if (statusCode === 403) {\n  console.error('🚫 Forbidden - check your ElevenLabs account status.');\n}\n\nconsole.error('');\nconsole.error('💡 LOCAL STORAGE APPROACH BENEFITS:');\nconsole.error('• Even if ElevenLabs has issues, this approach is still valid');\nconsole.error('• Can test with pre-recorded audio files');\nconsole.error('• Troubleshoot one service at a time');\nconsole.error('• Local storage works independently of external services');\n\nreturn [{ \n  json: { \n    success: false, \n    error: message,\n    statusCode: statusCode,\n    stage: 'audio_generation',\n    storageMethod: 'local_storage_ready',\n    note: 'Local storage approach is still valid - issue is with audio generation',\n    recommendation: 'Fix ElevenLabs authentication, then local storage will work perfectly',\n    timestamp: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "log-audio-error",
+      "name": "Log Audio Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 360]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Configuration": {
+      "main": [
+        [
+          {
+            "node": "Log Setup Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Setup Info": {
+      "main": [
+        [
+          {
+            "node": "Generate Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Audio": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Generation": {
+      "main": [
+        [
+          {
+            "node": "Prepare Local Storage",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Audio Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Local Storage": {
+      "main": [
+        [
+          {
+            "node": "Save to Local File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save to Local File": {
+      "main": [
+        [
+          {
+            "node": "Log Local Storage Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}
