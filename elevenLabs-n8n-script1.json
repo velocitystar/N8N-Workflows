@@ -53,6 +53,16 @@
     },
     {
       "parameters": {
+        "waitBetweenRequests": 1500
+      },
+      "id": "delay",
+      "name": "Wait 1.5 Seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [750, 300]
+    },
+    {
+      "parameters": {
         "method": "POST",
         "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.voiceId }}",
         "sendHeaders": true,
@@ -122,6 +132,17 @@
       ]
     },
     "Load Script": {
+      "main": [
+        [
+          {
+            "node": "Wait 1.5 Seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 1.5 Seconds": {
       "main": [
         [
           {
