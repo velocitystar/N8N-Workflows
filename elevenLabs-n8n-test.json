@@ -1,0 +1,110 @@
+{
+  "name": "ElevenLabs Simple Test",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "voice-victor",
+              "name": "victorVoiceId",
+              "value": "T9xTMubBGC4Y9y6oHUza",
+              "type": "string"
+            },
+            {
+              "id": "voice-lenny",
+              "name": "lennyVoiceId",
+              "value": "WbI4Toj5UDP91WAiEInp",
+              "type": "string"
+            },
+            {
+              "id": "api-key",
+              "name": "apiKey",
+              "value": "sk_b1555d57e212e3ff7bee20d2f997e117ec40cf8a949ca913",
+              "type": "string"
+            },
+            {
+              "id": "test-text",
+              "name": "text",
+              "value": "This is a test of the ElevenLabs voice generation system.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-variables",
+      "name": "Set Variables",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.victorVoiceId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "xi-api-key",
+              "value": "={{ $json.apiKey }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\"text\": \"{{ $json.text }}\", \"model_id\": \"eleven_monolingual_v1\"}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "http-request",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [650, 300]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Variables": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}
