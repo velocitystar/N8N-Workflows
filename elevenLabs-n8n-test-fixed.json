@@ -1,0 +1,244 @@
+{
+  "name": "ElevenLabs Simple Test (Fixed)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start-node",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "voice-victor",
+              "name": "victorVoiceId",
+              "value": "={{ $env.ELEVENLABS_VICTOR_VOICE_ID || 'T9xTMubBGC4Y9y6oHUza' }}",
+              "type": "string"
+            },
+            {
+              "id": "voice-lenny",
+              "name": "lennyVoiceId",
+              "value": "={{ $env.ELEVENLABS_LENNY_VOICE_ID || 'WbI4Toj5UDP91WAiEInp' }}",
+              "type": "string"
+            },
+            {
+              "id": "api-key",
+              "name": "apiKey",
+              "value": "={{ $env.ELEVENLABS_API_KEY }}",
+              "type": "string"
+            },
+            {
+              "id": "test-text",
+              "name": "text",
+              "value": "This is a test of the ElevenLabs voice generation system. If you can hear this, the API integration is working correctly.",
+              "type": "string"
+            },
+            {
+              "id": "output-folder",
+              "name": "outputFolder",
+              "value": "={{ $env.AUDIO_OUTPUT_FOLDER || './audio_test' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-variables",
+      "name": "Set Variables",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Validate required environment variables\nconst apiKey = $input.item.json.apiKey;\nif (!apiKey) {\n  throw new Error('ELEVENLABS_API_KEY environment variable is required. Please set it in your N8N environment.');\n}\n\nconsole.log('✅ API Key found');\nconsole.log('🎤 Using Victor voice for test');\nconsole.log('📝 Test text:', $input.item.json.text);\n\nreturn $input.all();"
+      },
+      "id": "validate-setup",
+      "name": "Validate Setup",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.victorVoiceId }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "xi-api-key",
+              "value": "={{ $json.apiKey }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"text\": {{ JSON.stringify($json.text) }},\n  \"model_id\": \"eleven_monolingual_v1\",\n  \"voice_settings\": {\n    \"stability\": 0.5,\n    \"similarity_boost\": 0.5,\n    \"style\": 0.0,\n    \"use_speaker_boost\": true\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "http-request",
+      "name": "Generate Test Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [850, 300],
+      "continueOnFail": true,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "success-check",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-success",
+      "name": "Check Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1050, 300]
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $json.outputFolder }}/test_audio_{{ $now.format('YYYY-MM-DD_HH-mm-ss') }}.wav",
+        "dataPropertyName": "data"
+      },
+      "id": "save-test-file",
+      "name": "Save Test Audio",
+      "type": "n8n-nodes-base.writeBinaryFile",
+      "typeVersion": 1,
+      "position": [1250, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "const fileName = $json.outputFolder + '/test_audio_' + new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19) + '.wav';\n\nconsole.log('🎉 SUCCESS! Test audio generated successfully!');\nconsole.log('📁 File saved to:', fileName);\nconsole.log('🔊 You can now play the audio file to verify it sounds correct.');\nconsole.log('✅ ElevenLabs API integration is working!');\n\nreturn [{ json: { \n  success: true, \n  message: 'Test completed successfully',\n  fileName: fileName,\n  timestamp: new Date().toISOString()\n}}];"
+      },
+      "id": "log-success",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1450, 240]
+    },
+    {
+      "parameters": {
+        "jsCode": "const error = $input.item.json.error || {};\nconst statusCode = error.httpCode || 'unknown';\nconst message = error.message || 'Unknown error occurred';\n\nconsole.error('❌ TEST FAILED!');\nconsole.error('Status Code:', statusCode);\nconsole.error('Error Message:', message);\n\n// Common error explanations\nif (statusCode === 401) {\n  console.error('🔑 This is likely an API key issue. Check that ELEVENLABS_API_KEY is set correctly.');\n} else if (statusCode === 429) {\n  console.error('⏱️ Rate limit exceeded. Wait a moment and try again.');\n} else if (statusCode === 400) {\n  console.error('📝 Bad request - check your voice ID or text content.');\n} else if (statusCode === 422) {\n  console.error('🎤 Voice ID may be invalid or voice settings are incorrect.');\n}\n\nreturn [{ json: { \n  success: false, \n  error: message,\n  statusCode: statusCode,\n  timestamp: new Date().toISOString()\n}}];"
+      },
+      "id": "log-error",
+      "name": "Log Error Details",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1250, 360]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Variables": {
+      "main": [
+        [
+          {
+            "node": "Validate Setup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Setup": {
+      "main": [
+        [
+          {
+            "node": "Generate Test Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Test Audio": {
+      "main": [
+        [
+          {
+            "node": "Check Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Success": {
+      "main": [
+        [
+          {
+            "node": "Save Test Audio",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Error Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Test Audio": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

@@ -1,5 +1,5 @@
 {
-  "name": "Distortion Check - Full Episode Generation",
+  "name": "Distortion Check - Batched Generation",
   "nodes": [
     {
       "parameters": {},
@@ -43,23 +43,24 @@
     },
     {
       "parameters": {
-        "jsCode": "const victorVoiceId = $input.item.json.victorVoiceId;\nconst lennyVoiceId = $input.item.json.lennyVoiceId;\nconst apiKey = $input.item.json.apiKey;\n\nconst scriptLines = [\n  {row: 2, speaker: 'Victor', fileName: 'EP01_Victor_ColdOpen_01.wav', text: 'January 15th, 1981. A Tuesday. Louisville, Kentucky. Three people sitting in a living room. One of them, a woman named Carla Rueckert, just left her body. And something else, someone else, started speaking through her.'},\n  {row: 3, speaker: 'Lenny', fileName: 'EP01_Lenny_ColdOpen_02.wav', text: 'For the next three years, this would happen 105 more times. The voice called itself Ra. It claimed to be a social memory complex from the sixth density. And it said it had a message to correct, one it botched 11,000 years ago in Egypt.'},\n  {row: 4, speaker: 'Victor', fileName: 'EP01_Victor_ColdOpen_03.wav', text: 'This is that story. And the wild part? A lot of what Ra said in 1981, we are only now starting to prove.'},\n  {row: 7, speaker: 'Victor', fileName: 'EP01_Victor_Intro_01.wav', text: 'Welcome to Distortion Check: The Ra Material. I am Victor Emil.'},\n  {row: 8, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_02.wav', text: 'And I am Lenny Peppidge. And if you have never heard of the Ra Material, buckle up. If you have heard of it, we are about to poke at it in ways that might make you uncomfortable. And that is the point.'},\n  {row: 9, speaker: 'Victor', fileName: 'EP01_Victor_Intro_03.wav', text: 'Yeah, we are not here to worship at the altar of Ra. We are also not here to dismiss it as New Age nonsense. We are here to examine it. Critically. With curiosity. And maybe a little bit of that Brooklyn-Boston tension that keeps things honest.'},\n  {row: 10, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_04.wav', text: 'Victor is from South Brooklyn. I grew up near MIT in Boston. We both love consciousness research, quantum weirdness, and calling out BS when we see it. But we also know that some of the most profound truths sound absolutely insane until they do not.'},\n  {row: 11, speaker: 'Victor', fileName: 'EP01_Victor_Intro_05.wav', text: 'Right. And the Ra Material? It sounded insane in 1981. But here is the thing, a lot of what Ra talked about back then? Consciousness as fundamental to reality. The observer effect in quantum mechanics. The interconnectedness of all things. Non-locality. Time as an illusion.'},\n  {row: 12, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_06.wav', text: 'That stuff was not mainstream in 81. Now? It is showing up in peer-reviewed journals. So either Ra was a really good guesser, or something else was going on.'},\n  {row: 13, speaker: 'Victor', fileName: 'EP01_Victor_Intro_07.wav', text: 'Over the next however-many episodes this takes, because there are 106 sessions, we are going to walk through this material. Session by session. We are going to challenge it. Question it. See where it holds up and where it falls apart.'},\n  {row: 14, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_08.wav', text: 'And we are going to do it with respect for the three people who risked everything to bring this through. Because whatever you believe about channeling, about Ra, about any of this, Don Elkins, Carla Rueckert, and Jim McCarty were serious people doing serious work.'},\n  {row: 15, speaker: 'Victor', fileName: 'EP01_Victor_Intro_09.wav', text: 'So. Let us start at the beginning. Who were these three people? How did they end up in a living room in Louisville, talking to an alleged extraterrestrial intelligence? And what happened on January 15th, 1981, that changed everything?'},\n  {row: 16, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_10.wav', text: 'Let us boil it down.'},\n  {row: 17, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_01.wav', text: 'Alright. Don Elkins. Physics professor. Airline pilot. UFO researcher. This guy was not some fringe weirdo. He taught at the University of Louisville. He flew commercial jets. And he was obsessed, obsessed, with one question: Are we alone?'},\n  {row: 18, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_02.wav', text: 'And not in a little green men way. Don wanted to understand consciousness. He wanted to know if there were intelligences out there more advanced than us, and if so, what they knew that we did not.'},\n  {row: 19, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_03.wav', text: 'In 1962, almost 20 years before the Ra contact, Don started experimenting with channeling. And I know, I know, channeling sounds like séance-table nonsense. But here is the thing: Don approached it like a scientist. He was not trying to talk to dead relatives. He was trying to establish contact with non-human intelligence.'},\n  {row: 20, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_04.wav', text: 'And he was meticulous. He recorded everything. He tested protocols. He refined the process. For years. And most of what came through? Introductory stuff. Basic metaphysical concepts. Nothing groundbreaking.'},\n  {row: 21, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_05.wav', text: 'Enter Carla Rueckert. Carla met Don in 1962 at one of his channeling experiments. She was a librarian. Deeply spiritual. Kind of ethereal, from what I have read. And she had a gift for this work.'},\n  {row: 22, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_06.wav', text: 'Don recognized it immediately. In 1974, twelve years after they met, he asked Carla to become the primary channel for their research group, which they called L/L Research.'},\n  {row: 23, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_07.wav', text: 'And this is where it gets interesting. Up until this point, all of Carla channeling was conscious. Meaning she was aware of what was coming through her. She could hear it, remember it, even question it in real time.'},\n  {row: 24, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_08.wav', text: 'But the quality of the material jumped once Carla took over. She refined Don protocols. She developed what they called tuning the instrument, basically getting into a meditative state that made the channel clearer, more stable.'},\n  {row: 25, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_09.wav', text: 'Now. Third member of the trio: Jim McCarty. Jim was living off the grid in rural Kentucky in 1978. Built his own log cabin. 132 acres. No electricity. Just him, the woods, and a battery-powered radio.'},\n  {row: 26, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_10.wav', text: 'One night, he is listening to this radio station out of Lexington, and he hears an interview with Don and Carla talking about UFOs. And something about it just clicked for him. He thought, I need to meet these people.'},\n  {row: 27, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_11.wav', text: 'A year later, he does. Mutual friends introduce them. Jim starts driving to Louisville every Sunday night, an hour each way, to attend their channeling meditations. He does this for a year.'},\n  {row: 28, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_12.wav', text: 'And then, in December 1980, Don and Carla invite him to move in and help with the research full-time. Jim arrives on December 23rd, 1980.'},\n  {row: 29, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_13.wav', text: 'Twenty-three days later, everything changes.'},\n  {row: 31, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_14.wav', text: 'January 15th, 1981. Carla is teaching a student how to channel. It is a normal session. Conscious channeling, like she had done hundreds of times before.'},\n  {row: 33, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_15.wav', text: 'And then a voice comes through her and says, I am Ra.'},\n  {row: 34, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_16.wav', text: 'And Carla leaves. Not the room. Her body. She goes completely unconscious. And this voice, Ra, starts speaking through her in a way that is mechanically operating her vocal cords.'}\n];\n\nreturn scriptLines.map(line => ({\n  json: {\n    ...line,\n    voiceId: line.speaker === 'Victor' ? victorVoiceId : lennyVoiceId,\n    apiKey: apiKey\n  }\n}));"
+        "jsCode": "const victorVoiceId = $input.item.json.victorVoiceId;\nconst lennyVoiceId = $input.item.json.lennyVoiceId;\nconst apiKey = $input.item.json.apiKey;\n\nconst scriptLines = [\n  {row: 2, speaker: 'Victor', fileName: 'EP01_Victor_ColdOpen_01.wav', text: 'January 15th, 1981. A Tuesday. Louisville, Kentucky. Three people sitting in a living room. One of them, a woman named Carla Rueckert, just left her body. And something else, someone else, started speaking through her.'},\n  {row: 3, speaker: 'Lenny', fileName: 'EP01_Lenny_ColdOpen_02.wav', text: 'For the next three years, this would happen 105 more times. The voice called itself Ra. It claimed to be a social memory complex from the sixth density. And it said it had a message to correct, one it botched 11,000 years ago in Egypt.'},\n  {row: 4, speaker: 'Victor', fileName: 'EP01_Victor_ColdOpen_03.wav', text: 'This is that story. And the wild part? A lot of what Ra said in 1981, we are only now starting to prove.'},\n  {row: 7, speaker: 'Victor', fileName: 'EP01_Victor_Intro_01.wav', text: 'Welcome to Distortion Check: The Ra Material. I am Victor Emil.'},\n  {row: 8, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_02.wav', text: 'And I am Lenny Peppidge. And if you have never heard of the Ra Material, buckle up. If you have heard of it, we are about to poke at it in ways that might make you uncomfortable. And that is the point.'},\n  {row: 9, speaker: 'Victor', fileName: 'EP01_Victor_Intro_03.wav', text: 'Yeah, we are not here to worship at the altar of Ra. We are also not here to dismiss it as New Age nonsense. We are here to examine it. Critically. With curiosity. And maybe a little bit of that Brooklyn-Boston tension that keeps things honest.'},\n  {row: 10, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_04.wav', text: 'Victor is from South Brooklyn. I grew up near MIT in Boston. We both love consciousness research, quantum weirdness, and calling out BS when we see it. But we also know that some of the most profound truths sound absolutely insane until they do not.'},\n  {row: 11, speaker: 'Victor', fileName: 'EP01_Victor_Intro_05.wav', text: 'Right. And the Ra Material? It sounded insane in 1981. But here is the thing, a lot of what Ra talked about back then? Consciousness as fundamental to reality. The observer effect in quantum mechanics. The interconnectedness of all things. Non-locality. Time as an illusion.'},\n  {row: 12, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_06.wav', text: 'That stuff was not mainstream in 81. Now? It is showing up in peer-reviewed journals. So either Ra was a really good guesser, or something else was going on.'},\n  {row: 13, speaker: 'Victor', fileName: 'EP01_Victor_Intro_07.wav', text: 'Over the next however-many episodes this takes, because there are 106 sessions, we are going to walk through this material. Session by session. We are going to challenge it. Question it. See where it holds up and where it falls apart.'},\n  {row: 14, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_08.wav', text: 'And we are going to do it with respect for the three people who risked everything to bring this through. Because whatever you believe about channeling, about Ra, about any of this, Don Elkins, Carla Rueckert, and Jim McCarty were serious people doing serious work.'},\n  {row: 15, speaker: 'Victor', fileName: 'EP01_Victor_Intro_09.wav', text: 'So. Let us start at the beginning. Who were these three people? How did they end up in a living room in Louisville, talking to an alleged extraterrestrial intelligence? And what happened on January 15th, 1981, that changed everything?'},\n  {row: 16, speaker: 'Lenny', fileName: 'EP01_Lenny_Intro_10.wav', text: 'Let us boil it down.'},\n  {row: 17, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_01.wav', text: 'Alright. Don Elkins. Physics professor. Airline pilot. UFO researcher. This guy was not some fringe weirdo. He taught at the University of Louisville. He flew commercial jets. And he was obsessed, obsessed, with one question: Are we alone?'},\n  {row: 18, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_02.wav', text: 'And not in a little green men way. Don wanted to understand consciousness. He wanted to know if there were intelligences out there more advanced than us, and if so, what they knew that we did not.'},\n  {row: 19, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_03.wav', text: 'In 1962, almost 20 years before the Ra contact, Don started experimenting with channeling. And I know, I know, channeling sounds like séance-table nonsense. But here is the thing: Don approached it like a scientist. He was not trying to talk to dead relatives. He was trying to establish contact with non-human intelligence.'},\n  {row: 20, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_04.wav', text: 'And he was meticulous. He recorded everything. He tested protocols. He refined the process. For years. And most of what came through? Introductory stuff. Basic metaphysical concepts. Nothing groundbreaking.'},\n  {row: 21, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_05.wav', text: 'Enter Carla Rueckert. Carla met Don in 1962 at one of his channeling experiments. She was a librarian. Deeply spiritual. Kind of ethereal, from what I have read. And she had a gift for this work.'},\n  {row: 22, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_06.wav', text: 'Don recognized it immediately. In 1974, twelve years after they met, he asked Carla to become the primary channel for their research group, which they called L/L Research.'},\n  {row: 23, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_07.wav', text: 'And this is where it gets interesting. Up until this point, all of Carla channeling was conscious. Meaning she was aware of what was coming through her. She could hear it, remember it, even question it in real time.'},\n  {row: 24, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_08.wav', text: 'But the quality of the material jumped once Carla took over. She refined Don protocols. She developed what they called tuning the instrument, basically getting into a meditative state that made the channel clearer, more stable.'},\n  {row: 25, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_09.wav', text: 'Now. Third member of the trio: Jim McCarty. Jim was living off the grid in rural Kentucky in 1978. Built his own log cabin. 132 acres. No electricity. Just him, the woods, and a battery-powered radio.'},\n  {row: 26, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_10.wav', text: 'One night, he is listening to this radio station out of Lexington, and he hears an interview with Don and Carla talking about UFOs. And something about it just clicked for him. He thought, I need to meet these people.'},\n  {row: 27, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_11.wav', text: 'A year later, he does. Mutual friends introduce them. Jim starts driving to Louisville every Sunday night, an hour each way, to attend their channeling meditations. He does this for a year.'},\n  {row: 28, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_12.wav', text: 'And then, in December 1980, Don and Carla invite him to move in and help with the research full-time. Jim arrives on December 23rd, 1980.'},\n  {row: 29, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_13.wav', text: 'Twenty-three days later, everything changes.'},\n  {row: 31, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_14.wav', text: 'January 15th, 1981. Carla is teaching a student how to channel. It is a normal session. Conscious channeling, like she had done hundreds of times before.'},\n  {row: 33, speaker: 'Victor', fileName: 'EP01_Victor_ActOne_15.wav', text: 'And then a voice comes through her and says, I am Ra.'},\n  {row: 34, speaker: 'Lenny', fileName: 'EP01_Lenny_ActOne_16.wav', text: 'And Carla leaves. Not the room. Her body. She goes completely unconscious. And this voice, Ra, starts speaking through her in a way that is mechanically operating her vocal cords.'}\n];\n\nconst batchSize = 5;\nconst batches = [];\n\nfor (let i = 0; i < scriptLines.length; i += batchSize) {\n  batches.push({\n    batchNumber: Math.floor(i / batchSize) + 1,\n    lines: scriptLines.slice(i, i + batchSize).map(line => ({\n      ...line,\n      voiceId: line.speaker === 'Victor' ? victorVoiceId : lennyVoiceId,\n      apiKey: apiKey\n    }))\n  });\n}\n\nreturn batches.map(batch => ({ json: batch }));"
       },
       "id": "load-script",
-      "name": "Load Script",
+      "name": "Load Script in Batches",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [650, 300]
     },
     {
       "parameters": {
-        "waitBetweenRequests": 1500
+        "fieldToSplitOut": "lines",
+        "options": {}
       },
-      "id": "delay",
-      "name": "Wait 1.5 Seconds",
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [750, 300]
+      "id": "split-batch",
+      "name": "Split Batch into Lines",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [850, 300]
     },
     {
       "parameters": {
@@ -93,7 +94,7 @@
       "name": "Generate Audio",
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
-      "position": [850, 300]
+      "position": [1050, 300]
     },
     {
       "parameters": {
@@ -105,7 +106,18 @@
       "name": "Save Audio File",
       "type": "n8n-nodes-base.writeBinaryFile",
       "typeVersion": 1,
-      "position": [1050, 300]
+      "position": [1250, 300]
+    },
+    {
+      "parameters": {
+        "unit": "seconds",
+        "amount": 3
+      },
+      "id": "wait-between-batches",
+      "name": "Wait 3 Seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1450, 300]
     }
   ],
   "connections": {
@@ -124,25 +136,25 @@
       "main": [
         [
           {
-            "node": "Load Script",
+            "node": "Load Script in Batches",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Load Script": {
+    "Load Script in Batches": {
       "main": [
         [
           {
-            "node": "Wait 1.5 Seconds",
+            "node": "Split Batch into Lines",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Wait 1.5 Seconds": {
+    "Split Batch into Lines": {
       "main": [
         [
           {
@@ -158,6 +170,17 @@
         [
           {
             "node": "Save Audio File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Audio File": {
+      "main": [
+        [
+          {
+            "node": "Wait 3 Seconds",
             "type": "main",
             "index": 0
           }
