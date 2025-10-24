@@ -53,7 +53,7 @@
         },
         "options": {}
       },
-      "id": "7f11c78d-f9e2-41a5-b803-05e96170ed8f",
+      "id": "set-configuration",
       "name": "Set Configuration",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.3,
@@ -77,8 +77,7 @@
       "name": "Wait 2 Seconds",
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
-      "position": [-2688, -128],
-      "webhookId": "f6f5f488-5c4f-40c5-a413-33f384e80de4"
+      "position": [-2688, -128]
     },
     {
       "parameters": {
@@ -166,7 +165,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Prepare the file for Cloudinary upload\nconst current = $input.item.json;\nconst fileNameWithoutExt = current.fileName.replace('.wav', '');\nconst publicId = `${current.cloudinaryFolder}/${fileNameWithoutExt}`;\n\nconsole.log(`🎵 Audio generated successfully for: ${current.fileName}`);\nconsole.log('☁️ Preparing for Cloudinary upload...');\nconsole.log('🆔 Cloudinary public ID:', publicId);\nconsole.log('📦 Passing binary data through for formBinaryData upload');\n\n// Pass through all input items with updated data\nreturn $input.all().map(item => ({\n  json: {\n    ...item.json,\n    publicId: `${item.json.cloudinaryFolder}/${item.json.fileName.replace('.wav', '')}`,\n    uploadReady: true\n  },\n  binary: item.binary\n}));"
+        "jsCode": "// Pass through all input items with proper binary data preservation\nreturn $input.all().map(item => ({\n  json: {\n    ...item.json,\n    publicId: `${item.json.cloudinaryFolder}/${item.json.fileName.replace('.wav', '')}`,\n    uploadReady: true\n  },\n  binary: item.binary\n}));"
       },
       "id": "56058aa1-35b0-4e18-ae9d-c4a1f0797011",
       "name": "Prepare for Upload",
@@ -244,7 +243,7 @@
     },
     {
       "parameters": {
-        "jsCode": "const current = $input.item.json;\nconst uploadResult = current;\nconst publicId = uploadResult.public_id;\nconst secureUrl = uploadResult.secure_url;\nconst bytes = uploadResult.bytes || 0;\n\nconsole.log(`✅ Successfully uploaded: ${current.fileName}`);\nconsole.log(`📊 Progress: ${current.globalIndex}/${current.totalScriptLines} (Batch ${current.currentBatch}/${current.totalBatches})`);\nconsole.log(`🆔 Cloudinary public ID: ${publicId}`);\nconsole.log(`📊 File size: ${Math.round(bytes / 1024)} KB`);\n\n// Check if this is the last item in current batch\nif (current.itemIndex === current.totalItems) {\n  console.log('');\n  console.log(`🎉 BATCH ${current.currentBatch}/${current.totalBatches} COMPLETED!`);\n  console.log(`📊 Processed ${current.totalItems} files in this batch`);\n  \n  if (current.hasMoreBatches) {\n    const remaining = current.totalScriptLines - current.globalIndex;\n    console.log(`📋 Remaining lines: ${remaining}`);\n    console.log(`🔄 Continuing to next batch automatically...`);\n  } else {\n    console.log('🎊 ALL SCRIPT LINES COMPLETED! The entire episode has been processed.');\n    console.log('✅ Workflow complete!');\n  }\n}\n\nreturn $input.all();"
+        "jsCode": "const current = $input.item.json;\nconst uploadResult = current;\nconst publicId = uploadResult.public_id;\nconst secureUrl = uploadResult.secure_url;\nconst bytes = uploadResult.bytes || 0;\n\nconsole.log(`✅ Successfully uploaded: ${current.fileName || 'audio file'}`);\nconsole.log(`🆔 Cloudinary public ID: ${publicId}`);\nconsole.log(`📊 File size: ${Math.round(bytes / 1024)} KB`);\n\n// Always return all items, batch completion logic handled elsewhere\nreturn $input.all();"
       },
       "id": "dd584108-ac0b-45db-b346-37363ff3fef5",
       "name": "Log Success",
@@ -254,9 +253,9 @@
     },
     {
       "parameters": {
-        "jsCode": "const current = $input.item.json;\nconst error = current.error || {};\nconst statusCode = error.httpCode || 'unknown';\nconst message = error.message || 'Unknown error occurred';\n\nconsole.error(`❌ Failed to generate audio: ${current.fileName} (${current.itemIndex}/${current.totalItems})`);\nconsole.error('Status Code:', statusCode);\nconsole.error('Error Message:', message);\n\n// Common error explanations\nif (statusCode === 401) {\n  console.error('🔑 Credential issue - check your ElevenLabs API credential in N8N');\n} else if (statusCode === 429) {\n  console.error('⏱️ Rate limit exceeded - consider increasing wait time between requests');\n} else if (statusCode === 422) {\n  console.error('🎤 Voice ID may be invalid or text content has issues');\n} else if (statusCode === 403) {\n  console.error('🚫 Forbidden - check your ElevenLabs account status');\n}\n\n// Continue processing other items\nreturn [{\n  json: {\n    fileName: current.fileName,\n    speaker: current.speaker,\n    error: message,\n    statusCode: statusCode,\n    itemIndex: current.itemIndex,\n    totalItems: current.totalItems,\n    stage: 'audio_generation'\n  }\n}];"
+        "jsCode": "const current = $input.item.json;\nconsole.log(`❌ Audio generation failed for: ${current.fileName}`);\nconsole.log(`Error details:`, current.error);\nreturn $input.all();"
       },
-      "id": "e25d90b7-aaae-45aa-9f8a-1cfd927c68d8",
+      "id": "log-audio-error",
       "name": "Log Audio Error",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -264,9 +263,9 @@
     },
     {
       "parameters": {
-        "jsCode": "const current = $input.item.json;\nconst error = current.error || {};\nconst statusCode = error.httpCode || 'unknown';\nconst message = error.message || 'Cloudinary upload failed';\n\nconsole.error(`❌ Failed to upload to Cloudinary: ${current.fileName} (${current.itemIndex}/${current.totalItems})`);\nconsole.error('Status Code:', statusCode);\nconsole.error('Error Message:', message);\n\n// Common Cloudinary error explanations\nif (statusCode === 401) {\n  console.error('🔑 Authentication failed:');\n  console.error('   - Check your Cloudinary API credential is properly configured');\n  console.error('   - Verify the Authorization header format: Basic base64(api_key:api_secret)');\n  console.error('   - Make sure API key and secret are correct from Cloudinary dashboard');\n} else if (statusCode === 400) {\n  console.error('📝 Bad request:');\n  console.error('   - Check the file format is supported');\n  console.error('   - Verify the public_id format is valid');\n  console.error('   - Make sure cloud name is correct in the URL');\n} else if (statusCode === 420) {\n  console.error('📊 Rate limit or quota exceeded');\n} else if (statusCode === 500) {\n  console.error('🔧 Cloudinary server error - try again later');\n}\n\nconsole.error('💡 Troubleshooting tips:');\nconsole.error('   1. Check your Cloudinary API credential (HTTP Header Auth)');\nconsole.error('   2. Verify cloud name is correct in Set Configuration node');\nconsole.error('   3. Ensure API key and secret are base64 encoded correctly');\nconsole.error('   4. Check Cloudinary dashboard for account status');\n\n// Continue processing other items\nreturn [{ \n  json: { \n    fileName: current.fileName,\n    speaker: current.speaker,\n    error: message,\n    statusCode: statusCode,\n    itemIndex: current.itemIndex,\n    totalItems: current.totalItems,\n    stage: 'cloudinary_upload'\n  }\n}];"
+        "jsCode": "const current = $input.item.json;\nconsole.log(`❌ Upload failed for: ${current.fileName}`);\nconsole.log(`Upload error:`, current.error);\nreturn $input.all();"
       },
-      "id": "8f34224b-63e0-49ab-9249-349d06ea0e47",
+      "id": "log-upload-error",
       "name": "Log Upload Error",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -274,253 +273,4 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict"
-          },
-          "conditions": [
-            {
-              "id": "has-more-check",
-              "leftValue": "={{ $first($input.all()).json.hasMoreBatches }}",
-              "rightValue": true,
-              "operator": {
-                "type": "boolean",
-                "operation": "equal"
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {
-          "looseTypeValidation": true
-        }
-      },
-      "id": "check-more-batches",
-      "name": "More Batches?",
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2,
-      "position": [-900, 176]
-    },
-    {
-      "parameters": {
-        "unit": "seconds",
-        "amount": 3
-      },
-      "id": "wait-between-batches",
-      "name": "Wait 3 Seconds",
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [-740, 140]
-    },
-    {
-      "parameters": {
-        "jsCode": "// Take the first item from the batch (they all have the same loop control data)\nconst firstItem = $input.all()[0];\nconst config = firstItem.json.originalConfig;\nconst nextStartIndex = firstItem.json.nextStartIndex;\n\nconsole.log(`🔄 Setting up next batch starting from index ${nextStartIndex}`);\nconsole.log(`📊 Batch control data: hasMore=${firstItem.json.hasMoreBatches}, nextIndex=${nextStartIndex}`);\n\n// Create new configuration for next batch\nreturn [{\n  json: {\n    ...config,\n    startIndex: nextStartIndex\n  }\n}];"
-      },
-      "id": "setup-next-batch",
-      "name": "Setup Next Batch",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [-580, 140]
-    },
-    {
-      "parameters": {
-        "jsCode": "console.log('🏁 All batches completed successfully!');\nreturn $input.all();"
-      },
-      "id": "final-completion",
-      "name": "Final Completion",
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [-740, 220]
-    }
-  ],
-  "pinData": {},
-  "connections": {
-    "Start": {
-      "main": [
-        [
-          {
-            "node": "Set Configuration",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Set Configuration": {
-      "main": [
-        [
-          {
-            "node": "Load Script Lines (Rate Limited)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Load Script Lines (Rate Limited)": {
-      "main": [
-        [
-          {
-            "node": "Wait 2 Seconds",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait 2 Seconds": {
-      "main": [
-        [
-          {
-            "node": "Log Progress",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Log Progress": {
-      "main": [
-        [
-          {
-            "node": "Generate Audio",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Generate Audio": {
-      "main": [
-        [
-          {
-            "node": "Check Audio Generation",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check Audio Generation": {
-      "main": [
-        [
-          {
-            "node": "Prepare for Upload",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Log Audio Error",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Prepare for Upload": {
-      "main": [
-        [
-          {
-            "node": "Upload to Cloudinary",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Upload to Cloudinary": {
-      "main": [
-        [
-          {
-            "node": "Check Upload Success",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Check Upload Success": {
-      "main": [
-        [
-          {
-            "node": "Log Success",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Log Upload Error",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Log Success": {
-      "main": [
-        [
-          {
-            "node": "More Batches?",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "More Batches?": {
-      "main": [
-        [
-          {
-            "node": "Wait 3 Seconds",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Final Completion",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait 3 Seconds": {
-      "main": [
-        [
-          {
-            "node": "Setup Next Batch",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Setup Next Batch": {
-      "main": [
-        [
-          {
-            "node": "Load Script Lines (Rate Limited)",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    }
-  },
-  "active": false,
-  "settings": {
-    "executionOrder": "v1"
-  },
-  "versionId": "98152949-4853-4292-acec-26a28c0f72bf",
-  "meta": {
-    "instanceId": "5186b157db49ce82dd76d1b42490f93bc5ac8ef6b8080d76da5a801058b2bcaa"
-  },
-  "id": "97yoVJs2nHaPHevc",
-  "tags": []
-}
+        "jsCode": "// Get the first successful upload item\nconst allItems = $input.all();\n\n// Count items to determine batch info\nconst totalItems = allItems.length;\nconsole.log('');\nconsole.log(`🎉 BATCH COMPLETED! Processed ${totalItems} files successfully`);\nconsole.log(`🔍 BATCH CHECK DEBUG: About to check if more batches needed`);\n\n// Get data from the first item with proper error handling\nconst firstItem = allItems[0];\nif (!firstItem || !firstItem.json) {\n  console.error('❌ ERROR: No valid items found in batch');\n  return [];\n}\n\nconsole.log('🔍 DEBUG: First item data structure:', JSON.stringify(firstItem.json, null, 2));\n\n// Get the actual total from the script data with fallbacks\nconst totalScriptLines = firstItem.json.totalScriptLines || 29; // Use actual count from script\nconst originalConfig = firstItem.json.originalConfig || {};\nconst maxItems = originalConfig.maxItems || 5;\nconst totalBatches = Math.ceil(totalScriptLines / maxItems);\n\n// Calculate current position based on the actual data from the items\n// Use the globalIndex from the last processed item to know our position\nconst lastProcessedItem = allItems[allItems.length - 1];\nconst lastGlobalIndex = lastProcessedItem.json.globalIndex || totalItems;\nconst processedSoFar = lastGlobalIndex; // This is the real count of items processed\n\n// Determine current batch and next steps\nconst currentBatch = Math.ceil(processedSoFar / maxItems);\nconst nextStartIndex = processedSoFar;

@@ -1,0 +1,140 @@
+row,speaker,fileName,text,voiceId,cloudinaryFolder,cloudName,itemIndex,totalItems,batchStartIndex,globalIndex,totalScriptLines,currentBatch,totalBatches,publicId,nextStartIndex,hasMoreBatches,originalConfig
+2,Victor,EP01_Victor_ColdOpen_01.wav,"January 15th, 1981. A Tuesday. Louisville, Kentucky. Three people sitting in a living room. One of them, a woman named Carla Rueckert, just left her body. And something else, someone else, started speaking through her.",T9xTMubBGC4Y9y6oHUza,elevenlabs-audio/episode-01,dly199qqv,1,5,0,1,29,1,6,elevenlabs-audio/episode-01/EP01_Victor_ColdOpen_01,5,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+3,Lenny,EP01_Lenny_ColdOpen_02.wav,"For the next three years, this would happen 105 more times. The voice called itself Ra. It claimed to be a social memory complex from the sixth density. And it said it had a message to correct, one it botched 11,000 years ago in Egypt.",WbI4Toj5UDP91WAiEInp,elevenlabs-audio/episode-01,dly199qqv,2,5,0,2,29,1,6,elevenlabs-audio/episode-01/EP01_Lenny_ColdOpen_02,5,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+4,Victor,EP01_Victor_ColdOpen_03.wav,"This is that story. And the wild part? A lot of what Ra said in 1981, we are only now starting to prove.",T9xTMubBGC4Y9y6oHUza,elevenlabs-audio/episode-01,dly199qqv,3,5,0,3,29,1,6,elevenlabs-audio/episode-01/EP01_Victor_ColdOpen_03,5,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+7,Victor,EP01_Victor_Intro_01.wav,Welcome to Distortion Check: The Ra Material. I am Victor Emil.,T9xTMubBGC4Y9y6oHUza,elevenlabs-audio/episode-01,dly199qqv,4,5,0,4,29,1,6,elevenlabs-audio/episode-01/EP01_Victor_Intro_01,5,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+8,Lenny,EP01_Lenny_Intro_02.wav,"And I am Lenny Peppidge. And if you have never heard of the Ra Material, buckle up. If you have heard of it, we are about to poke at it in ways that might make you uncomfortable. And that is the point.",WbI4Toj5UDP91WAiEInp,elevenlabs-audio/episode-01,dly199qqv,5,5,0,5,29,1,6,elevenlabs-audio/episode-01/EP01_Lenny_Intro_02,5,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+,,,,,,,,,,,,,,,,,
+row,speaker,fileName,text,voiceId,cloudinaryFolder,cloudName,itemIndex,totalItems,batchStartIndex,globalIndex,totalScriptLines,currentBatch,totalBatches,publicId,nextStartIndex,hasMoreBatches,originalConfig
+9,Victor,EP01_Victor_Intro_03.wav,"Yeah, we are not here to worship at the altar of Ra. We are also not here to dismiss it as New Age nonsense. We are here to examine it. Critically. With curiosity. And maybe a little bit of that Brooklyn-Boston tension that keeps things honest.",T9xTMubBGC4Y9y6oHUza,elevenlabs-audio/episode-01,dly199qqv,1,5,5,6,29,2,6,elevenlabs-audio/episode-01/EP01_Victor_Intro_03,10,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+10,Lenny,EP01_Lenny_Intro_04.wav,"Victor is from South Brooklyn. I grew up near MIT in Boston. We both love consciousness research, quantum weirdness, and calling out BS when we see it. But we also know that some of the most profound truths sound absolutely insane until they do not.",WbI4Toj5UDP91WAiEInp,elevenlabs-audio/episode-01,dly199qqv,2,5,5,7,29,2,6,elevenlabs-audio/episode-01/EP01_Lenny_Intro_04,10,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+11,Victor,EP01_Victor_Intro_05.wav,"Right. And the Ra Material? It sounded insane in 1981. But here is the thing, a lot of what Ra talked about back then? Consciousness as fundamental to reality. The observer effect in quantum mechanics. The interconnectedness of all things. Non-locality. Time as an illusion.",T9xTMubBGC4Y9y6oHUza,elevenlabs-audio/episode-01,dly199qqv,3,5,5,8,29,2,6,elevenlabs-audio/episode-01/EP01_Victor_Intro_05,10,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+12,Lenny,EP01_Lenny_Intro_06.wav,"That stuff was not mainstream in 81. Now? It is showing up in peer-reviewed journals. So either Ra was a really good guesser, or something else was going on.",WbI4Toj5UDP91WAiEInp,elevenlabs-audio/episode-01,dly199qqv,4,5,5,9,29,2,6,elevenlabs-audio/episode-01/EP01_Lenny_Intro_06,10,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+13,Victor,EP01_Victor_Intro_07.wav,"Over the next however-many episodes this takes, because there are 106 sessions, we are going to walk through this material. Session by session. We are going to challenge it. Question it. See where it holds up and where it falls apart.",T9xTMubBGC4Y9y6oHUza,elevenlabs-audio/episode-01,dly199qqv,5,5,5,10,29,2,6,elevenlabs-audio/episode-01/EP01_Victor_Intro_07,10,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+,,,,,,,,,,,,,,,,,
+row,speaker,fileName,text,voiceId,cloudinaryFolder,cloudName,itemIndex,totalItems,batchStartIndex,globalIndex,totalScriptLines,currentBatch,totalBatches,publicId,nextStartIndex,hasMoreBatches,originalConfig
+9,Victor,EP01_Victor_Intro_03.wav,"Yeah, we are not here to worship at the altar of Ra. We are also not here to dismiss it as New Age nonsense. We are here to examine it. Critically. With curiosity. And maybe a little bit of that Brooklyn-Boston tension that keeps things honest.",T9xTMubBGC4Y9y6oHUza,elevenlabs-audio/episode-01,dly199qqv,1,5,5,6,29,2,6,elevenlabs-audio/episode-01/EP01_Victor_Intro_03,10,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+10,Lenny,EP01_Lenny_Intro_04.wav,"Victor is from South Brooklyn. I grew up near MIT in Boston. We both love consciousness research, quantum weirdness, and calling out BS when we see it. But we also know that some of the most profound truths sound absolutely insane until they do not.",WbI4Toj5UDP91WAiEInp,elevenlabs-audio/episode-01,dly199qqv,2,5,5,7,29,2,6,elevenlabs-audio/episode-01/EP01_Lenny_Intro_04,10,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+11,Victor,EP01_Victor_Intro_05.wav,"Right. And the Ra Material? It sounded insane in 1981. But here is the thing, a lot of what Ra talked about back then? Consciousness as fundamental to reality. The observer effect in quantum mechanics. The interconnectedness of all things. Non-locality. Time as an illusion.",T9xTMubBGC4Y9y6oHUza,elevenlabs-audio/episode-01,dly199qqv,3,5,5,8,29,2,6,elevenlabs-audio/episode-01/EP01_Victor_Intro_05,10,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+12,Lenny,EP01_Lenny_Intro_06.wav,"That stuff was not mainstream in 81. Now? It is showing up in peer-reviewed journals. So either Ra was a really good guesser, or something else was going on.",WbI4Toj5UDP91WAiEInp,elevenlabs-audio/episode-01,dly199qqv,4,5,5,9,29,2,6,elevenlabs-audio/episode-01/EP01_Lenny_Intro_06,10,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
+13,Victor,EP01_Victor_Intro_07.wav,"Over the next however-many episodes this takes, because there are 106 sessions, we are going to walk through this material. Session by session. We are going to challenge it. Question it. See where it holds up and where it falls apart.",T9xTMubBGC4Y9y6oHUza,elevenlabs-audio/episode-01,dly199qqv,5,5,5,10,29,2,6,elevenlabs-audio/episode-01/EP01_Victor_Intro_07,10,TRUE,"victorVoiceId:T9xTMubBGC4Y9y6oHUza
+
+lennyVoiceId:WbI4Toj5UDP91WAiEInp
+
+cloudinaryFolder:elevenlabs-audio/episode-01
+
+cloudName:dly199qqv
+
+maxItems:5"
