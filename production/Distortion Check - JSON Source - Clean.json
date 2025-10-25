@@ -1,0 +1,681 @@
+{
+  "name": "Distortion Check - JSON Source - Clean",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "voice-victor",
+              "name": "victorVoiceId",
+              "value": "T9xTMubBGC4Y9y6oHUza",
+              "type": "string"
+            },
+            {
+              "id": "voice-lenny",
+              "name": "lennyVoiceId",
+              "value": "WbI4Toj5UDP91WAiEInp",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-folder",
+              "name": "cloudinaryFolder",
+              "value": "elevenlabs-audio/episode-01",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-cloud-name",
+              "name": "cloudName",
+              "value": "dly199qqv",
+              "type": "string"
+            },
+            {
+              "id": "rate-limit",
+              "name": "maxItems",
+              "value": 5,
+              "type": "number"
+            },
+            {
+              "id": "start-index",
+              "name": "startIndex",
+              "value": 0,
+              "type": "number"
+            },
+            {
+              "id": "content-source-type",
+              "name": "contentSourceType",
+              "value": "url",
+              "type": "string"
+            },
+            {
+              "id": "content-url",
+              "name": "contentUrl",
+              "value": "REQUIRED: Replace with your hosted JSON URL",
+              "type": "string"
+            },
+            {
+              "id": "content-format",
+              "name": "contentFormat",
+              "value": "json",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "set-config",
+      "name": "Set Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [-1400, 200]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "check-content-source",
+              "leftValue": "={{ $json.contentSourceType }}",
+              "rightValue": "url",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "check-content-source",
+      "name": "Content Source Type?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [-1200, 200]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ $json.contentUrl }}",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "fetch-remote-content",
+      "name": "Fetch Remote Content",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-1000, 100]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process remote JSON content\nconst config = $input.first().json;\nconst remoteData = $input.last().json;\n\nconsole.log('🌐 Processing remote JSON content...');\nconsole.log('📊 Content source:', config.contentSourceType);\nconsole.log('🔗 Content URL:', config.contentUrl);\n\nlet scriptLines = [];\n\n// Handle different JSON structures\nif (Array.isArray(remoteData)) {\n  scriptLines = remoteData;\n  console.log('📄 Found direct array with', scriptLines.length, 'items');\n} else if (remoteData.content && Array.isArray(remoteData.content)) {\n  scriptLines = remoteData.content;\n  console.log('📄 Found content array with', scriptLines.length, 'items');\n} else if (remoteData.data && Array.isArray(remoteData.data)) {\n  scriptLines = remoteData.data;\n  console.log('📄 Found data array with', scriptLines.length, 'items');\n} else {\n  throw new Error('JSON must contain an array or have content/data property with an array');\n}\n\n// Validate required fields\nconst missingFields = [];\nscriptLines.forEach((item, index) => {\n  if (!item.text) missingFields.push(`Item ${index + 1}: missing 'text'`);\n  if (!item.fileName) missingFields.push(`Item ${index + 1}: missing 'fileName'`);\n  if (!item.speaker) missingFields.push(`Item ${index + 1}: missing 'speaker'`);\n});\n\nif (missingFields.length > 0) {\n  console.error('❌ Content validation errors:');\n  missingFields.forEach(error => console.error(`   ${error}`));\n  throw new Error('Content validation failed');\n}\n\nconsole.log('✅ Content validation passed');\n\n// Return config with processed content\nreturn [{\n  json: {\n    ...config,\n    scriptLines: scriptLines,\n    totalScriptLines: scriptLines.length\n  }\n}];"
+      },
+      "id": "process-remote-content",
+      "name": "Process Remote Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-800, 100]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Error: JSON source required but contentSourceType is not 'url'\nconst config = $input.item.json;\n\nconsole.error('❌ ERROR: JSON source required but contentSourceType is not \"url\"');\nconsole.error('📝 Please set contentSourceType to \"url\" and provide a valid contentUrl');\nconsole.error('🔧 Current configuration:', {\n  contentSourceType: config.contentSourceType,\n  contentUrl: config.contentUrl\n});\n\nthrow new Error('JSON source required: Please set contentSourceType to \"url\" and provide a valid contentUrl in the Set Configuration node');"
+      },
+      "id": "error-no-json-source",
+      "name": "Error: No JSON Source",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-800, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Create batched script items\nconst config = $input.item.json;\nconst scriptLines = config.scriptLines || [];\nconst maxItems = config.maxItems || 5;\nconst startIndex = config.startIndex || 0;\n\nconsole.log('🎬 Processing script lines...');\nconsole.log('📚 Total script lines:', scriptLines.length);\nconsole.log('🔢 Max items per batch:', maxItems);\nconsole.log('🎯 Starting from index:', startIndex);\n\n// Apply batching\nconst endIndex = Math.min(startIndex + maxItems, scriptLines.length);\nconst selectedLines = scriptLines.slice(startIndex, endIndex);\nconst totalBatches = Math.ceil(scriptLines.length / maxItems);\nconst currentBatch = Math.floor(startIndex / maxItems) + 1;\n\nconsole.log(`📊 Processing batch ${currentBatch}/${totalBatches}: lines ${startIndex + 1} to ${endIndex}`);\n\nif (selectedLines.length === 0) {\n  console.warn('⚠️ No lines selected! All processing complete.');\n  return [];\n}\n\n// Create individual items for processing\nconst items = selectedLines.map((line, index) => ({\n  json: {\n    ...line,\n    voiceId: line.speaker === 'Victor' ? config.victorVoiceId : config.lennyVoiceId,\n    cloudinaryFolder: config.cloudinaryFolder,\n    cloudName: config.cloudName,\n    itemIndex: index + 1,\n    totalItems: selectedLines.length,\n    batchStartIndex: startIndex,\n    globalIndex: startIndex + index + 1,\n    totalScriptLines: scriptLines.length,\n    currentBatch: currentBatch,\n    totalBatches: totalBatches,\n    publicId: `${config.cloudinaryFolder}/${line.fileName.replace('.wav', '')}`,\n    // Loop control data\n    nextStartIndex: endIndex,\n    hasMoreBatches: endIndex < scriptLines.length,\n    originalConfig: {\n      victorVoiceId: config.victorVoiceId,\n      lennyVoiceId: config.lennyVoiceId,\n      cloudinaryFolder: config.cloudinaryFolder,\n      cloudName: config.cloudName,\n      maxItems: config.maxItems,\n      contentSourceType: config.contentSourceType,\n      contentUrl: config.contentUrl,\n      scriptLines: scriptLines\n    }\n  }\n}));\n\nconsole.log('📦 Created', items.length, 'items for processing');\nreturn items;"
+      },
+      "id": "create-script-items",
+      "name": "Create Script Items",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-600, 200]
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "id": "wait-before-tts",
+      "name": "Wait 2 Seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [-400, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "const current = $input.item.json;\nconsole.log(`🎤 Processing ${current.globalIndex}/${current.totalScriptLines}: ${current.fileName} (${current.speaker})`);\nconsole.log(`📦 Batch progress: ${current.itemIndex}/${current.totalItems}`);\nreturn $input.all();"
+      },
+      "id": "log-progress",
+      "name": "Log Progress",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-200, 200]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.elevenlabs.io/v1/text-to-speech/{{ $json.voiceId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"text\": \"{{ $json.text.replace(/\"/g, '\\\\\"') }}\",\n  \"model_id\": \"eleven_turbo_v2_5\",\n  \"voice_settings\": {\n    \"stability\": 0.5,\n    \"similarity_boost\": 0.5,\n    \"style\": 0.0,\n    \"use_speaker_boost\": true\n  }\n}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "generate-audio",
+      "name": "Generate Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [0, 200],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs-auth",
+          "name": "ElevenLabs API"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "check-success",
+              "leftValue": "={{ $json.data }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "check-audio-generation",
+      "name": "Check Audio Generation",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [200, 200],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const current = $input.item.json;\nconsole.log(`🔊 Audio generated successfully for: ${current.fileName}`);\nreturn $input.all();"
+      },
+      "id": "prepare-for-upload",
+      "name": "Prepare for Upload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [400, 100]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/auto/upload",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "public_id",
+              "value": "={{ $json.publicId }}"
+            },
+            {
+              "name": "resource_type",
+              "value": "auto"
+            },
+            {
+              "name": "overwrite",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 30000
+        }
+      },
+      "id": "upload-to-cloudinary",
+      "name": "Upload to Cloudinary",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [600, 100],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "cloudinary-auth",
+          "name": "Cloudinary API"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "check-upload-success",
+              "leftValue": "={{ $json.secure_url }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "check-upload-success",
+      "name": "Check Upload Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [800, 100],
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const current = $input.item.json;\nconsole.log(`✅ Successfully uploaded: ${current.public_id}`);\nconsole.log(`🔗 URL: ${current.secure_url}`);\nreturn $input.all();"
+      },
+      "id": "log-success",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1000, 50]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Collect all successful uploads and check for more batches\nconst allItems = $input.all();\nconst totalItems = allItems.length;\n\nconsole.log(`🎉 BATCH COMPLETED! Processed ${totalItems} files successfully`);\n\nif (totalItems === 0) {\n  console.error('❌ ERROR: No items received');\n  return [];\n}\n\nconst firstItem = allItems[0];\nconst nextStartIndex = firstItem.json.nextStartIndex;\nconst hasMoreBatches = firstItem.json.hasMoreBatches;\nconst currentBatch = firstItem.json.currentBatch;\nconst totalBatches = firstItem.json.totalBatches;\nconst originalConfig = firstItem.json.originalConfig;\n\nconsole.log(`📊 Completed batch ${currentBatch}/${totalBatches}`);\nconsole.log(`📊 NextStartIndex: ${nextStartIndex}`);\nconsole.log(`📊 HasMoreBatches: ${hasMoreBatches}`);\n\nif (hasMoreBatches) {\n  console.log(`🔄 Will continue to next batch from index ${nextStartIndex}`);\n} else {\n  console.log('🎊 ALL BATCHES COMPLETED!');\n}\n\nreturn [{\n  json: {\n    hasMoreBatches: hasMoreBatches,\n    nextStartIndex: nextStartIndex,\n    currentBatch: currentBatch,\n    totalBatches: totalBatches,\n    processedSoFar: nextStartIndex,\n    originalConfig: originalConfig\n  }\n}];"
+      },
+      "id": "batch-completion-check",
+      "name": "Batch Completion Check",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1200, 50]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "has-more-check",
+              "leftValue": "={{ String($json.hasMoreBatches) }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "looseTypeValidation": true
+        }
+      },
+      "id": "more-batches",
+      "name": "More Batches?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1400, 50]
+    },
+    {
+      "parameters": {
+        "unit": "seconds",
+        "amount": 3
+      },
+      "id": "wait-between-batches",
+      "name": "Wait 3 Seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [1600, -50]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Setup next batch configuration\nconst inputItem = $input.item.json;\nconst config = inputItem.originalConfig;\nconst nextStartIndex = inputItem.nextStartIndex;\n\nconsole.log(`🔄 Setting up next batch from index ${nextStartIndex}`);\n\nconst newConfig = {\n  ...config,\n  startIndex: nextStartIndex\n};\n\nreturn [{\n  json: newConfig\n}];"
+      },
+      "id": "setup-next-batch",
+      "name": "Setup Next Batch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1800, -50]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🏁 All batches completed successfully!');\nreturn $input.all();"
+      },
+      "id": "final-completion",
+      "name": "Final Completion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1600, 150]
+    },
+    {
+      "parameters": {
+        "jsCode": "const current = $input.item.json;\nconsole.error(`❌ Audio generation failed for: ${current.fileName}`);\nreturn $input.all();"
+      },
+      "id": "log-audio-error",
+      "name": "Log Audio Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [400, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const current = $input.item.json;\nconsole.error(`❌ Upload failed for: ${current.public_id}`);\nreturn $input.all();"
+      },
+      "id": "log-upload-error",
+      "name": "Log Upload Error",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1000, 250]
+    },
+    {
+      "parameters": {},
+      "id": "start",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [-1600, 200]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Configuration": {
+      "main": [
+        [
+          {
+            "node": "Content Source Type?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Content Source Type?": {
+      "main": [
+        [
+          {
+            "node": "Fetch Remote Content",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error: No JSON Source",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Remote Content": {
+      "main": [
+        [
+          {
+            "node": "Process Remote Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Remote Content": {
+      "main": [
+        [
+          {
+            "node": "Create Script Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Error: No JSON Source": {
+      "main": [
+        [
+          {
+            "node": "Create Script Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Script Items": {
+      "main": [
+        [
+          {
+            "node": "Wait 2 Seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 2 Seconds": {
+      "main": [
+        [
+          {
+            "node": "Log Progress",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Progress": {
+      "main": [
+        [
+          {
+            "node": "Generate Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Audio": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Generation": {
+      "main": [
+        [
+          {
+            "node": "Prepare for Upload",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Audio Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare for Upload": {
+      "main": [
+        [
+          {
+            "node": "Upload to Cloudinary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to Cloudinary": {
+      "main": [
+        [
+          {
+            "node": "Check Upload Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Upload Success": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Upload Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Success": {
+      "main": [
+        [
+          {
+            "node": "Batch Completion Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Batch Completion Check": {
+      "main": [
+        [
+          {
+            "node": "More Batches?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "More Batches?": {
+      "main": [
+        [
+          {
+            "node": "Wait 3 Seconds",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Final Completion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 3 Seconds": {
+      "main": [
+        [
+          {
+            "node": "Setup Next Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setup Next Batch": {
+      "main": [
+        [
+          {
+            "node": "Create Script Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "workflow-version-id",
+  "meta": {
+    "instanceId": "n8n-instance"
+  },
+  "id": "workflow-id",
+  "tags": []
+}
