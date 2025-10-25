@@ -1,5 +1,5 @@
 {
-  "name": "Distortion Check - Auto Loop Complete - FIXED",
+  "name": "Distortion Check - Auto Loop Complete - JSON Source",
   "nodes": [
     {
       "parameters": {
@@ -317,13 +317,13 @@
             {
               "id": "content-source-type",
               "name": "contentSourceType",
-              "value": "static",
+              "value": "url",
               "type": "string"
             },
             {
               "id": "content-url",
               "name": "contentUrl",
-              "value": "",
+              "value": "https://raw.githubusercontent.com/your-username/your-repo/main/docs/distortion-check-ep1.json",
               "type": "string"
             },
             {
