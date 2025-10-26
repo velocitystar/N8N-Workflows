@@ -1,0 +1,280 @@
+{
+  "episode": {
+    "title": "Distortion Check: v3 Alpha Test Content",
+    "number": 0,
+    "description": "Test content specifically designed for ElevenLabs v3 Alpha with Audio Tags",
+    "metadata": {
+      "created": "2025-01-15",
+      "version": "3.0",
+      "totalItems": 8,
+      "estimatedDuration": "5 minutes",
+      "model": "eleven_v3_alpha"
+    }
+  },
+  "voiceMapping": {
+    "Victor": "T9xTMubBGC4Y9y6oHUza",
+    "Lenny": "WbI4Toj5UDP91WAiEInp"
+  },
+  "defaultSettings": {
+    "modelId": "eleven_v3_alpha",
+    "voiceSettings": {
+      "stability": 0.5,
+      "similarityBoost": 0.7,
+      "style": 0.3,
+      "useSpeakerBoost": true
+    },
+    "generationConfig": {
+      "chunkLengthSchedule": [120, 160, 250, 350]
+    }
+  },
+  "content": [
+    {
+      "row": 1,
+      "speaker": "Victor",
+      "fileName": "V3_Victor_Test_01.wav",
+      "text": "[excited] Welcome to our v3 Alpha test! [pauses] This is Victor, and I'm genuinely thrilled to demonstrate the new Audio Tags feature.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_v3_alpha",
+      "voiceSettings": {
+        "stability": 0.4,
+        "similarityBoost": 0.8,
+        "style": 0.4,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": 12345,
+      "previousText": "",
+      "nextText": "Now Lenny will show you some emotional range with the new system.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128",
+      "audioTags": ["excited", "pauses"],
+      "direction": {
+        "emotion": "excited",
+        "pace": "normal with pause",
+        "emphasis": "genuinely thrilled",
+        "tone": "enthusiastic"
+      }
+    },
+    {
+      "row": 2,
+      "speaker": "Lenny",
+      "fileName": "V3_Lenny_Test_02.wav",
+      "text": "[nervous] Oh wow, this is... [gulps] this is actually pretty intense. [whispers] Can you hear how my voice just changed completely?",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_v3_alpha",
+      "voiceSettings": {
+        "stability": 0.3,
+        "similarityBoost": 0.9,
+        "style": 0.5,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": 54321,
+      "previousText": "Welcome to our v3 Alpha test! This is Victor, and I'm genuinely thrilled to demonstrate the new Audio Tags feature.",
+      "nextText": "Victor will demonstrate some dramatic range next.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128",
+      "audioTags": ["nervous", "gulps", "whispers"],
+      "direction": {
+        "emotion": "nervous",
+        "pace": "hesitant with whisper ending",
+        "emphasis": "dramatic voice change",
+        "tone": "anxious to secretive"
+      }
+    },
+    {
+      "row": 3,
+      "speaker": "Victor",
+      "fileName": "V3_Victor_Test_03.wav",
+      "text": "[dramatic] The old world is ending! [sighs] But from its ashes... [hopeful] something beautiful will emerge.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_v3_alpha",
+      "voiceSettings": {
+        "stability": 0.2,
+        "similarityBoost": 0.6,
+        "style": 0.6,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": 98765,
+      "previousText": "Oh wow, this is actually pretty intense. Can you hear how my voice just changed completely?",
+      "nextText": "Lenny will show you how laughter sounds with the new system.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_192",
+      "audioTags": ["dramatic", "sighs", "hopeful"],
+      "direction": {
+        "emotion": "dramatic to hopeful",
+        "pace": "building intensity with pause",
+        "emphasis": "strong contrast between ending and beginning",
+        "tone": "theatrical to uplifting"
+      }
+    },
+    {
+      "row": 4,
+      "speaker": "Lenny",
+      "fileName": "V3_Lenny_Test_04.wav",
+      "text": "[laughs] This is absolutely incredible! [starts laughing harder] I can't believe how natural this sounds! [giggles] It's like we're really here talking.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_v3_alpha",
+      "voiceSettings": {
+        "stability": 0.3,
+        "similarityBoost": 0.7,
+        "style": 0.5,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "The old world is ending! But from its ashes something beautiful will emerge.",
+      "nextText": "Victor will test some technical pronunciation next.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128",
+      "audioTags": ["laughs", "starts laughing harder", "giggles"],
+      "direction": {
+        "emotion": "joyful",
+        "pace": "building excitement with laughter",
+        "emphasis": "escalating laughter throughout",
+        "tone": "genuinely delighted"
+      }
+    },
+    {
+      "row": 5,
+      "speaker": "Victor",
+      "fileName": "V3_Victor_Test_05.wav",
+      "text": "[matter-of-fact] Now let's test pronunciation. The word 'laboratory' should sound like 'LAB-or-ah-tree'. [curious] Did that work correctly?",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_v3_alpha",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.8,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": [
+          {
+            "text": "laboratory",
+            "pronunciation": "LAB-or-ah-tree"
+          }
+        ]
+      },
+      "seed": 13579,
+      "previousText": "This is absolutely incredible! I can't believe how natural this sounds! It's like we're really here talking.",
+      "nextText": "Lenny will demonstrate sarcasm and deadpan delivery.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128",
+      "audioTags": ["matter-of-fact", "curious"],
+      "direction": {
+        "emotion": "neutral to curious",
+        "pace": "clear enunciation",
+        "emphasis": "precise pronunciation test",
+        "tone": "educational to questioning"
+      }
+    },
+    {
+      "row": 6,
+      "speaker": "Lenny",
+      "fileName": "V3_Lenny_Test_06.wav",
+      "text": "[sarcastic] Oh sure, because AI voices are totally going to replace human actors. [deadpan] That'll never happen. [chuckles] Right?",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_v3_alpha",
+      "voiceSettings": {
+        "stability": 0.4,
+        "similarityBoost": 0.6,
+        "style": 0.7,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Now let's test pronunciation. The word 'laboratory' should sound like 'LAB-or-ah-tree'. Did that work correctly?",
+      "nextText": "Victor will conclude with a whispered secret.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128",
+      "audioTags": ["sarcastic", "deadpan", "chuckles"],
+      "direction": {
+        "emotion": "sarcastic to amused",
+        "pace": "varying from sarcastic to flat to light",
+        "emphasis": "heavy sarcasm contrast with deadpan",
+        "tone": "ironic to knowing"
+      }
+    },
+    {
+      "row": 7,
+      "speaker": "Victor",
+      "fileName": "V3_Victor_Test_07.wav",
+      "text": "[whispers] Here's a secret about v3 Alpha... [even quieter] it can actually understand context between sentences. [normal voice] Pretty amazing, right?",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_v3_alpha",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.9,
+        "style": 0.4,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": 24680,
+      "previousText": "Oh sure, because AI voices are totally going to replace human actors. That'll never happen. Right?",
+      "nextText": "Lenny will wrap up our test with final thoughts.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128",
+      "audioTags": ["whispers", "even quieter", "normal voice"],
+      "direction": {
+        "emotion": "conspiratorial to impressed",
+        "pace": "whisper to quieter to normal",
+        "emphasis": "volume progression",
+        "tone": "secretive to amazed"
+      }
+    },
+    {
+      "row": 8,
+      "speaker": "Lenny",
+      "fileName": "V3_Lenny_Test_08.wav",
+      "text": "[satisfied] That completes our v3 Alpha test. [thoughtful] If you're hearing this with all the emotional nuance... [excited] then the workflow is functioning perfectly!",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_v3_alpha",
+      "voiceSettings": {
+        "stability": 0.4,
+        "similarityBoost": 0.8,
+        "style": 0.3,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Here's a secret about v3 Alpha it can actually understand context between sentences. Pretty amazing, right?",
+      "nextText": "",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128",
+      "audioTags": ["satisfied", "thoughtful", "excited"],
+      "direction": {
+        "emotion": "satisfied to thoughtful to excited",
+        "pace": "measured to contemplative to enthusiastic",
+        "emphasis": "building to final excitement",
+        "tone": "conclusive to reflective to triumphant"
+      }
+    }
+  ],
+  "postProcessing": {
+    "normalization": true,
+    "removeBackground": false,
+    "enhanceClarity": true
+  },
+  "outputSettings": {
+    "fileFormat": "wav",
+    "sampleRate": 44100,
+    "bitDepth": 16,
+    "channels": 1
+  }
+}

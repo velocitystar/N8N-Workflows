@@ -1,0 +1,566 @@
+{
+  "name": "Distortion Check - Rich Remote JSON - Complete",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Get all successful upload items and use their original data\nconst allItems = $input.all();\nconst totalItems = allItems.length;\n\nconsole.log('');\nconsole.log(`🎉 BATCH COMPLETED! Processed ${totalItems} files successfully`);\n\nif (totalItems === 0) {\n  console.error('❌ ERROR: No items received at all!');\n  return [];\n}\n\n// Get batch info from first item - this contains the correct nextStartIndex\nconst firstItem = allItems[0];\nif (!firstItem?.json) {\n  console.error('❌ ERROR: No valid items found');\n  return [];\n}\n\n// Use the EXACT values calculated by Load Remote Content\nconst nextStartIndex = firstItem.json.nextStartIndex;\nconst totalContentItems = firstItem.json.totalContentItems;\nconst hasMoreBatches = firstItem.json.hasMoreBatches;\nconst currentBatch = firstItem.json.currentBatch;\nconst totalBatches = firstItem.json.totalBatches;\nconst originalConfig = firstItem.json.originalConfig;\n\nconsole.log(`📊 BATCH COMPLETION: Completed batch ${currentBatch}/${totalBatches}`);\nconsole.log(`📊 NextStartIndex: ${nextStartIndex}`);\nconsole.log(`📊 HasMoreBatches: ${hasMoreBatches}`);\n\nif (hasMoreBatches) {\n  console.log(`🔄 Will continue to next batch from index ${nextStartIndex}`);\n} else {\n  console.log('🎊 ALL BATCHES COMPLETED!');\n}\n\n// Pass through exact data from Load Remote Content - no recalculation\nreturn [{ json: {\n  hasMoreBatches: hasMoreBatches,\n  nextStartIndex: nextStartIndex,\n  currentBatch: currentBatch,\n  totalBatches: totalBatches,\n  totalContentItems: totalContentItems,\n  processedSoFar: nextStartIndex,\n  originalConfig: originalConfig\n}}];"
+      },
+      "id": "batch-completion-check",
+      "name": "Batch Completion Check",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-240, 288]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🏁 All batches completed successfully!');\nreturn $input.all();"
+      },
+      "id": "final-completion",
+      "name": "Final Completion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [336, 32]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('❌ All batches completed - workflow ending');\nreturn $input.all();"
+      },
+      "id": "debug-false-path",
+      "name": "Debug False Path",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [144, 32]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Take the input item from Batch Completion Check\nconst inputItem = $input.item.json;\nconst config = inputItem.originalConfig;\nconst nextStartIndex = inputItem.nextStartIndex;\n\nconsole.log(`🔄 SETUP NEXT BATCH: Starting from index ${nextStartIndex}`);\n\n// Create new configuration for next batch with the correct startIndex\nconst newConfig = {\n  ...config,\n  startIndex: nextStartIndex\n};\n\nconsole.log(`🚀 Sending to Load Remote Content:`);\nconsole.log(`📤 startIndex: ${newConfig.startIndex}`);\nconsole.log(`📤 maxItems: ${newConfig.maxItems}`);\n\nreturn [{\n  json: newConfig\n}];"
+      },
+      "id": "setup-next-batch",
+      "name": "Setup Next Batch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [256, -256]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('✅ More batches available - continuing to next batch');\nconsole.log('🔄 About to wait 3 seconds before next batch');\nreturn $input.all();"
+      },
+      "id": "debug-true-path",
+      "name": "Debug True Path",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-48, -256]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "has-more-batches",
+              "leftValue": "={{ $json.hasMoreBatches }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equal"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {
+          "looseTypeValidation": true
+        }
+      },
+      "id": "more-batches-check",
+      "name": "More Batches?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [48, 32]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🔄 Processing more batches available...');\nreturn $input.all();"
+      },
+      "id": "debug-more-batches",
+      "name": "Debug More Batches",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [256, 32]
+    },
+    {
+      "parameters": {
+        "jsCode": "const current = $input.item.json;\n\nconsole.log(`✅ Successfully uploaded: ${current.fileName} (${current.itemIndex}/${current.totalItems})`);\nconsole.log(`📁 Cloudinary URL: ${current.secure_url}`);\nconsole.log(`🎯 Public ID: ${current.public_id}`);\n\n// Pass through all the original data for batch control\nreturn [{ \n  json: {\n    fileName: current.fileName,\n    speaker: current.speaker,\n    text: current.text,\n    cloudinaryUrl: current.secure_url,\n    publicId: current.public_id,\n    itemIndex: current.itemIndex,\n    totalItems: current.totalItems,\n    stage: 'completed',\n    // Preserve batch control data\n    nextStartIndex: current.nextStartIndex,\n    hasMoreBatches: current.hasMoreBatches,\n    currentBatch: current.currentBatch,\n    totalBatches: current.totalBatches,\n    totalContentItems: current.totalContentItems,\n    originalConfig: current.originalConfig,\n    // Add original processing data for debugging\n    originalNextStartIndex: current.nextStartIndex,\n    originalHasMoreBatches: current.hasMoreBatches,\n    originalCurrentBatch: current.currentBatch,\n    originalTotalBatches: current.totalBatches,\n    originalTotalContentItems: current.totalContentItems\n  }\n}];"
+      },
+      "id": "log-success",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-720, 288]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "upload-success",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-upload-success",
+      "name": "Check Upload Success",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [-912, 288]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/upload",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "={{ $credentials.httpHeaderAuth.value }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.uploadPayload }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "autodetect"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "upload-to-cloudinary",
+      "name": "Upload to Cloudinary",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-1120, 288],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "cloudinary-auth",
+          "name": "Cloudinary API Auth"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const current = $input.item.json;\nconst audioBuffer = $input.item.binary;\n\nif (!audioBuffer || !audioBuffer.data) {\n  console.error(`❌ No audio data found for ${current.fileName}`);\n  return [{ json: { error: 'No audio data', fileName: current.fileName }}];\n}\n\nconsole.log(`📤 Preparing Cloudinary upload for: ${current.fileName}`);\nconsole.log(`🎯 Public ID: ${current.publicId}`);\n\n// Convert binary data to base64\nconst audioData = audioBuffer.data.toString('base64');\n\n// Create Cloudinary upload payload\nconst uploadPayload = {\n  file: `data:audio/mpeg;base64,${audioData}`,\n  public_id: current.publicId,\n  resource_type: 'video',\n  folder: current.cloudinaryFolder,\n  overwrite: true,\n  eager: [\n    {\n      format: 'mp3',\n      audio_codec: 'mp3',\n      bit_rate: '128k'\n    }\n  ]\n};\n\nreturn [{\n  json: {\n    ...current,\n    uploadPayload: uploadPayload\n  }\n}];"
+      },
+      "id": "prepare-for-upload",
+      "name": "Prepare for Upload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-1328, 288]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "audio-success",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-audio-generation",
+      "name": "Check Audio Generation",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [-1536, 288]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.elevenlabs.io/v1/text-to-speech/{{ $json.voiceId }}",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "elevenlabsApi",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.elevenlabsPayload }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "binaryBuffer"
+            }
+          },
+          "timeout": 60000
+        }
+      },
+      "id": "generate-audio",
+      "name": "Generate Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-1744, 288],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "elevenlabsApi": {
+          "id": "elevenlabs-api",
+          "name": "ElevenLabs API"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const current = $input.item.json;\n\nconsole.log(`🎙️ Processing audio for: ${current.fileName}`);\nconsole.log(`👤 Speaker: ${current.speaker}`);\nconsole.log(`📝 Text: ${current.text.substring(0, 50)}...`);\nconsole.log(`🎯 Voice ID: ${current.voiceId}`);\nconsole.log(`📊 Item ${current.itemIndex}/${current.totalItems} in batch ${current.currentBatch}/${current.totalBatches}`);\n\n// Build ElevenLabs API payload from rich remote JSON data\nconst payload = {\n  text: current.text,\n  model_id: current.modelId || 'eleven_turbo_v2_5',\n  voice_settings: current.voiceSettings || {\n    stability: 0.5,\n    similarity_boost: 0.5,\n    style: 0.0,\n    use_speaker_boost: true\n  }\n};\n\n// Add optional rich features if present\nif (current.pronunciationDictionary && current.pronunciationDictionary.locators && current.pronunciationDictionary.locators.length > 0) {\n  payload.pronunciation_dictionary_locators = current.pronunciationDictionary.locators;\n}\n\nif (current.seed) {\n  payload.seed = current.seed;\n}\n\nif (current.previousText) {\n  payload.previous_text = current.previousText;\n}\n\nif (current.nextText) {\n  payload.next_text = current.nextText;\n}\n\nif (current.previousRequestIds && current.previousRequestIds.length > 0) {\n  payload.previous_request_ids = current.previousRequestIds;\n}\n\nif (current.responseFormat) {\n  payload.output_format = current.responseFormat;\n}\n\nconsole.log(`🚀 ElevenLabs payload prepared:`);\nconsole.log(`   Model: ${payload.model_id}`);\nconsole.log(`   Voice settings: ${JSON.stringify(payload.voice_settings)}`);\nif (payload.pronunciation_dictionary_locators) {\n  console.log(`   Pronunciations: ${payload.pronunciation_dictionary_locators.length} items`);\n}\nif (payload.previous_text) {\n  console.log(`   Previous text context: ${payload.previous_text.substring(0, 30)}...`);\n}\n\nreturn [{\n  json: {\n    ...current,\n    elevenlabsPayload: payload\n  }\n}];"
+      },
+      "id": "log-progress",
+      "name": "Log Progress",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-1952, 288]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🌐 Fetching remote content from:', $input.item.json.contentUrl);\nconsole.log('🔐 Using configured voice mapping and settings');\nconsole.log('📊 Max items per batch:', $input.item.json.maxItems);\nconsole.log('🎯 Starting from index:', $input.item.json.startIndex);\n\nconst contentUrl = $input.item.json.contentUrl;\nconst maxItems = $input.item.json.maxItems || 5;\nconst startIndex = $input.item.json.startIndex || 0;\n\n// Fetch remote JSON content\nlet remoteData;\ntry {\n  const response = await fetch(contentUrl);\n  if (!response.ok) {\n    throw new Error(`HTTP ${response.status}: ${response.statusText}`);\n  }\n  remoteData = await response.json();\n  console.log('✅ Successfully fetched remote JSON');\n} catch (error) {\n  console.error('❌ Failed to fetch remote content:', error.message);\n  throw new Error(`Failed to fetch remote content: ${error.message}`);\n}\n\n// Extract content array - handle both direct arrays and objects with content property\nlet contentItems;\nif (Array.isArray(remoteData)) {\n  contentItems = remoteData;\n  console.log('📋 Content is direct array');\n} else if (remoteData.content && Array.isArray(remoteData.content)) {\n  contentItems = remoteData.content;\n  console.log('📋 Content found in .content property');\n} else {\n  console.error('❌ Invalid remote JSON format - no content array found');\n  throw new Error('Remote JSON must be array or object with content array');\n}\n\nconsole.log(`📚 Total content items available: ${contentItems.length}`);\n\n// Get default settings from remote data\nconst defaultSettings = remoteData.defaultSettings || {};\nconst voiceMapping = remoteData.voiceMapping || {};\n\n// Apply batching - only process maxItems at a time\nconst endIndex = Math.min(startIndex + maxItems, contentItems.length);\nconst selectedItems = contentItems.slice(startIndex, endIndex);\nconst totalBatches = Math.ceil(contentItems.length / maxItems);\nconst currentBatch = Math.floor(startIndex / maxItems) + 1;\n\nconsole.log(`📊 Processing batch ${currentBatch}/${totalBatches}: items ${startIndex + 1} to ${endIndex}`);\n\nif (selectedItems.length === 0) {\n  console.warn('⚠️ No items selected! All processing complete.');\n  return [];\n}\n\nif (endIndex < contentItems.length) {\n  console.log(`📋 Remaining items after this batch: ${contentItems.length - endIndex}`);\n  console.log(`🔄 Will automatically continue to next batch`);\n} else {\n  console.log('✅ This is the final batch');\n}\n\n// Create individual items for processing with rich data and batch control\nreturn selectedItems.map((item, index) => {\n  // Merge item with defaults and voice mapping\n  const voiceId = item.voiceId || voiceMapping[item.speaker] || $input.item.json.defaultVoiceId;\n  const modelId = item.modelId || defaultSettings.modelId || 'eleven_turbo_v2_5';\n  const voiceSettings = {\n    ...defaultSettings.voiceSettings,\n    ...item.voiceSettings\n  };\n\n  return {\n    json: {\n      // Basic item data\n      row: item.row,\n      speaker: item.speaker,\n      fileName: item.fileName,\n      text: item.text,\n      \n      // ElevenLabs configuration\n      voiceId: voiceId,\n      modelId: modelId,\n      voiceSettings: voiceSettings,\n      \n      // Rich ElevenLabs features (preserve from remote JSON)\n      pronunciationDictionary: item.pronunciationDictionary || { locators: [] },\n      seed: item.seed || null,\n      previousText: item.previousText || '',\n      nextText: item.nextText || '',\n      previousRequestIds: item.previousRequestIds || [],\n      responseFormat: item.responseFormat || 'mp3_44100_128',\n      direction: item.direction || {},\n      \n      // Cloudinary configuration\n      cloudinaryFolder: $input.item.json.cloudinaryFolder,\n      cloudName: $input.item.json.cloudName,\n      publicId: `${$input.item.json.cloudinaryFolder}/${item.fileName.replace('.wav', '')}`,\n      \n      // Batch tracking\n      itemIndex: index + 1,\n      totalItems: selectedItems.length,\n      batchStartIndex: startIndex,\n      globalIndex: startIndex + index + 1,\n      totalContentItems: contentItems.length,\n      currentBatch: currentBatch,\n      totalBatches: totalBatches,\n      \n      // Loop control data for next batch\n      nextStartIndex: endIndex,\n      hasMoreBatches: endIndex < contentItems.length,\n      originalConfig: {\n        contentUrl: contentUrl,\n        cloudinaryFolder: $input.item.json.cloudinaryFolder,\n        cloudName: $input.item.json.cloudName,\n        maxItems: maxItems,\n        defaultVoiceId: $input.item.json.defaultVoiceId\n      }\n    }\n  };\n});"
+      },
+      "id": "load-remote-content",
+      "name": "Load Remote Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-2160, 288]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "content-url",
+              "name": "contentUrl",
+              "value": "https://raw.githubusercontent.com/velocitystar/N8N-Workflows/main/docs/distortion-check-ep2.json",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-folder",
+              "name": "cloudinaryFolder",
+              "value": "elevenlabs-audio/episode-02-rich",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-cloud-name",
+              "name": "cloudName",
+              "value": "dly199qqv",
+              "type": "string"
+            },
+            {
+              "id": "rate-limit",
+              "name": "maxItems",
+              "value": 5,
+              "type": "number"
+            },
+            {
+              "id": "start-index",
+              "name": "startIndex",
+              "value": 0,
+              "type": "number"
+            },
+            {
+              "id": "default-voice",
+              "name": "defaultVoiceId",
+              "value": "21m00Tcm4TlvDq8ikWAM",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "set-configuration",
+      "name": "Set Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [-2368, 288]
+    },
+    {
+      "parameters": {},
+      "id": "start",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [-2576, 288]
+    },
+    {
+      "parameters": {
+        "unit": "seconds",
+        "amount": 3
+      },
+      "id": "wait-before-next-batch",
+      "name": "Wait Before Next Batch",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [144, -256]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Batch Completion Check": {
+      "main": [
+        [
+          {
+            "node": "More Batches?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Debug False Path": {
+      "main": [
+        [
+          {
+            "node": "Final Completion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setup Next Batch": {
+      "main": [
+        [
+          {
+            "node": "Load Remote Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Debug True Path": {
+      "main": [
+        [
+          {
+            "node": "Wait Before Next Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "More Batches?": {
+      "main": [
+        [
+          {
+            "node": "Debug True Path",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Debug False Path",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Debug More Batches": {
+      "main": [
+        [
+          {
+            "node": "Setup Next Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Success": {
+      "main": [
+        [
+          {
+            "node": "Batch Completion Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Upload Success": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Upload to Cloudinary": {
+      "main": [
+        [
+          {
+            "node": "Check Upload Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare for Upload": {
+      "main": [
+        [
+          {
+            "node": "Upload to Cloudinary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Generation": {
+      "main": [
+        [
+          {
+            "node": "Prepare for Upload",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Generate Audio": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Progress": {
+      "main": [
+        [
+          {
+            "node": "Generate Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Load Remote Content": {
+      "main": [
+        [
+          {
+            "node": "Log Progress",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Configuration": {
+      "main": [
+        [
+          {
+            "node": "Load Remote Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait Before Next Batch": {
+      "main": [
+        [
+          {
+            "node": "Setup Next Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "timezone": "America/New_York"
+  },
+  "versionId": "1.0.0",
+  "meta": {
+    "instanceId": "rich-remote-json-tts"
+  },
+  "id": "rich-remote-json-complete",
+  "tags": []
+}

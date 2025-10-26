@@ -1,0 +1,123 @@
+{
+  "episode": {
+    "title": "Distortion Check: Test Content - 3 Items",
+    "number": 0,
+    "description": "Simple test content with 3 items for workflow validation",
+    "metadata": {
+      "created": "2025-01-15",
+      "version": "1.0",
+      "totalItems": 3,
+      "estimatedDuration": "2 minutes"
+    }
+  },
+  "voiceMapping": {
+    "Victor": "T9xTMubBGC4Y9y6oHUza",
+    "Lenny": "WbI4Toj5UDP91WAiEInp"
+  },
+  "defaultSettings": {
+    "modelId": "eleven_turbo_v2_5",
+    "voiceSettings": {
+      "stability": 0.5,
+      "similarityBoost": 0.5,
+      "style": 0.0,
+      "useSpeakerBoost": true
+    }
+  },
+  "content": [
+    {
+      "row": 1,
+      "speaker": "Victor",
+      "fileName": "TEST_Victor_Intro_01.wav",
+      "text": "This is a test of the remote JSON workflow. I'm Victor, and this should be processed in batch one.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "",
+      "nextText": "Now Lenny will speak to continue our test.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128",
+      "direction": {
+        "emotion": "neutral",
+        "pace": "normal",
+        "emphasis": "clear pronunciation",
+        "tone": "professional"
+      }
+    },
+    {
+      "row": 2,
+      "speaker": "Lenny",
+      "fileName": "TEST_Lenny_Response_01.wav",
+      "text": "Hello from Lenny! This is the second item in our test batch. The workflow should process this with my voice settings.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.55,
+        "similarityBoost": 0.65,
+        "style": 0.15,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "This is a test of the remote JSON workflow. I'm Victor, and this should be processed in batch one.",
+      "nextText": "Victor will conclude our test with the final item.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128",
+      "direction": {
+        "emotion": "friendly",
+        "pace": "conversational",
+        "emphasis": "warm delivery",
+        "tone": "approachable"
+      }
+    },
+    {
+      "row": 3,
+      "speaker": "Victor",
+      "fileName": "TEST_Victor_Conclusion_01.wav",
+      "text": "And this completes our three-item test. If you're hearing this, the rich remote JSON workflow is functioning correctly.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.7,
+        "similarityBoost": 0.6,
+        "style": 0.05,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Hello from Lenny! This is the second item in our test batch.",
+      "nextText": "",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128",
+      "direction": {
+        "emotion": "satisfied",
+        "pace": "confident",
+        "emphasis": "conclusive tone",
+        "tone": "professional completion"
+      }
+    }
+  ],
+  "postProcessing": {
+    "normalization": true,
+    "removeBackground": false,
+    "enhanceClarity": true
+  },
+  "outputSettings": {
+    "fileFormat": "wav",
+    "sampleRate": 44100,
+    "bitDepth": 16,
+    "channels": 1
+  }
+}
