@@ -1,148 +1,320 @@
-# ElevenLabs N8N Workflow Setup Guide
+# Setup Guide - N8N ElevenLabs TTS Workflows
 
-## 🚨 Critical Issues Fixed
+This guide will walk you through setting up the N8N workflows for automated text-to-speech generation using ElevenLabs API.
 
-Your original workflows had several problems that caused the "too many service requests" error:
+## Prerequisites
 
-### 1. **Rate Limiting Issues**
-- **Problem**: Processing all audio requests too quickly
-- **Solution**: Added 2-second delays between API calls and proper retry logic
+- N8N instance (self-hosted or cloud)
+- ElevenLabs account with API access
+- Cloudinary account for audio storage
+- Basic understanding of N8N workflows
 
-### 2. **Security Vulnerabilities** 
-- **Problem**: API keys hardcoded in workflow files
-- **Solution**: Moved to environment variables
+## Step 1: Account Setup
 
-### 3. **Missing Error Handling**
-- **Problem**: Workflow fails completely on any API error
-- **Solution**: Added error handling, retries, and detailed logging
+### ElevenLabs Account
+1. Sign up at [ElevenLabs](https://elevenlabs.io)
+2. Navigate to your profile settings
+3. Generate an API key
+4. Note your character/request limits based on your plan
+5. Test available voices and note their IDs
 
-## 📁 Files Overview
+### Cloudinary Account
+1. Sign up at [Cloudinary](https://cloudinary.com)
+2. Go to Dashboard → Settings → Security
+3. Note your Cloud Name, API Key, and API Secret
+4. Create an upload preset (optional but recommended):
+   - Go to Settings → Upload
+   - Create a new upload preset
+   - Set folder structure and access permissions
 
-- `elevenLabs-n8n-script1.json` - ❌ Original (has issues)
-- `elevenLabs-n8n-test.json` - ❌ Original (has issues)
-- `elevenLabs-n8n-script1-fixed.json` - ✅ Fixed batch workflow
-- `elevenLabs-n8n-test-fixed.json` - ✅ Fixed test workflow
+## Step 2: N8N Credential Configuration
 
-## 🔧 Setup Instructions
+### Method 1: N8N Credentials (Recommended)
 
-### Step 1: Set Environment Variables in N8N
+#### ElevenLabs Credential
+1. In N8N, go to Settings → Credentials
+2. Click "Create New Credential"
+3. Search for "HTTP Header Auth"
+4. Configure:
+   - **Credential Name**: `ElevenLabs-API`
+   - **Header Name**: `xi-api-key`
+   - **Header Value**: `your-elevenlabs-api-key`
+5. Save the credential
 
-You need to set these environment variables in your N8N instance:
+#### Cloudinary Credential (Option A - Simple Auth)
+1. Create another "HTTP Header Auth" credential
+2. Configure:
+   - **Credential Name**: `Cloudinary-Auth`
+   - **Header Name**: `Authorization`
+   - **Header Value**: `Basic {base64(api_key:api_secret)}`
 
+To generate the base64 value:
 ```bash
-# Required
-ELEVENLABS_API_KEY=sk_your_actual_api_key_here
-
-# Optional (will use defaults if not set)
-ELEVENLABS_VICTOR_VOICE_ID=T9xTMubBGC4Y9y6oHUza
-ELEVENLABS_LENNY_VOICE_ID=WbI4Toj5UDP91WAiEInp
-AUDIO_OUTPUT_FOLDER=./audio_output
+# Replace with your actual API key and secret
+echo -n "your_api_key:your_api_secret" | base64
 ```
 
-#### How to Set Environment Variables:
+#### Cloudinary Credential (Option B - Full API Access)
+1. Create a "Generic Credential"
+2. Add the following fields:
+   - `cloud_name`: Your Cloudinary cloud name
+   - `api_key`: Your Cloudinary API key
+   - `api_secret`: Your Cloudinary API secret
 
-**Option A: N8N Environment File**
-1. Create/edit your `.env` file in your N8N directory
-2. Add the variables above
-3. Restart N8N
+### Method 2: Environment Variables (Alternative)
 
-**Option B: System Environment Variables**
-- **Windows**: Set in System Properties > Environment Variables
-- **Linux/Mac**: Add to your shell profile (`.bashrc`, `.zshrc`, etc.)
-
-**Option C: Docker**
-```bash
-docker run -e ELEVENLABS_API_KEY=your_key_here n8nio/n8n
+Add to your N8N environment:
+```env
+ELEVENLABS_API_KEY=your-api-key-here
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
 ```
 
-### Step 2: Import Fixed Workflows
+## Step 3: Import Workflows
 
-1. Delete your old workflows or rename them
-2. Import the fixed versions:
-   - `elevenLabs-n8n-test-fixed.json` - Start with this one
-   - `elevenLabs-n8n-script1-fixed.json` - Use this for batch processing
+1. Download the workflow JSON files from the `production/` folder
+2. In N8N, click "Import from File" or "Import from URL"
+3. Select the workflow file
+4. The workflow will be imported with all nodes configured
 
-### Step 3: Test Your Setup
+### Recommended Import Order:
+1. Start with `Distortion Check - Simple All Items.json` for testing
+2. Move to `Distortion Check - Manual Batches.json` for controlled processing
+3. Finally use `Distortion Check - Auto Loop Complete.json` for production
 
-1. **Run the test workflow first** (`ElevenLabs Simple Test (Fixed)`)
-2. Check the execution log for success/error messages
-3. Verify the audio file is generated in your output folder
+## Step 4: Configure Workflow Settings
 
-## 🔍 What Was Fixed
+### Basic Configuration
+Open the imported workflow and update these key settings:
 
-### Rate Limiting Solutions:
-- **2-second delays** between API calls (ElevenLabs allows ~2-3 requests/second)
-- **Automatic retries** with exponential backoff (3 retries max)
-- **Individual processing** instead of batching (better control)
-- **Proper timeout settings** (30 seconds per request)
+#### 1. Content Input Node
+- Update the sample content array
+- Or configure dynamic content loading (API/Sheets/CSV)
 
-### Security Improvements:
-- **Environment variables** for API keys (no more hardcoded secrets)
-- **Validation checks** to ensure API key exists before running
-- **Fallback values** for voice IDs if environment variables aren't set
+#### 2. ElevenLabs TTS Node
+```json
+{
+  "voice_id": "21m00Tcm4TlvDq8ikWAM",
+  "model_id": "eleven_monolingual_v1",
+  "voice_settings": {
+    "stability": 0.5,
+    "similarity_boost": 0.5,
+    "style": 0.0,
+    "use_speaker_boost": true
+  }
+}
+```
 
-### Error Handling:
-- **Detailed error logging** with specific suggestions
-- **Continue on fail** instead of stopping entire workflow
-- **Success/failure branching** to handle both outcomes
-- **HTTP status code interpretation** (401=auth, 429=rate limit, etc.)
+#### 3. Batch Settings (in SplitInBatches node)
+- **Batch Size**: 5 (adjust based on your rate limits)
 
-## 📊 ElevenLabs Rate Limits
+#### 4. Rate Limiting (in Wait nodes)
+- **Between Batches**: 3000ms (3 seconds)
+- **Between Requests**: 1000ms (1 second)
 
-| Plan | Requests/Second | Requests/Month |
-|------|----------------|----------------|
-| Free | 2 req/sec | 10,000 |
-| Starter | 3 req/sec | 30,000 |
-| Creator | 5 req/sec | 100,000 |
-| Pro | 10 req/sec | 500,000 |
+#### 5. Cloudinary Upload Node
+- **Cloud Name**: Your Cloudinary cloud name
+- **Upload Preset**: Your preset name (if using)
+- **Folder**: Target folder for audio files
+- **Resource Type**: `video` (for audio files)
 
-## 🐛 Troubleshooting
+## Step 5: Testing
 
-### "ELEVENLABS_API_KEY environment variable is required"
-- Your API key isn't set properly
-- Check your environment variable setup
-- Restart N8N after setting variables
+### Initial Test (Small Batch)
+1. Create a test content array with 2-3 items:
+```json
+[
+  {
+    "row": 1,
+    "speaker": "narrator",
+    "fileName": "test_001",
+    "text": "This is a test of the text-to-speech system."
+  },
+  {
+    "row": 2,
+    "speaker": "narrator", 
+    "fileName": "test_002",
+    "text": "If you can hear this, the setup is working correctly."
+  }
+]
+```
 
-### "Rate limit exceeded" / "too many service requests"
-- Increase wait time between requests (change from 2 to 3+ seconds)
-- Check your ElevenLabs plan limits
-- Consider processing smaller batches
+2. Execute the workflow manually
+3. Check the execution log for errors
+4. Verify audio files are generated and uploaded to Cloudinary
 
-### "401 Unauthorized" 
-- API key is invalid or expired
-- Check your ElevenLabs account status
-- Regenerate API key if needed
+### Credential Test
+If you encounter authentication errors:
 
-### "422 Unprocessable Entity"
-- Voice ID might be invalid
-- Text might be too long or contain invalid characters
-- Check your voice settings
+1. Test ElevenLabs API directly:
+```bash
+curl -X POST \
+  -H "xi-api-key: your-api-key" \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Hello world", "voice_settings": {"stability": 0.5, "similarity_boost": 0.5}}' \
+  https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM
+```
 
-### Audio files not saving
-- Check your `AUDIO_OUTPUT_FOLDER` path exists
-- Ensure N8N has write permissions to that folder
-- Check available disk space
+2. Test Cloudinary upload:
+```bash
+curl -X POST \
+  -F "file=@test.mp3" \
+  -F "upload_preset=your_preset" \
+  https://api.cloudinary.com/v1_1/your-cloud-name/video/upload
+```
 
-## 🎯 Best Practices
+## Step 6: Production Setup
 
-1. **Always test first** with the simple test workflow
-2. **Monitor your usage** in the ElevenLabs dashboard
-3. **Use appropriate delays** based on your plan's rate limits
-4. **Keep API keys secure** (never commit them to code)
-5. **Process in smaller batches** for large scripts (5-10 items max)
+### Content Management
+Choose your content source:
 
-## 📈 For Large Batches
+#### Option A: Static JSON Array
+- Edit the workflow's input node directly
+- Good for fixed content that doesn't change often
 
-If you need to process many audio files:
+#### Option B: External API
+- Configure HTTP Request node to fetch content
+- Update the API endpoint and authentication
+- Ensure the API returns data in the expected format
 
-1. Split your script into smaller chunks (5-10 lines per run)
-2. Use the batch workflow multiple times instead of one large run
-3. Consider upgrading your ElevenLabs plan for higher rate limits
-4. Monitor your monthly usage to avoid overages
+#### Option C: Google Sheets
+- Use Google Sheets node
+- Configure OAuth2 credentials for Google
+- Set up sheet with columns: row, speaker, fileName, text, voiceId
 
-## 🔄 Next Steps
+#### Option D: CSV File
+- Use HTTP Request node to fetch CSV
+- Add CSV parsing logic
+- Ensure CSV has proper headers
 
-1. Test the fixed workflows
-2. Verify your audio quality
-3. Adjust voice settings if needed (stability, similarity_boost)
-4. Scale up to your full script once everything works
+### Voice Mapping
+Create a consistent voice mapping for your speakers:
+
+```javascript
+const voiceMapping = {
+  "narrator": "21m00Tcm4TlvDq8ikWAM",    // Rachel
+  "character1": "AZnzlk1XvdvUeBnXmlld",  // Adam
+  "character2": "EXAVITQu4vr4xnSDxMaL",  // Bella
+  // Add more as needed
+};
+```
+
+### Rate Limiting Optimization
+Adjust based on your ElevenLabs plan:
+
+- **Starter**: 10,000 characters/month, 3 concurrent requests
+  - Batch size: 3
+  - Delay: 5 seconds between batches
+
+- **Creator**: 100,000 characters/month, 10 concurrent requests
+  - Batch size: 5
+  - Delay: 3 seconds between batches
+
+- **Pro**: 500,000 characters/month, 15 concurrent requests
+  - Batch size: 10
+  - Delay: 2 seconds between batches
+
+## Step 7: Monitoring & Maintenance
+
+### Logging Setup
+Enable detailed logging in the workflow:
+1. Add logging nodes at key points
+2. Log batch progress and completion status
+3. Track success/failure rates
+4. Monitor API usage and rate limits
+
+### Error Handling
+The workflows include error handling for:
+- API rate limit exceeded
+- Network timeouts
+- Invalid audio generation
+- Upload failures
+
+### Regular Maintenance
+- Monitor ElevenLabs usage vs. plan limits
+- Clean up old audio files in Cloudinary if needed
+- Update voice IDs if voices are changed/removed
+- Review and update rate limiting settings
+
+## Troubleshooting
+
+### Common Issues
+
+#### Authentication Errors
+- **ElevenLabs**: Verify API key is active and has sufficient quota
+- **Cloudinary**: Check API credentials and permissions
+- **N8N Credentials**: Ensure credentials are saved and selected in nodes
+
+#### Rate Limiting Issues
+- Increase delay between requests/batches
+- Reduce batch size
+- Check your current API usage in ElevenLabs dashboard
+
+#### Audio Generation Failures
+- Verify voice ID exists and is available
+- Check text length (max ~5000 characters per request)
+- Ensure voice settings are valid ranges (0-1)
+
+#### Upload Failures
+- Verify Cloudinary credentials
+- Check file size limits
+- Ensure proper resource type (video for audio)
+- Verify folder permissions
+
+### Debug Mode
+To debug issues:
+1. Enable "Save Execution Progress" in workflow settings
+2. Add "Stop and Error" nodes after critical steps
+3. Use "Code" nodes to log intermediate data
+4. Test with single items before batch processing
+
+## Performance Optimization
+
+### For Large Datasets
+- Use smaller batch sizes to reduce memory usage
+- Implement checkpointing to resume from failures
+- Consider splitting very large jobs across multiple workflows
+- Monitor system resources during execution
+
+### Cost Optimization
+- Use appropriate voice models (monolingual vs multilingual)
+- Optimize text length while maintaining quality
+- Cache generated audio to avoid re-processing
+- Monitor usage patterns and adjust batch timing
+
+## Security Best Practices
+
+1. **Never hardcode API keys** in workflow JSON
+2. **Use N8N credentials** for all sensitive data
+3. **Limit Cloudinary permissions** to only required operations
+4. **Regularly rotate API keys**
+5. **Monitor API usage** for unusual activity
+6. **Use HTTPS** for all external requests
+7. **Validate input data** to prevent injection attacks
+
+## Support & Resources
+
+### Documentation
+- [ElevenLabs API Docs](https://docs.elevenlabs.io)
+- [Cloudinary API Docs](https://cloudinary.com/documentation)
+- [N8N Documentation](https://docs.n8n.io)
+
+### Community Resources
+- N8N Community Forum
+- ElevenLabs Discord
+- GitHub Issues (this project)
+
+### Getting Help
+If you encounter issues:
+1. Check the troubleshooting section above
+2. Review N8N execution logs
+3. Test individual API endpoints outside N8N
+4. Create minimal reproduction case
+5. Consult community resources
+
+---
+
+**Last Updated**: January 2025  
+**Version**: 3.0  
+**Compatibility**: N8N 1.0+, ElevenLabs API v1, Cloudinary API v1.1
