@@ -1,0 +1,654 @@
+{
+  "name": "Distortion Check - v3 Alpha Remote JSON - FIXED",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Get all successful upload items and use their original data\nconst allItems = $input.all();\nconst totalItems = allItems.length;\n\nconsole.log('');\nconsole.log(`🎉 BATCH COMPLETED! Processed ${totalItems} files successfully`);\n\nif (totalItems === 0) {\n  console.error('❌ ERROR: No items received at all!');\n  return [];\n}\n\nconsole.log('🔍 DEBUGGING DATA LOSS: Analyzing all items...');\nallItems.forEach((item, index) => {\n  console.log(`📦 Item ${index + 1}:`);\n  console.log(`   Has json: ${!!item.json}`);\n  console.log(`   Has originalConfig: ${!!item.json?.originalConfig}`);\n  if (item.json?.originalConfig) {\n    console.log(`   originalConfig keys: ${Object.keys(item.json.originalConfig)}`);\n    console.log(`   has contentUrl: ${!!item.json.originalConfig.contentUrl}`);\n    if (item.json.originalConfig.contentUrl) {\n      console.log(`   contentUrl value: ${item.json.originalConfig.contentUrl}`);\n    }\n  }\n});\n\n// Get batch info from first item - this contains the correct nextStartIndex\nconst firstItem = allItems[0];\nif (!firstItem?.json) {\n  console.error('❌ ERROR: No valid items found');\n  return [];\n}\n\n// Use the EXACT values calculated by Process Remote Content\nconst nextStartIndex = firstItem.json.nextStartIndex;\nconst totalContentItems = firstItem.json.totalContentItems;\nconst hasMoreBatches = firstItem.json.hasMoreBatches;\nconst currentBatch = firstItem.json.currentBatch;\nconst totalBatches = firstItem.json.totalBatches;\nconst originalConfig = firstItem.json.originalConfig;\n\nconsole.log(`📊 BATCH COMPLETION: Completed batch ${currentBatch}/${totalBatches}`);\nconsole.log(`📊 NextStartIndex: ${nextStartIndex}`);\nconsole.log(`📊 HasMoreBatches: ${hasMoreBatches}`);\nconsole.log('🔍 CRITICAL DEBUG: originalConfig analysis:');\nconsole.log(`   originalConfig exists: ${!!originalConfig}`);\nif (originalConfig) {\n  console.log(`   originalConfig keys: [${Object.keys(originalConfig).join(', ')}]`);\n  console.log(`   contentUrl present: ${!!originalConfig.contentUrl}`);\n  console.log(`   contentUrl value: ${originalConfig.contentUrl}`);\n  console.log('   Full originalConfig:');\n  console.log(JSON.stringify(originalConfig, null, 2));\n} else {\n  console.log('   originalConfig is null/undefined!');\n}\n\nif (hasMoreBatches) {\n  console.log(`🔄 Will continue to next batch from index ${nextStartIndex}`);\n} else {\n  console.log('🎊 ALL BATCHES COMPLETED!');\n}\n\n// Pass through exact data from Process Remote Content - no recalculation\nreturn [{ json: {\n  hasMoreBatches: hasMoreBatches,\n  nextStartIndex: nextStartIndex,\n  currentBatch: currentBatch,\n  totalBatches: totalBatches,\n  totalContentItems: totalContentItems,\n  processedSoFar: nextStartIndex,\n  originalConfig: originalConfig\n}}];"
+      },
+      "id": "b4beff2c-19cf-4608-b22a-b5fccc19afde",
+      "name": "Batch Completion Check",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -64,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🏁 All batches completed successfully!');\nreturn $input.all();"
+      },
+      "id": "208011ee-32d7-40be-bbd0-af0f8f61026d",
+      "name": "Final Completion",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        368,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('❌ All batches completed - workflow ending');\nreturn $input.all();"
+      },
+      "id": "95588cc2-e006-45d3-ac66-19bbfa2add48",
+      "name": "Debug False Path",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        144,
+        32
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Take the input item from Batch Completion Check\nconst inputItem = $input.item.json;\nconst config = inputItem.originalConfig;\nconst nextStartIndex = inputItem.nextStartIndex;\n\nconsole.log(`🔄 SETUP NEXT BATCH: Starting from index ${nextStartIndex}`);\nconsole.log('🔍 DEBUG: originalConfig:', JSON.stringify(config, null, 2));\n\n// Validate that we have the required originalConfig\nif (!config) {\n  console.error('❌ CRITICAL: originalConfig is undefined!');\n  console.error('📋 Available inputItem keys:', Object.keys(inputItem));\n  throw new Error('originalConfig is required but was not found in batch data. Check Process Remote Content node.');\n}\n\nif (!config.contentUrl) {\n  console.error('❌ CRITICAL: contentUrl is missing from originalConfig!');\n  console.error('📋 Available config keys:', Object.keys(config));\n  throw new Error('contentUrl is required but was not preserved in originalConfig. Check Process Remote Content node configuration.');\n}\n\n// Create new configuration for next batch with the correct startIndex\nconst newConfig = {\n  ...config,  // Preserve ALL original config values\n  startIndex: nextStartIndex  // Only override the startIndex\n};\n\nconsole.log(`🚀 Sending to Process Remote Content:`);\nconsole.log(`📤 contentUrl: ${newConfig.contentUrl}`);\nconsole.log(`📤 startIndex: ${newConfig.startIndex}`);\nconsole.log(`📤 maxItems: ${newConfig.maxItems}`);\n\nreturn [{\n  json: newConfig\n}];"
+      },
+      "id": "2b63db83-f745-4bc8-a564-a5922261874f",
+      "name": "Setup Next Batch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1856,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('✅ More batches available - continuing to next batch');\nconsole.log('🔄 About to wait 3 seconds before next batch');\nreturn $input.all();"
+      },
+      "id": "361c5b55-47ff-482c-91ad-8fb6314e226e",
+      "name": "Debug True Path",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2240,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "more-batches",
+              "leftValue": "={{ $json.hasMoreBatches }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "boolean",
+                "operation": "true"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "505539fd-5a7d-4a2d-b7cd-fa3e6e2a18a9",
+      "name": "More Batches?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        -192
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🔄 Processing more batches available...');\nreturn $input.all();"
+      },
+      "id": "d22088f8-38aa-44a8-b315-3faecdc8614f",
+      "name": "Debug More Batches",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        144,
+        224
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const current = $input.item.json;\nconst uploadResult = current;\nconst publicId = uploadResult.public_id;\nconst secureUrl = uploadResult.secure_url;\nconst bytes = uploadResult.bytes || 0;\n\nconsole.log(`✅ Successfully uploaded: ${current.fileName || 'audio file'}`);\nconsole.log(`🆔 Cloudinary public ID: ${publicId}`);\nconsole.log(`📊 File size: ${Math.round(bytes / 1024)} KB`);\nconsole.log('🔍 DEBUG LOG SUCCESS: Checking originalConfig preservation...');\nif (current.originalConfig) {\n  console.log('   originalConfig keys:', Object.keys(current.originalConfig));\n  console.log('   contentUrl present:', !!current.originalConfig.contentUrl);\n  console.log('   contentUrl value:', current.originalConfig.contentUrl);\n} else {\n  console.log('   ❌ originalConfig missing from upload result!');\n}\n\nreturn $input.all();"
+      },
+      "id": "8d0160b3-4f93-4cb8-908a-6964fee9713e",
+      "name": "Log Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -272,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Check what we received from Cloudinary and merge with original data\nconst uploadResults = $input.all();\nconst originalDataItems = $('Prepare for Upload').all();\n\nconsole.log(`🔍 UPLOAD CHECK: Received ${uploadResults.length} items from Cloudinary`);\nconsole.log(`🔍 ORIGINAL DATA: Have ${originalDataItems.length} original items`);\n\n// Process each item and merge Cloudinary response with original data\nconst results = uploadResults.map((uploadItem, index) => {\n  const cloudinaryData = uploadItem.json;\n  const originalData = originalDataItems[index]?.json || {};\n  \n  console.log(`📦 Item ${index + 1}: ${originalData.fileName || 'Unknown'}`);\n  console.log('  Cloudinary Error:', cloudinaryData.error);\n  console.log('  Public ID:', cloudinaryData.public_id);\n  console.log('  Secure URL:', cloudinaryData.secure_url);\n  console.log('  Original data preserved:', !!originalData.originalConfig);\n  \n  // Check if upload was successful\n  const isSuccess = !cloudinaryData.error && cloudinaryData.public_id;\n  console.log(`  Success: ${isSuccess}`);\n  \n  // Merge original data with Cloudinary response\n  const mergedData = {\n    ...originalData,  // Preserve all original fields (originalConfig, nextStartIndex, etc.)\n    ...cloudinaryData,  // Add Cloudinary response (public_id, secure_url, etc.)\n    // Ensure fileName is preserved from original if missing from Cloudinary\n    fileName: originalData.fileName || cloudinaryData.display_name || 'unknown.wav'\n  };\n  \n  console.log('  Merged data keys:', Object.keys(mergedData));\n  console.log('  originalConfig preserved:', !!mergedData.originalConfig);\n  if (mergedData.originalConfig) {\n    console.log('  contentUrl preserved:', !!mergedData.originalConfig.contentUrl);\n  }\n  \n  return {\n    json: mergedData,\n    success: isSuccess\n  };\n});\n\n// Separate successful and failed uploads\nconst successful = results.filter(r => r.success);\nconst failed = results.filter(r => !r.success);\n\nconsole.log(`📊 UPLOAD SUMMARY:`);\nconsole.log(`  Successful: ${successful.length}`);\nconsole.log(`  Failed: ${failed.length}`);\n\nif (successful.length > 0) {\n  console.log('✅ Sending successful uploads with original data preserved to Log Success');\n  return successful.map(r => ({ json: r.json }));\n} else {\n  console.log('❌ No successful uploads - sending to error handling');\n  return failed.map(r => ({ json: r.json }));\n}"
+      },
+      "id": "b477808f-0752-4729-95b9-42d19db9c2f3",
+      "name": "Check Upload Success",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -480,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.cloudinary.com/v1_1/{{ $json.cloudName }}/auto/upload",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "upload_preset",
+              "value": "n8n_unsigned"
+            },
+            {
+              "name": "public_id",
+              "value": "={{ $json.publicId }}"
+            },
+            {
+              "name": "folder",
+              "value": "={{ $json.cloudinaryFolder }}"
+            },
+            {
+              "name": "tags",
+              "value": "=elevenlabs,v3-alpha,audio,{{ $json.speaker.toLowerCase() }}"
+            }
+          ]
+        },
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "id": "fec25da6-662a-4b28-bf48-8954216177fc",
+      "name": "Upload to Cloudinary",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -672,
+        208
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 2000,
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Pass through all input items with proper binary data preservation and filename\nreturn $input.all().map(item => {\n  // Safety check for fileName\n  const fileName = item.json.fileName || 'unknown.wav';\n  const fileNameWithoutExt = fileName.replace('.wav', '');\n  \n  // Check if we have valid binary data\n  if (!item.binary || !item.binary.data) {\n    console.error(`❌ No binary audio data found for ${fileName}`);\n    console.error('This usually means ElevenLabs API returned an error instead of audio');\n    console.error('Check: API key, voice ID, quota, and request format');\n    \n    return {\n      json: {\n        ...item.json,\n        error: 'No binary audio data - ElevenLabs API may have failed',\n        fileName: fileName,\n        publicId: `${item.json.cloudinaryFolder}/${fileNameWithoutExt}`,\n        uploadReady: false\n      }\n    };\n  }\n  \n  // Validate binary data integrity to prevent contamination\n  const audioSize = item.binary.data.length;\n  const isValidAudio = audioSize > 1000; // Audio files should be larger than 1KB\n  \n  console.log(`✅ Binary audio data found for ${fileName}`);\n  console.log(`📊 Audio size: ${Math.round(audioSize / 1024)} KB`);\n  \n  if (!isValidAudio) {\n    console.warn(`⚠️ Audio file ${fileName} seems too small (${audioSize} bytes) - possible corruption`);\n  }\n  \n  return {\n    json: {\n      ...item.json,\n      publicId: `${item.json.cloudinaryFolder}/${fileNameWithoutExt}`,\n      uploadReady: true,\n      audioSize: audioSize,\n      // Add execution timestamp to track freshness\n      generatedAt: new Date().toISOString()\n    },\n    binary: {\n      data: {\n        ...item.binary.data,\n        fileName: fileName,\n        mimeType: 'audio/mpeg'\n      }\n    }\n  };\n});"
+      },
+      "id": "36049150-159a-4919-97d1-4a306c85a7f8",
+      "name": "Prepare for Upload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -880,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "audio-success",
+              "leftValue": "={{ $json.error }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "63179e2f-fa75-4ede-af0a-070daac700c5",
+      "name": "Check Audio Generation",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        -1072,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.voiceId }}?output_format={{ $json.responseFormat || 'mp3_44100_128' }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.elevenlabsPayload }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 60000
+        }
+      },
+      "id": "d484d06e-bfb2-429a-a44c-0c59413e64e1",
+      "name": "Generate Audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1280,
+        208
+      ],
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "olv6Sng3mOQi6H0u",
+          "name": "eleven labs Auth account"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process ALL items, not just the first one\nconst allItems = $input.all();\n\nconsole.log(`🎙️ Processing ElevenLabs payloads for ${allItems.length} items`);\n\n// Helper function to snap stability to required values: 0.0, 0.5, 1.0\nconst snapStability = (value) => {\n  if (value <= 0.25) return 0.0;  // Creative\n  if (value <= 0.75) return 0.5;  // Natural  \n  return 1.0;                     // Robust\n};\n\n// Process each item and build ElevenLabs payload\nreturn allItems.map((item, index) => {\n  const current = item.json;\n  \n  console.log(`🎙️ Item ${index + 1}/${allItems.length}: ${current.fileName}`);\n  console.log(`👤 Speaker: ${current.speaker}`);\n  console.log(`📝 Text: ${current.text.substring(0, 100)}...`);\n  console.log(`🎯 Voice ID: ${current.voiceId}`);\n  console.log(`🚀 Model: ${current.modelId}`);\n  console.log(`📊 Item ${current.itemIndex}/${current.totalItems} in batch ${current.currentBatch}/${current.totalBatches}`);\n  \n  // Build ElevenLabs API payload with required stability values\n  const payload = {\n    text: current.text,\n    model_id: current.modelId || 'eleven_turbo_v2_5',\n    voice_settings: {\n      stability: snapStability(current.voiceSettings?.stability || 0.5),\n      similarity_boost: Math.min(Math.max(current.voiceSettings?.similarityBoost || 0.7, 0.0), 1.0),\n      style: Math.min(Math.max(current.voiceSettings?.style || 0.0, 0.0), 1.0),\n      use_speaker_boost: current.voiceSettings?.useSpeakerBoost !== undefined ? current.voiceSettings.useSpeakerBoost : true\n    }\n  };\n  \n  console.log(`🚀 ElevenLabs payload prepared for ${current.speaker}:`);\n  console.log(`   Model: ${payload.model_id}`);\n  console.log(`   Voice settings: ${JSON.stringify(payload.voice_settings)}`);\n  console.log(`   Stability snapped to: ${payload.voice_settings.stability} (0.0=Creative, 0.5=Natural, 1.0=Robust)`);\n  \n  return {\n    json: {\n      ...current,\n      elevenlabsPayload: payload\n    }\n  };\n});"
+      },
+      "id": "9f75611f-c44d-4c13-86ca-8526157e91c1",
+      "name": "Build ElevenLabs Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1456,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.contentUrl }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "1c2fde3a-1d56-477a-b6ea-2c117f30e3de",
+      "name": "Fetch Remote JSON",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -1680,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const config = $input.item.json;\n\n// Clear any potential state contamination\nconsole.log('🧹 Clearing workflow state for fresh execution');\nconsole.log('📤 Passing configuration to Fetch Remote JSON:');\nconsole.log('🔍 Full config object:', JSON.stringify(config, null, 2));\nconsole.log(`   Content URL: ${config.contentUrl}`);\nconsole.log(`   Max Items: ${config.maxItems}`);\nconsole.log(`   Start Index: ${config.startIndex}`);\nconsole.log(`   Execution ID: ${new Date().getTime()}`);\n\n// Safety check for contentUrl\nif (!config.contentUrl) {\n  console.error('❌ CRITICAL ERROR: contentUrl is undefined!');\n  console.error('📋 Available config keys:', Object.keys(config));\n  throw new Error('contentUrl is required for Fetch Remote JSON but was undefined. Check Setup Next Batch or Set Configuration nodes.');\n}\n\n// Verify URL format\nif (!config.contentUrl.startsWith('http')) {\n  console.error(`❌ INVALID URL FORMAT: ${config.contentUrl}`);\n  throw new Error('contentUrl must be a valid HTTP/HTTPS URL');\n}\n\nconsole.log('✅ Configuration validation passed');\nreturn $input.all();"
+      },
+      "id": "20c18872-daf4-4276-874c-a7642abe9fa1",
+      "name": "Pass Config to Fetch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1872,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('🌐 Processing v3 Alpha remote content');\nconsole.log('🔐 Using v3 Alpha model with Audio Tags support');\n\n// DEBUG: Check all available data sources\nconsole.log('🔍 DEBUG: Available data sources:');\nconsole.log('  $json keys:', Object.keys($json));\nconsole.log('  $input.all().length:', $input.all().length);\nif ($input.all().length > 0) {\n  console.log('  $input.first().json keys:', Object.keys($input.first().json || {}));\n}\n\n// Get the remote JSON data and configuration from input context\nconst remoteData = $json;\n\n// TRY MULTIPLE CONFIG SOURCES\nlet config;\ntry {\n  // Method 1: Reference previous node (original approach)\n  config = $('Pass Config to Fetch').item.json;\n  console.log('✅ Got config from node reference');\n} catch (error) {\n  console.log('❌ Node reference failed:', error.message);\n  // Method 2: Use input data\n  config = $input.first()?.json;\n  console.log('🔄 Trying input reference instead');\n}\n\nconsole.log('🔍 DEBUG: Config object:');\nconsole.log('  config exists:', !!config);\nif (config) {\n  console.log('  config keys:', Object.keys(config));\n  console.log('  contentUrl:', config.contentUrl);\n  console.log('  maxItems:', config.maxItems);\n  console.log('  startIndex:', config.startIndex);\n}\n\n// Validate config\nif (!config) {\n  console.error('❌ CRITICAL: No config found from any source!');\n  throw new Error('Configuration not found. Check data flow from Pass Config to Fetch node.');\n}\n\nif (!config.contentUrl) {\n  console.error('❌ CRITICAL: contentUrl missing from config!');\n  console.error('📋 Available config:', JSON.stringify(config, null, 2));\n  throw new Error('contentUrl is required but missing from configuration data.');\n}\n\nconst maxItems = config.maxItems || 5;\nconst startIndex = config.startIndex || 0;\nconst victorVoiceId = config.victorVoiceId;\nconst lennyVoiceId = config.lennyVoiceId;\nconst cloudinaryFolder = config.cloudinaryFolder;\nconst cloudName = config.cloudName;\n\nconsole.log('📊 Max items per batch:', maxItems);\nconsole.log('🎯 Starting from index:', startIndex);\nconsole.log('✅ Successfully received v3 Alpha remote JSON');\n\n// Extract content array\nlet contentItems;\nif (Array.isArray(remoteData)) {\n  contentItems = remoteData;\n  console.log('📋 Content is direct array');\n} else if (remoteData.content && Array.isArray(remoteData.content)) {\n  contentItems = remoteData.content;\n  console.log('📋 Content found in .content property');\n} else {\n  console.error('❌ Invalid remote JSON format - no content array found');\n  throw new Error('Remote JSON must be array or object with content array');\n}\n\nconsole.log(`📚 Total content items available: ${contentItems.length}`);\n\n// Get default settings from remote data\nconst defaultSettings = remoteData.defaultSettings || {};\nconst voiceMapping = remoteData.voiceMapping || {};\n\n// Apply rate limiting - only process maxItems at a time\nconst endIndex = Math.min(startIndex + maxItems, contentItems.length);\nconst selectedLines = contentItems.slice(startIndex, endIndex);\nconst totalBatches = Math.ceil(contentItems.length / maxItems);\nconst currentBatch = Math.floor(startIndex / maxItems) + 1;\n\nconsole.log(`📊 Processing v3 Alpha batch ${currentBatch}/${totalBatches}: lines ${startIndex + 1} to ${endIndex}`);\n\nif (selectedLines.length === 0) {\n  console.warn('⚠️ No lines selected! All processing complete.');\n  return [];\n}\n\nif (endIndex < contentItems.length) {\n  console.log(`📋 Remaining lines after this batch: ${contentItems.length - endIndex}`);\n  console.log(`🔄 Will automatically continue to next batch`);\n} else {\n  console.log('✅ This is the final batch');\n}\n\nconsole.log('🔍 DEBUG: Creating originalConfig with:');\nconsole.log('  contentUrl:', config.contentUrl);\nconsole.log('  victorVoiceId:', victorVoiceId);\nconsole.log('  maxItems:', maxItems);\n\n// Create individual items for processing with loop control data (preserving known good pattern)\nreturn selectedLines.map((line, index) => {\n  // Safety check for fileName\n  const fileName = line.fileName || 'unknown.wav';\n  const fileNameWithoutExt = fileName.replace('.wav', '');\n  \n  return {\n    json: {\n      ...line, // Preserve all original fields including Audio Tags\n      voiceId: line.voiceId || voiceMapping[line.speaker] || (line.speaker === 'Victor' ? victorVoiceId : lennyVoiceId),\n      cloudinaryFolder: cloudinaryFolder,\n      cloudName: cloudName,\n      itemIndex: index + 1,\n      totalItems: selectedLines.length,\n      batchStartIndex: startIndex,\n      globalIndex: startIndex + index + 1,\n      totalContentItems: contentItems.length,\n      currentBatch: currentBatch,\n      totalBatches: totalBatches,\n      publicId: `${cloudinaryFolder}/${fileNameWithoutExt}`,\n      // Loop control data\n      nextStartIndex: endIndex,\n      hasMoreBatches: endIndex < contentItems.length,\n      originalConfig: {\n        contentUrl: config.contentUrl,\n        victorVoiceId: victorVoiceId,\n        lennyVoiceId: lennyVoiceId,\n        cloudinaryFolder: cloudinaryFolder,\n        cloudName: cloudName,\n        maxItems: maxItems\n      }\n    }\n  };\n});"
+      },
+      "id": "42b560ef-c90f-468e-96eb-19098631730b",
+      "name": "Process Remote Content (v3 Alpha)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -1568,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "content-url",
+              "name": "contentUrl",
+              "value": "https://raw.githubusercontent.com/velocitystar/N8N-Workflows/main/docs/distortion-check-ep1.json",
+              "type": "string"
+            },
+            {
+              "id": "victor-voice",
+              "name": "victorVoiceId",
+              "value": "T9xTMubBGC4Y9y6oHUza",
+              "type": "string"
+            },
+            {
+              "id": "lenny-voice",
+              "name": "lennyVoiceId",
+              "value": "WbI4Toj5UDP91WAiEInp",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-folder",
+              "name": "cloudinaryFolder",
+              "value": "elevenlabs-audio/ep1",
+              "type": "string"
+            },
+            {
+              "id": "cloudinary-cloud-name",
+              "name": "cloudName",
+              "value": "dly199qqv",
+              "type": "string"
+            },
+            {
+              "id": "rate-limit",
+              "name": "maxItems",
+              "value": 2,
+              "type": "number"
+            },
+            {
+              "id": "start-index",
+              "name": "startIndex",
+              "value": 0,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2cd3c703-b366-45d1-9b4e-a48560200dc3",
+      "name": "Set Configuration",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        -2080,
+        208
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "45226bda-2e98-40f8-aedc-67b8e4f58298",
+      "name": "Start",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -2272,
+        208
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 3,
+        "unit": "seconds"
+      },
+      "id": "406db2e0-ad19-49e3-83f1-60cdbcd5d1b4",
+      "name": "Wait 3 seconds",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        -2048,
+        0
+      ],
+      "webhookId": "4bdcc193-80f7-49d7-ac4f-52b10b1d1c0e"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Batch Completion Check": {
+      "main": [
+        [
+          {
+            "node": "More Batches?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Debug False Path": {
+      "main": [
+        [
+          {
+            "node": "Final Completion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Setup Next Batch": {
+      "main": [
+        [
+          {
+            "node": "Pass Config to Fetch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Debug True Path": {
+      "main": [
+        [
+          {
+            "node": "Wait 3 seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "More Batches?": {
+      "main": [
+        [
+          {
+            "node": "Debug True Path",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Debug False Path",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Debug More Batches": {
+      "main": [
+        [
+          {
+            "node": "Final Completion",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Success": {
+      "main": [
+        [
+          {
+            "node": "Batch Completion Check",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Upload Success": {
+      "main": [
+        [
+          {
+            "node": "Log Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to Cloudinary": {
+      "main": [
+        [
+          {
+            "node": "Check Upload Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare for Upload": {
+      "main": [
+        [
+          {
+            "node": "Upload to Cloudinary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Audio Generation": {
+      "main": [
+        [
+          {
+            "node": "Prepare for Upload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Audio": {
+      "main": [
+        [
+          {
+            "node": "Check Audio Generation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build ElevenLabs Payload": {
+      "main": [
+        [
+          {
+            "node": "Generate Audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Remote JSON": {
+      "main": [
+        [
+          {
+            "node": "Process Remote Content (v3 Alpha)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pass Config to Fetch": {
+      "main": [
+        [
+          {
+            "node": "Fetch Remote JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Remote Content (v3 Alpha)": {
+      "main": [
+        [
+          {
+            "node": "Build ElevenLabs Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Configuration": {
+      "main": [
+        [
+          {
+            "node": "Pass Config to Fetch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Set Configuration",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 3 seconds": {
+      "main": [
+        [
+          {
+            "node": "Setup Next Batch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "95da989f-36ca-482f-9fef-4ff45b8907b9",
+  "meta": {
+    "instanceId": "5186b157db49ce82dd76d1b42490f93bc5ac8ef6b8080d76da5a801058b2bcaa"
+  },
+  "id": "Z9hdA4fLcypqOAuq",
+  "tags": []
+}
