@@ -1,0 +1,622 @@
+{
+  "episode": {
+    "title": "Distortion Check: The Ra Material - Episode 01",
+    "number": 1,
+    "description": "Introduction to the Ra Material and the three key players: Don Elkins, Carla Rueckert, and Jim McCarty",
+    "metadata": {
+      "created": "2025-01-15",
+      "version": "3.0",
+      "totalItems": 27,
+      "estimatedDuration": "60 minutes",
+      "model": "eleven_turbo_v2_5"
+    }
+  },
+  "voiceMapping": {
+    "Victor": "T9xTMubBGC4Y9y6oHUza",
+    "Lenny": "WbI4Toj5UDP91WAiEInp"
+  },
+  "defaultSettings": {
+    "modelId": "eleven_turbo_v2_5",
+    "voiceSettings": {
+      "stability": 0.5,
+      "similarityBoost": 0.7,
+      "style": 0.1,
+      "useSpeakerBoost": true
+    },
+    "generationConfig": {
+      "chunkLengthSchedule": [120, 160, 250, 350]
+    }
+  },
+  "content": [
+    {
+      "row": 2,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_ColdOpen_01.wav",
+      "text": "January 15th, 1981. A Tuesday. Louisville, Kentucky. Three people sitting in a living room. One of them, a woman named Carla Rueckert, just left her body. And something else, someone else, started speaking through her.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "",
+      "nextText": "For the next three years, this would happen 105 more times. The voice called itself Ra.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 3,
+      "speaker": "Lenny",
+      "fileName": "EP01_Lenny_ColdOpen_02.wav",
+      "text": "For the next three years, this would happen 105 more times. The voice called itself Ra. It claimed to be a social memory complex from the sixth density. And it said it had a message to correct, one it botched 11,000 years ago in Egypt.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "January 15th, 1981. A Tuesday. Louisville, Kentucky. Three people sitting in a living room.",
+      "nextText": "This is that story. And the wild part? A lot of what Ra said in 1981, we are only now starting to prove.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 4,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_ColdOpen_03.wav",
+      "text": "This is that story. And the wild part? A lot of what Ra said in 1981, we are only now starting to prove.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.3,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "For the next three years, this would happen 105 more times. The voice called itself Ra.",
+      "nextText": "Welcome to Distortion Check: The Ra Material. I am Victor Emil.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 7,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_Intro_01.wav",
+      "text": "Welcome to Distortion Check: The Ra Material. I am Victor Emil.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.7,
+        "similarityBoost": 0.6,
+        "style": 0.0,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "This is that story. And the wild part? A lot of what Ra said in 1981, we are only now starting to prove.",
+      "nextText": "And I am Lenny Peppidge. And if you have never heard of the Ra Material, buckle up.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 8,
+      "speaker": "Lenny",
+      "fileName": "EP01_Lenny_Intro_02.wav",
+      "text": "And I am Lenny Peppidge. And if you have never heard of the Ra Material, buckle up. If you have heard of it, we are about to poke at it in ways that might make you uncomfortable. And that is the point.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Welcome to Distortion Check: The Ra Material. I am Victor Emil.",
+      "nextText": "Yeah, we are not here to worship at the altar of Ra.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 9,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_Intro_03.wav",
+      "text": "Yeah, we are not here to worship at the altar of Ra. We are also not here to dismiss it as New Age nonsense. We are here to examine it. Critically. With curiosity. And maybe a little bit of that Brooklyn-Boston tension that keeps things honest.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "And I am Lenny Peppidge. And if you have never heard of the Ra Material, buckle up.",
+      "nextText": "Victor is from South Brooklyn. I grew up near MIT in Boston.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 10,
+      "speaker": "Lenny",
+      "fileName": "EP01_Lenny_Intro_04.wav",
+      "text": "Victor is from South Brooklyn. I grew up near MIT in Boston. We both love consciousness research, quantum weirdness, and calling out BS when we see it. But we also know that some of the most profound truths sound absolutely insane until they do not.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.3,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Yeah, we are not here to worship at the altar of Ra.",
+      "nextText": "Right. And the Ra Material? It sounded insane in 1981.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 11,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_Intro_05.wav",
+      "text": "Right. And the Ra Material? It sounded insane in 1981. But here is the thing, a lot of what Ra talked about back then? Consciousness as fundamental to reality. The observer effect in quantum mechanics. The interconnectedness of all things. Non-locality. Time as an illusion.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Victor is from South Brooklyn. I grew up near MIT in Boston.",
+      "nextText": "That stuff was not mainstream in 81. Now? It is showing up in peer-reviewed journals.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 12,
+      "speaker": "Lenny",
+      "fileName": "EP01_Lenny_Intro_06.wav",
+      "text": "That stuff was not mainstream in 81. Now? It is showing up in peer-reviewed journals. So either Ra was a really good guesser, or something else was going on.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Right. And the Ra Material? It sounded insane in 1981.",
+      "nextText": "Over the next however-many episodes this takes, because there are 106 sessions.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 13,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_Intro_07.wav",
+      "text": "Over the next however-many episodes this takes, because there are 106 sessions, we are going to walk through this material. Session by session. We are going to challenge it. Question it. See where it holds up and where it falls apart.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "That stuff was not mainstream in 81. Now? It is showing up in peer-reviewed journals.",
+      "nextText": "And we are going to do it with respect for the three people who risked everything.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 14,
+      "speaker": "Lenny",
+      "fileName": "EP01_Lenny_Intro_08.wav",
+      "text": "And we are going to do it with respect for the three people who risked everything to bring this through. Because whatever you believe about channeling, about Ra, about any of this, Don Elkins, Carla Rueckert, and Jim McCarty were serious people doing serious work.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Over the next however-many episodes this takes, because there are 106 sessions.",
+      "nextText": "So. Let us start at the beginning. Who were these three people?",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 15,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_Intro_09.wav",
+      "text": "So. Let us start at the beginning. Who were these three people? How did they end up in a living room in Louisville, talking to an alleged extraterrestrial intelligence? And what happened on January 15th, 1981, that changed everything?",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "And we are going to do it with respect for the three people who risked everything.",
+      "nextText": "Let us boil it down.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 16,
+      "speaker": "Lenny",
+      "fileName": "EP01_Lenny_Intro_10.wav",
+      "text": "Let us boil it down.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.0,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "So. Let us start at the beginning. Who were these three people?",
+      "nextText": "Alright. Don Elkins. Physics professor. Airline pilot. UFO researcher.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 17,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_ActOne_01.wav",
+      "text": "Alright. Don Elkins. Physics professor. Airline pilot. UFO researcher. This guy was not some fringe weirdo. He taught at the University of Louisville. He flew commercial jets. And he was obsessed, obsessed, with one question: Are we alone?",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.3,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Let us boil it down.",
+      "nextText": "And not in a little green men way. Don wanted to understand consciousness.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 18,
+      "speaker": "Lenny",
+      "fileName": "EP01_Lenny_ActOne_02.wav",
+      "text": "And not in a little green men way. Don wanted to understand consciousness. He wanted to know if there were intelligences out there more advanced than us, and if so, what they knew that we did not.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Alright. Don Elkins. Physics professor. Airline pilot. UFO researcher.",
+      "nextText": "In 1962, almost 20 years before the Ra contact, Don started experimenting with channeling.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 19,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_ActOne_03.wav",
+      "text": "In 1962, almost 20 years before the Ra contact, Don started experimenting with channeling. And I know, I know, channeling sounds like séance-table nonsense. But here is the thing: Don approached it like a scientist. He was not trying to talk to dead relatives. He was trying to establish contact with non-human intelligence.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "And not in a little green men way. Don wanted to understand consciousness.",
+      "nextText": "And he was meticulous. He recorded everything. He tested protocols.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 20,
+      "speaker": "Lenny",
+      "fileName": "EP01_Lenny_ActOne_04.wav",
+      "text": "And he was meticulous. He recorded everything. He tested protocols. He refined the process. For years. And most of what came through? Introductory stuff. Basic metaphysical concepts. Nothing groundbreaking.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "In 1962, almost 20 years before the Ra contact, Don started experimenting with channeling.",
+      "nextText": "Enter Carla Rueckert. Carla met Don in 1962 at one of his channeling experiments.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 21,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_ActOne_05.wav",
+      "text": "Enter Carla Rueckert. Carla met Don in 1962 at one of his channeling experiments. She was a librarian. Deeply spiritual. Kind of ethereal, from what I have read. And she had a gift for this work.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "And he was meticulous. He recorded everything. He tested protocols.",
+      "nextText": "Don recognized it immediately. In 1974, twelve years after they met.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 22,
+      "speaker": "Lenny",
+      "fileName": "EP01_Lenny_ActOne_06.wav",
+      "text": "Don recognized it immediately. In 1974, twelve years after they met, he asked Carla to become the primary channel for their research group, which they called L/L Research.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Enter Carla Rueckert. Carla met Don in 1962 at one of his channeling experiments.",
+      "nextText": "And this is where it gets interesting. Up until this point, all of Carla channeling was conscious.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 23,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_ActOne_07.wav",
+      "text": "And this is where it gets interesting. Up until this point, all of Carla channeling was conscious. Meaning she was aware of what was coming through her. She could hear it, remember it, even question it in real time.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.3,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Don recognized it immediately. In 1974, twelve years after they met.",
+      "nextText": "But the quality of the material jumped once Carla took over.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 24,
+      "speaker": "Lenny",
+      "fileName": "EP01_Lenny_ActOne_08.wav",
+      "text": "But the quality of the material jumped once Carla took over. She refined Don protocols. She developed what they called tuning the instrument, basically getting into a meditative state that made the channel clearer, more stable.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "And this is where it gets interesting. Up until this point, all of Carla channeling was conscious.",
+      "nextText": "Now. Third member of the trio: Jim McCarty.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 25,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_ActOne_09.wav",
+      "text": "Now. Third member of the trio: Jim McCarty. Jim was living off the grid in rural Kentucky in 1978. Built his own log cabin. 132 acres. No electricity. Just him, the woods, and a battery-powered radio.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "But the quality of the material jumped once Carla took over.",
+      "nextText": "One night, he is listening to this radio station out of Lexington.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 26,
+      "speaker": "Lenny",
+      "fileName": "EP01_Lenny_ActOne_10.wav",
+      "text": "One night, he is listening to this radio station out of Lexington, and he hears an interview with Don and Carla talking about UFOs. And something about it just clicked for him. He thought, I need to meet these people.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.3,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Now. Third member of the trio: Jim McCarty.",
+      "nextText": "A year later, he does. Mutual friends introduce them.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 27,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_ActOne_11.wav",
+      "text": "A year later, he does. Mutual friends introduce them. Jim starts driving to Louisville every Sunday night, an hour each way, to attend their channeling meditations. He does this for a year.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "One night, he is listening to this radio station out of Lexington.",
+      "nextText": "And then, in December 1980, Don and Carla invite him to move in.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 28,
+      "speaker": "Lenny",
+      "fileName": "EP01_Lenny_ActOne_12.wav",
+      "text": "And then, in December 1980, Don and Carla invite him to move in and help with the research full-time. Jim arrives on December 23rd, 1980.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "A year later, he does. Mutual friends introduce them.",
+      "nextText": "Twenty-three days later, everything changes.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 29,
+      "speaker": "Victor",
+      "fileName": "EP01_Victor_ActOne_13.wav",
+      "text": "Twenty-three days later, everything changes.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.4,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "And then, in December 1980, Don and Carla invite him to move in.",
+      "nextText": "January 15th, 1981. Carla is teaching a student how to channel.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 31,
+      "speaker": "Lenny",
+      "fileName": "EP01_Lenny_ActOne_14.wav",
+      "text": "January 15th, 1981. Carla is teaching a student how to channel. It is a normal session. Conscious channeling, like she had done hundreds of times before.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Twenty-three days later, everything changes.",
+      "nextText": "And then a voice comes through her and says, I am Ra.",
+      "previous

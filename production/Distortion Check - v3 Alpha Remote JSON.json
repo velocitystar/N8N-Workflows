@@ -234,7 +234,7 @@
         "options": {
           "response": {
             "response": {
-              "responseFormat": "binaryBuffer"
+              "responseFormat": "file"
             }
           },
           "timeout": 60000
@@ -315,6 +315,7 @@
               "value": "https://raw.githubusercontent.com/velocitystar/N8N-Workflows/main/docs/distortion-check-v3-alpha-test.json",
               "type": "string"
             },
+
             {
               "id": "victor-voice",
               "name": "victorVoiceId",

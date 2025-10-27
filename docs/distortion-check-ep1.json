@@ -5,9 +5,10 @@
     "description": "Introduction to the Ra Material and the three key players: Don Elkins, Carla Rueckert, and Jim McCarty",
     "metadata": {
       "created": "2025-01-15",
-      "version": "1.0",
+      "version": "3.0",
       "totalItems": 27,
-      "estimatedDuration": "60 minutes"
+      "estimatedDuration": "60 minutes",
+      "model": "eleven_turbo_v2_5"
     }
   },
   "voiceMapping": {
@@ -31,31 +32,111 @@
       "row": 2,
       "speaker": "Victor",
       "fileName": "EP01_Victor_ColdOpen_01.wav",
-      "text": "January 15th, 1981. A Tuesday. Louisville, Kentucky. Three people sitting in a living room. One of them, a woman named Carla Rueckert, just left her body. And something else, someone else, started speaking through her."
+      "text": "January 15th, 1981. A Tuesday. Louisville, Kentucky. Three people sitting in a living room. One of them, a woman named Carla Rueckert, just left her body. And something else, someone else, started speaking through her.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "",
+      "nextText": "For the next three years, this would happen 105 more times. The voice called itself Ra.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
     },
     {
       "row": 3,
       "speaker": "Lenny",
       "fileName": "EP01_Lenny_ColdOpen_02.wav",
-      "text": "For the next three years, this would happen 105 more times. The voice called itself Ra. It claimed to be a social memory complex from the sixth density. And it said it had a message to correct, one it botched 11,000 years ago in Egypt."
+      "text": "For the next three years, this would happen 105 more times. The voice called itself Ra. It claimed to be a social memory complex from the sixth density. And it said it had a message to correct, one it botched 11,000 years ago in Egypt.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "January 15th, 1981. A Tuesday. Louisville, Kentucky.",
+      "nextText": "This is that story. And the wild part? A lot of what Ra said in 1981, we are only now starting to prove.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
     },
     {
       "row": 4,
       "speaker": "Victor",
       "fileName": "EP01_Victor_ColdOpen_03.wav",
-      "text": "This is that story. And the wild part? A lot of what Ra said in 1981, we are only now starting to prove."
+      "text": "This is that story. And the wild part? A lot of what Ra said in 1981, we are only now starting to prove.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.3,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "For the next three years, this would happen 105 more times.",
+      "nextText": "Welcome to Distortion Check: The Ra Material. I am Victor Emil.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
     },
     {
       "row": 7,
       "speaker": "Victor",
       "fileName": "EP01_Victor_Intro_01.wav",
-      "text": "Welcome to Distortion Check: The Ra Material. I am Victor Emil."
+      "text": "Welcome to Distortion Check: The Ra Material. I am Victor Emil.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.7,
+        "similarityBoost": 0.6,
+        "style": 0.0,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "This is that story. And the wild part? A lot of what Ra said in 1981, we are only now starting to prove.",
+      "nextText": "And I am Lenny Peppidge. And if you have never heard of the Ra Material, buckle up.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
     },
     {
       "row": 8,
       "speaker": "Lenny",
       "fileName": "EP01_Lenny_Intro_02.wav",
-      "text": "And I am Lenny Peppidge. And if you have never heard of the Ra Material, buckle up. If you have heard of it, we are about to poke at it in ways that might make you uncomfortable. And that is the point."
+      "text": "And I am Lenny Peppidge. And if you have never heard of the Ra Material, buckle up. If you have heard of it, we are about to poke at it in ways that might make you uncomfortable. And that is the point.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Welcome to Distortion Check: The Ra Material. I am Victor Emil.",
+      "nextText": "Yeah, we are not here to worship at the altar of Ra.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
     },
     {
       "row": 9,

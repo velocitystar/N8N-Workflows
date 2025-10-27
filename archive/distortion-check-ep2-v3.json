@@ -1,0 +1,375 @@
+{
+  "episode": {
+    "title": "Distortion Check: The Ra Material - Episode 02",
+    "number": 2,
+    "description": "Exploring the early days of L/L Research and the development of channeling protocols",
+    "metadata": {
+      "created": "2025-01-15",
+      "version": "3.0",
+      "totalItems": 15,
+      "estimatedDuration": "45 minutes",
+      "model": "eleven_turbo_v2_5"
+    }
+  },
+  "voiceMapping": {
+    "Victor": "T9xTMubBGC4Y9y6oHUza",
+    "Lenny": "WbI4Toj5UDP91WAiEInp"
+  },
+  "defaultSettings": {
+    "modelId": "eleven_turbo_v2_5",
+    "voiceSettings": {
+      "stability": 0.5,
+      "similarityBoost": 0.7,
+      "style": 0.1,
+      "useSpeakerBoost": true
+    },
+    "generationConfig": {
+      "chunkLengthSchedule": [120, 160, 250, 350]
+    }
+  },
+  "content": [
+    {
+      "row": 1,
+      "speaker": "Victor",
+      "fileName": "EP02_Victor_Intro_01.wav",
+      "text": "Welcome back to Distortion Check. I'm Victor Emil, and we're continuing our deep dive into the Ra Material.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "",
+      "nextText": "In our last episode, we introduced the three key players: Don Elkins, Carla Rueckert, and Jim McCarty.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 2,
+      "speaker": "Lenny",
+      "fileName": "EP02_Lenny_Intro_02.wav",
+      "text": "In our last episode, we introduced the three key players: Don Elkins, Carla Rueckert, and Jim McCarty. Today, we're going deeper into their early research and what led to that pivotal moment on January 15th, 1981.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Welcome back to Distortion Check. I'm Victor Emil, and we're continuing our deep dive into the Ra Material.",
+      "nextText": "Let's start with the foundation. L/L Research wasn't just three people sitting around a Ouija board.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 3,
+      "speaker": "Victor",
+      "fileName": "EP02_Victor_Research_01.wav",
+      "text": "Let's start with the foundation. L/L Research wasn't just three people sitting around a Ouija board. Don Elkins had been systematically studying consciousness and contact phenomena for almost two decades.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "In our last episode, we introduced the three key players.",
+      "nextText": "By 1962, Don had developed what he called the 'Contact Protocol' - a structured approach to channeling.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 4,
+      "speaker": "Lenny",
+      "fileName": "EP02_Lenny_Research_02.wav",
+      "text": "By 1962, Don had developed what he called the 'Contact Protocol' - a structured approach to channeling that treated the phenomenon like a scientific experiment rather than a parlor trick.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Let's start with the foundation. L/L Research wasn't just three people sitting around a Ouija board.",
+      "nextText": "The protocol was rigorous. Every session was recorded, transcribed, and analyzed.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 5,
+      "speaker": "Victor",
+      "fileName": "EP02_Victor_Research_03.wav",
+      "text": "The protocol was rigorous. Every session was recorded, transcribed, and analyzed. Don kept detailed logs of environmental conditions, participant states, and the quality of contact.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.3,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "By 1962, Don had developed what he called the 'Contact Protocol'.",
+      "nextText": "What made this different from other channeling groups was the focus on philosophical coherence.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 6,
+      "speaker": "Lenny",
+      "fileName": "EP02_Lenny_Research_04.wav",
+      "text": "What made this different from other channeling groups was the focus on philosophical coherence. Don wasn't interested in predictions or personal advice. He wanted to understand the nature of consciousness itself.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "The protocol was rigorous. Every session was recorded, transcribed, and analyzed.",
+      "nextText": "And this is where Carla's abilities became crucial. She had what Don called 'clear channel' capabilities.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 7,
+      "speaker": "Victor",
+      "fileName": "EP02_Victor_Carla_01.wav",
+      "text": "And this is where Carla's abilities became crucial. She had what Don called 'clear channel' capabilities. Most mediums at the time were getting fragmented, inconsistent information.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "What made this different from other channeling groups was the focus on philosophical coherence.",
+      "nextText": "Carla was different. When she channeled, the information was coherent, consistent, and philosophically sophisticated.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 8,
+      "speaker": "Lenny",
+      "fileName": "EP02_Lenny_Carla_02.wav",
+      "text": "Carla was different. When she channeled, the information was coherent, consistent, and philosophically sophisticated. But even more importantly, it was verifiable against established metaphysical and scientific principles.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.3,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "And this is where Carla's abilities became crucial. She had what Don called 'clear channel' capabilities.",
+      "nextText": "Between 1974 and 1980, they conducted hundreds of sessions with various entities.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 9,
+      "speaker": "Victor",
+      "fileName": "EP02_Victor_PreRa_01.wav",
+      "text": "Between 1974 and 1980, they conducted hundreds of sessions with various entities. Names like Hatonn, Latwii, and Oxal became familiar to their small but dedicated research group.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": [
+          {
+            "word": "Hatonn",
+            "phoneme": "HAH-ton"
+          },
+          {
+            "word": "Latwii",
+            "phoneme": "LAT-wee"
+          },
+          {
+            "word": "Oxal",
+            "phoneme": "OX-al"
+          }
+        ]
+      },
+      "seed": null,
+      "previousText": "Carla was different. When she channeled, the information was coherent, consistent, and philosophically sophisticated.",
+      "nextText": "The material was good - better than most channeled work of the era.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 10,
+      "speaker": "Lenny",
+      "fileName": "EP02_Lenny_PreRa_02.wav",
+      "text": "The material was good - better than most channeled work of the era. But it was still what you might call 'Channeling 101'. Basic spiritual concepts, general guidance, foundational metaphysics.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.1,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Between 1974 and 1980, they conducted hundreds of sessions with various entities.",
+      "nextText": "Don kept pushing for deeper material. More advanced concepts. Something that could stand up to rigorous philosophical analysis.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 11,
+      "speaker": "Victor",
+      "fileName": "EP02_Victor_PreRa_03.wav",
+      "text": "Don kept pushing for deeper material. More advanced concepts. Something that could stand up to rigorous philosophical analysis. And that's where the stage was set for what happened next.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.4,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "The material was good - better than most channeled work of the era.",
+      "nextText": "Enter Jim McCarty. Fresh from his hermit phase in the Kentucky woods.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 12,
+      "speaker": "Lenny",
+      "fileName": "EP02_Lenny_Jim_01.wav",
+      "text": "Enter Jim McCarty. Fresh from his hermit phase in the Kentucky woods. Jim brought something different to the group - a kind of spiritual intensity that complemented Don's scientific rigor and Carla's psychic sensitivity.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Don kept pushing for deeper material. More advanced concepts.",
+      "nextText": "Within weeks of Jim joining the household, the quality of their channeling sessions began to shift.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 13,
+      "speaker": "Victor",
+      "fileName": "EP02_Victor_Shift_01.wav",
+      "text": "Within weeks of Jim joining the household, the quality of their channeling sessions began to shift. The entities were saying deeper things. The philosophical content was more sophisticated.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.3,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Enter Jim McCarty. Fresh from his hermit phase in the Kentucky woods.",
+      "nextText": "And then, on January 15th, 1981, everything changed completely.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 14,
+      "speaker": "Lenny",
+      "fileName": "EP02_Lenny_Transition_01.wav",
+      "text": "And then, on January 15th, 1981, everything changed completely. What started as a routine teaching session became the first contact with an entity calling itself Ra.",
+      "voiceId": "WbI4Toj5UDP91WAiEInp",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.5,
+        "similarityBoost": 0.8,
+        "style": 0.4,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "Within weeks of Jim joining the household, the quality of their channeling sessions began to shift.",
+      "nextText": "Next episode, we'll dive into that first Ra session and what made it so different from everything that came before.",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    },
+    {
+      "row": 15,
+      "speaker": "Victor",
+      "fileName": "EP02_Victor_Outro_01.wav",
+      "text": "Next episode, we'll dive into that first Ra session and what made it so different from everything that came before. Until then, keep questioning, keep exploring, and remember - the most profound truths often sound the most impossible.",
+      "voiceId": "T9xTMubBGC4Y9y6oHUza",
+      "modelId": "eleven_turbo_v2_5",
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarityBoost": 0.7,
+        "style": 0.2,
+        "useSpeakerBoost": true
+      },
+      "pronunciationDictionary": {
+        "locators": []
+      },
+      "seed": null,
+      "previousText": "And then, on January 15th, 1981, everything changed completely.",
+      "nextText": "",
+      "previousRequestIds": [],
+      "responseFormat": "mp3_44100_128"
+    }
+  ]
+}

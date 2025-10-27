@@ -1,0 +1,229 @@
+{
+  "name": "ElevenLabs Fixed Test",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// ElevenLabs Fixed Test - Better Binary Handling\nconsole.log('🧪 ELEVENLABS FIXED TEST');\nconsole.log('==========================');\n\n// Hardcoded test data\nconst testData = {\n  victorVoiceId: 'T9xTMubBGC4Y9y6oHUza',\n  lennyVoiceId: 'WbI4Toj5UDP91WAiEInp',\n  testText: 'Hello, this is a test.',\n  testSpeaker: 'Victor'\n};\n\nconst selectedVoiceId = testData.testSpeaker === 'Victor' ? testData.victorVoiceId : testData.lennyVoiceId;\n\nconsole.log('📋 TEST CONFIGURATION:');\nconsole.log('Speaker:', testData.testSpeaker);\nconsole.log('Voice ID:', selectedVoiceId);\nconsole.log('Text:', testData.testText);\n\n// Simple payload - minimal settings to reduce variables\nconst elevenlabsPayload = {\n  text: testData.testText,\n  model_id: 'eleven_multilingual_v2',\n  voice_settings: {\n    stability: 0.5,\n    similarity_boost: 0.5\n  }\n};\n\nconsole.log('🔧 PAYLOAD:');\nconsole.log(JSON.stringify(elevenlabsPayload, null, 2));\n\nreturn [{\n  json: {\n    voiceId: selectedVoiceId,\n    speaker: testData.testSpeaker,\n    text: testData.testText,\n    elevenlabsPayload: elevenlabsPayload\n  }\n}];"
+      },
+      "id": "setup-test",
+      "name": "Setup Test",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.voiceId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Accept",
+              "value": "audio/mpeg"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.elevenlabsPayload }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          },
+          "timeout": 30000
+        }
+      },
+      "id": "test-api-call",
+      "name": "Test API Call",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [480, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs-auth",
+          "name": "ElevenLabs API Auth"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Debug Response Format\nconst response = $input.item;\n\nconsole.log('🔍 RESPONSE DEBUG');\nconsole.log('==================');\nconsole.log('Response type:', typeof response);\nconsole.log('Has binary:', !!response.binary);\nconsole.log('Has json:', !!response.json);\n\nif (response.binary) {\n  console.log('✅ Binary data present!');\n  console.log('Binary keys:', Object.keys(response.binary));\n  if (response.binary.data) {\n    console.log('Data size:', response.binary.data.length);\n    console.log('Data type:', typeof response.binary.data);\n    console.log('First 50 bytes as string:', response.binary.data.toString('utf8', 0, 50));\n    \n    // Check if it looks like MP3 data\n    const first3Bytes = response.binary.data.slice(0, 3).toString('hex');\n    console.log('First 3 bytes (hex):', first3Bytes);\n    if (first3Bytes === '494433') {\n      console.log('✅ Looks like valid MP3 file (ID3 header detected)');\n    } else if (first3Bytes.startsWith('ff')) {\n      console.log('✅ Looks like valid MP3 file (MP3 sync detected)');\n    } else {\n      console.log('❓ Unknown binary format');\n    }\n  }\n} else {\n  console.log('❌ No binary data');\n}\n\nif (response.json) {\n  console.log('JSON response:', typeof response.json);\n  if (typeof response.json === 'string') {\n    console.log('JSON string preview:', response.json.substring(0, 200));\n  } else {\n    console.log('JSON object:', JSON.stringify(response.json, null, 2));\n  }\n}\n\nreturn $input.all();"
+      },
+      "id": "debug-response",
+      "name": "Debug Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [720, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $('Setup Test').item.json.voiceId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $('Setup Test').item.json.elevenlabsPayload }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "binaryBuffer"
+            }
+          }
+        }
+      },
+      "id": "alternative-call",
+      "name": "Alternative Call (binaryBuffer)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [480, 500],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs-auth",
+          "name": "ElevenLabs API Auth"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Debug Alternative Response\nconst response = $input.item;\n\nconsole.log('🔍 ALTERNATIVE RESPONSE DEBUG');\nconsole.log('==============================');\n\nif (response.binary && response.binary.data) {\n  console.log('✅ SUCCESS! Got binary data with binaryBuffer format');\n  console.log('Size:', response.binary.data.length, 'bytes');\n  \n  // Check if it's valid audio\n  const audioStart = response.binary.data.slice(0, 10);\n  console.log('Audio header (hex):', audioStart.toString('hex'));\n  \n  if (audioStart.toString('hex').startsWith('494433') || audioStart.toString('hex').startsWith('ff')) {\n    console.log('✅ Valid MP3 audio detected!');\n  }\n  \n} else if (response.json) {\n  console.log('❌ Got JSON instead of binary:', typeof response.json);\n  \n  if (typeof response.json === 'string') {\n    console.log('String response:', response.json.substring(0, 300));\n    \n    // Common ElevenLabs errors\n    if (response.json.includes('unauthorized')) {\n      console.log('🚨 API KEY ISSUE: Unauthorized access');\n    } else if (response.json.includes('voice not found')) {\n      console.log('🚨 VOICE ID ISSUE: Voice not found in your account');\n    } else if (response.json.includes('insufficient')) {\n      console.log('🚨 CREDITS ISSUE: Insufficient credits');\n    }\n  } else {\n    console.log('Object response:', JSON.stringify(response.json, null, 2));\n  }\n} else {\n  console.log('❌ No response data at all');\n}\n\nreturn $input.all();"
+      },
+      "id": "debug-alternative",
+      "name": "Debug Alternative",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [720, 500]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Simple Credentials Test\nconsole.log('🔑 TESTING CREDENTIALS');\nconsole.log('=======================');\n\nreturn [{\n  json: {\n    testType: 'credentials',\n    voiceId: 'T9xTMubBGC4Y9y6oHUza'\n  }\n}];"
+      },
+      "id": "test-credentials",
+      "name": "Test Credentials",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [240, 700]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=https://api.elevenlabs.io/v1/voices/{{ $json.voiceId }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "timeout": 10000
+        }
+      },
+      "id": "get-voice-info",
+      "name": "Get Voice Info",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [480, 700],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs-auth",
+          "name": "ElevenLabs API Auth"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Analyze Voice Info Response\nconst response = $input.item.json;\n\nconsole.log('🎤 VOICE INFO TEST');\nconsole.log('==================');\n\nif (response && response.name) {\n  console.log('✅ SUCCESS! Voice found:');\n  console.log('- Name:', response.name);\n  console.log('- Voice ID:', response.voice_id);\n  console.log('- Category:', response.category);\n  console.log('- Available for TTS:', !!response.settings);\n  \n  if (response.settings) {\n    console.log('- Default stability:', response.settings.stability);\n    console.log('- Default similarity:', response.settings.similarity_boost);\n  }\n  \n  console.log('\\n🎯 CONCLUSION:');\n  console.log('Your API key and voice ID are working!');\n  console.log('The issue must be with the TTS request format.');\n  \n} else {\n  console.log('❌ FAILED! Voice info request failed:');\n  console.log('Response:', JSON.stringify(response, null, 2));\n  \n  if (typeof response === 'string' && response.includes('unauthorized')) {\n    console.log('🚨 API KEY PROBLEM: Check your ElevenLabs API key');\n  } else if (typeof response === 'string' && response.includes('not found')) {\n    console.log('🚨 VOICE ID PROBLEM: Voice doesn\\'t exist in your account');\n  }\n}\n\nreturn $input.all();"
+      },
+      "id": "analyze-voice-info",
+      "name": "Analyze Voice Info",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [720, 700]
+    }
+  ],
+  "connections": {
+    "Setup Test": {
+      "main": [
+        [
+          {
+            "node": "Test API Call",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Alternative Call (binaryBuffer)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test API Call": {
+      "main": [
+        [
+          {
+            "node": "Debug Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Alternative Call (binaryBuffer)": {
+      "main": [
+        [
+          {
+            "node": "Debug Alternative",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test Credentials": {
+      "main": [
+        [
+          {
+            "node": "Get Voice Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Voice Info": {
+      "main": [
+        [
+          {
+            "node": "Analyze Voice Info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "2",
+  "id": "elevenlabs-fixed-test"
+}

@@ -1,0 +1,187 @@
+{
+  "name": "ElevenLabs Standalone Test",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "// Standalone ElevenLabs Test - Hardcoded Data\n// This will test ElevenLabs API with known good values\n\nconsole.log('🧪 ELEVENLABS STANDALONE TEST');\nconsole.log('=============================');\n\n// Hardcoded test data - modify these values as needed\nconst testData = {\n  victorVoiceId: 'T9xTMubBGC4Y9y6oHUza',  // Your confirmed working Victor voice\n  lennyVoiceId: 'WbI4Toj5UDP91WAiEInp',   // Your confirmed working Lenny voice\n  testText: 'Hello, this is a test audio generation.',\n  testSpeaker: 'Victor' // Change to 'Lenny' to test the other voice\n};\n\n// Select voice based on speaker\nconst selectedVoiceId = testData.testSpeaker === 'Victor' ? testData.victorVoiceId : testData.lennyVoiceId;\n\nconsole.log('📋 TEST CONFIGURATION:');\nconsole.log('Speaker:', testData.testSpeaker);\nconsole.log('Voice ID:', selectedVoiceId);\nconsole.log('Text:', testData.testText);\nconsole.log('Text Length:', testData.testText.length);\n\n// Create the payload exactly as the main workflow does\nconst elevenlabsPayload = {\n  text: testData.testText,\n  model_id: 'eleven_turbo_v2_5',\n  voice_settings: {\n    stability: 0.5,\n    similarity_boost: 0.7,\n    style: 0.0,\n    use_speaker_boost: true\n  }\n};\n\nconsole.log('🔧 PAYLOAD TO SEND:');\nconsole.log(JSON.stringify(elevenlabsPayload, null, 2));\n\nconsole.log('🌐 API URL:');\nconsole.log(`https://api.elevenlabs.io/v1/text-to-speech/${selectedVoiceId}?output_format=mp3_44100_128`);\n\nreturn [{\n  json: {\n    voiceId: selectedVoiceId,\n    speaker: testData.testSpeaker,\n    text: testData.testText,\n    elevenlabsPayload: elevenlabsPayload,\n    testInfo: {\n      timestamp: new Date().toISOString(),\n      purpose: 'Standalone ElevenLabs API test',\n      expectedResult: 'Binary audio data'\n    }\n  }\n}];"
+      },
+      "id": "setup-test-data",
+      "name": "Setup Test Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.elevenlabs.io/v1/text-to-speech/{{ $json.voiceId }}?output_format=mp3_44100_128",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.elevenlabsPayload }}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "binaryBuffer"
+            }
+          },
+          "timeout": 60000
+        }
+      },
+      "id": "test-elevenlabs-call",
+      "name": "Test ElevenLabs Call",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [480, 300],
+      "retryOnFail": true,
+      "maxTries": 2,
+      "waitBetweenTries": 3000,
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "elevenlabs-auth",
+          "name": "ElevenLabs API Auth"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Analyze Test Results\nconst response = $input.item;\n\nconsole.log('📊 TEST RESULTS ANALYSIS');\nconsole.log('=========================');\n\n// Check what we received\nconst hasBinary = !!(response.binary && response.binary.data);\nconst hasJson = !!response.json;\n\nconsole.log('✅ Has binary data:', hasBinary);\nconsole.log('✅ Has JSON data:', hasJson);\n\nif (hasBinary) {\n  console.log('🎉 SUCCESS! ElevenLabs returned audio data');\n  console.log('📊 Audio size:', response.binary.data.length, 'bytes');\n  console.log('📊 Audio type:', typeof response.binary.data);\n  \n  // Estimate credits used (rough calculation)\n  const textLength = response.json.text?.length || 0;\n  const estimatedCredits = Math.ceil(textLength / 100); // Very rough estimate\n  console.log('💳 Estimated credits used:', estimatedCredits);\n  \n} else {\n  console.log('❌ FAILED! No binary audio data received');\n  \n  if (hasJson) {\n    console.log('\\n📄 ERROR RESPONSE ANALYSIS:');\n    \n    if (typeof response.json === 'string') {\n      console.log('Response type: STRING');\n      const preview = response.json.substring(0, 500);\n      console.log('Response preview:', preview);\n      \n      // Check for common error patterns\n      if (response.json.includes('unauthorized')) {\n        console.log('🚨 DIAGNOSIS: API Key Authentication Failed');\n        console.log('💡 SOLUTION: Check your ElevenLabs API key in n8n credentials');\n      } else if (response.json.includes('voice not found')) {\n        console.log('🚨 DIAGNOSIS: Voice ID Not Found');\n        console.log('💡 SOLUTION: Verify voice ID exists in your ElevenLabs account');\n      } else if (response.json.includes('insufficient') || response.json.includes('quota')) {\n        console.log('🚨 DIAGNOSIS: Insufficient Credits');\n        console.log('💡 SOLUTION: Add credits to your ElevenLabs account');\n      } else if (response.json.includes('<html>')) {\n        console.log('🚨 DIAGNOSIS: Server returned HTML (likely error page)');\n        console.log('💡 SOLUTION: Check API endpoint URL and server status');\n      } else {\n        console.log('🚨 DIAGNOSIS: Unknown string error');\n      }\n      \n    } else if (typeof response.json === 'object') {\n      console.log('Response type: OBJECT');\n      console.log('Response structure:', JSON.stringify(response.json, null, 2));\n      \n      if (response.json.error) {\n        console.log('🚨 DIAGNOSIS: ElevenLabs API Error');\n        console.log('Error message:', response.json.error);\n      }\n      \n      if (response.json.detail) {\n        console.log('Error details:', response.json.detail);\n      }\n    }\n  } else {\n    console.log('❌ No JSON response either - complete failure');\n  }\n}\n\nconsole.log('\\n🔍 REQUEST SENT:');\nconsole.log('Voice ID:', response.json?.voiceId || 'UNKNOWN');\nconsole.log('Speaker:', response.json?.speaker || 'UNKNOWN');\nconsole.log('Text:', response.json?.text || 'UNKNOWN');\n\nif (response.json?.elevenlabsPayload) {\n  console.log('\\n🔧 PAYLOAD SENT:');\n  console.log(JSON.stringify(response.json.elevenlabsPayload, null, 2));\n}\n\nconsole.log('\\n🎯 NEXT STEPS:');\nif (hasBinary) {\n  console.log('✅ Test passed! Your ElevenLabs integration is working.');\n  console.log('✅ You can now run your main workflow with confidence.');\n} else {\n  console.log('❌ Test failed! Fix the issue above before running main workflow.');\n  console.log('🔧 Common fixes:');\n  console.log('   - Update API key in n8n credentials');\n  console.log('   - Verify voice IDs in ElevenLabs dashboard');\n  console.log('   - Add credits to ElevenLabs account');\n  console.log('   - Try with simpler payload (remove voice_settings)');\n}\n\nreturn [{\n  json: {\n    testResult: hasBinary ? 'SUCCESS' : 'FAILED',\n    hasBinaryData: hasBinary,\n    audioSize: hasBinary ? response.binary.data.length : 0,\n    errorType: hasBinary ? null : (typeof response.json),\n    timestamp: new Date().toISOString(),\n    ...response.json\n  },\n  binary: response.binary || undefined\n}];"
+      },
+      "id": "analyze-results",
+      "name": "Analyze Results",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [720, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "test-success",
+              "leftValue": "={{ $json.testResult }}",
+              "rightValue": "SUCCESS",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "check-test-result",
+      "name": "Test Success?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [960, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Test Passed - Success Actions\nconst result = $input.item.json;\n\nconsole.log('🎉 ELEVENLABS TEST PASSED!');\nconsole.log('==========================');\nconsole.log('✅ Audio generated successfully');\nconsole.log('✅ Size:', result.audioSize, 'bytes');\nconsole.log('✅ Voice ID working:', result.voiceId);\nconsole.log('✅ Speaker:', result.speaker);\nconsole.log('');\nconsole.log('🚀 READY FOR PRODUCTION:');\nconsole.log('Your main workflow should now work correctly!');\nconsole.log('');\nconsole.log('💡 OPTIONAL OPTIMIZATIONS:');\nconsole.log('- Consider adjusting voice_settings for better quality');\nconsole.log('- Test with longer text if needed');\nconsole.log('- Verify both Victor and Lenny voices work');\n\nreturn $input.all();"
+      },
+      "id": "test-success-actions",
+      "name": "Test Success Actions",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1200, 200]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Test Failed - Troubleshooting Actions\nconst result = $input.item.json;\n\nconsole.log('❌ ELEVENLABS TEST FAILED');\nconsole.log('=========================');\nconsole.log('Issue detected with:', result.errorType);\nconsole.log('Voice ID tested:', result.voiceId);\nconsole.log('Speaker tested:', result.speaker);\nconsole.log('');\nconsole.log('🔧 TROUBLESHOOTING CHECKLIST:');\nconsole.log('[ ] 1. Check API key in n8n credentials panel');\nconsole.log('[ ] 2. Verify voice ID exists in ElevenLabs dashboard');\nconsole.log('[ ] 3. Confirm account has sufficient credits');\nconsole.log('[ ] 4. Test with default voice ID: 21m00Tcm4TlvDq8ikWAM');\nconsole.log('[ ] 5. Try simpler payload without voice_settings');\nconsole.log('');\nconsole.log('🌐 MANUAL API TEST:');\nconsole.log('Test this URL in browser/Postman:');\nconsole.log(`https://api.elevenlabs.io/v1/voices/${result.voiceId}`);\nconsole.log('With header: Authorization: Bearer YOUR_API_KEY');\nconsole.log('');\nconsole.log('❓ If you need help, share this error info:');\nconsole.log('- Voice ID:', result.voiceId);\nconsole.log('- Error type:', result.errorType);\nconsole.log('- Test timestamp:', result.timestamp);\n\nreturn $input.all();"
+      },
+      "id": "test-failure-actions",
+      "name": "Test Failure Actions",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1200, 400]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Setup Test Data": {
+      "main": [
+        [
+          {
+            "node": "Test ElevenLabs Call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test ElevenLabs Call": {
+      "main": [
+        [
+          {
+            "node": "Analyze Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Results": {
+      "main": [
+        [
+          {
+            "node": "Test Success?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Test Success?": {
+      "main": [
+        [
+          {
+            "node": "Test Success Actions",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Test Failure Actions",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataErrorExecution": "all",
+    "saveDataSuccessExecution": "all",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "timezone": "America/New_York"
+  },
+  "versionId": "1",
+  "meta": {
+    "instanceId": "test-elevenlabs-workflow"
+  },
+  "id": "test-elevenlabs",
+  "tags": []
+}
