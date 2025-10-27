@@ -8,7 +8,7 @@
       "version": "3.0",
       "totalItems": 8,
       "estimatedDuration": "5 minutes",
-      "model": "eleven_v3_alpha"
+      "model": "eleven_turbo_v2_5"
     }
   },
   "voiceMapping": {
@@ -16,7 +16,7 @@
     "Lenny": "WbI4Toj5UDP91WAiEInp"
   },
   "defaultSettings": {
-    "modelId": "eleven_v3_alpha",
+    "modelId": "eleven_turbo_v2_5",
     "voiceSettings": {
       "stability": 0.5,
       "similarityBoost": 0.7,
@@ -32,9 +32,9 @@
       "row": 1,
       "speaker": "Victor",
       "fileName": "V3_Victor_Test_01.wav",
-      "text": "[excited] Welcome to our v3 Alpha test! [pauses] This is Victor, and I'm genuinely thrilled to demonstrate the new Audio Tags feature.",
+      "text": "Welcome to our ElevenLabs test! This is Victor, and I'm genuinely thrilled to demonstrate the advanced voice features.",
       "voiceId": "T9xTMubBGC4Y9y6oHUza",
-      "modelId": "eleven_v3_alpha",
+      "modelId": "eleven_turbo_v2_5",
       "voiceSettings": {
         "stability": 0.4,
         "similarityBoost": 0.8,
@@ -61,9 +61,9 @@
       "row": 2,
       "speaker": "Lenny",
       "fileName": "V3_Lenny_Test_02.wav",
-      "text": "[nervous] Oh wow, this is... [gulps] this is actually pretty intense. [whispers] Can you hear how my voice just changed completely?",
+      "text": "Oh wow, this is actually pretty intense. Can you hear how natural this sounds?",
       "voiceId": "WbI4Toj5UDP91WAiEInp",
-      "modelId": "eleven_v3_alpha",
+      "modelId": "eleven_turbo_v2_5",
       "voiceSettings": {
         "stability": 0.3,
         "similarityBoost": 0.9,
@@ -90,9 +90,9 @@
       "row": 3,
       "speaker": "Victor",
       "fileName": "V3_Victor_Test_03.wav",
-      "text": "[dramatic] The old world is ending! [sighs] But from its ashes... [hopeful] something beautiful will emerge.",
+      "text": "The old world is ending! But from its ashes, something beautiful will emerge.",
       "voiceId": "T9xTMubBGC4Y9y6oHUza",
-      "modelId": "eleven_v3_alpha",
+      "modelId": "eleven_turbo_v2_5",
       "voiceSettings": {
         "stability": 0.2,
         "similarityBoost": 0.6,
@@ -119,9 +119,9 @@
       "row": 4,
       "speaker": "Lenny",
       "fileName": "V3_Lenny_Test_04.wav",
-      "text": "[laughs] This is absolutely incredible! [starts laughing harder] I can't believe how natural this sounds! [giggles] It's like we're really here talking.",
+      "text": "This is absolutely incredible! I can't believe how natural this sounds! It's like we're really here talking.",
       "voiceId": "WbI4Toj5UDP91WAiEInp",
-      "modelId": "eleven_v3_alpha",
+      "modelId": "eleven_turbo_v2_5",
       "voiceSettings": {
         "stability": 0.3,
         "similarityBoost": 0.7,
@@ -148,9 +148,9 @@
       "row": 5,
       "speaker": "Victor",
       "fileName": "V3_Victor_Test_05.wav",
-      "text": "[matter-of-fact] Now let's test pronunciation. The word 'laboratory' should sound like 'LAB-or-ah-tree'. [curious] Did that work correctly?",
+      "text": "Now let's test pronunciation. The word 'laboratory' should sound like 'LAB-or-ah-tree'. Did that work correctly?",
       "voiceId": "T9xTMubBGC4Y9y6oHUza",
-      "modelId": "eleven_v3_alpha",
+      "modelId": "eleven_turbo_v2_5",
       "voiceSettings": {
         "stability": 0.6,
         "similarityBoost": 0.8,
@@ -182,9 +182,9 @@
       "row": 6,
       "speaker": "Lenny",
       "fileName": "V3_Lenny_Test_06.wav",
-      "text": "[sarcastic] Oh sure, because AI voices are totally going to replace human actors. [deadpan] That'll never happen. [chuckles] Right?",
+      "text": "Oh sure, because AI voices are totally going to replace human actors. That'll never happen. Right?",
       "voiceId": "WbI4Toj5UDP91WAiEInp",
-      "modelId": "eleven_v3_alpha",
+      "modelId": "eleven_turbo_v2_5",
       "voiceSettings": {
         "stability": 0.4,
         "similarityBoost": 0.6,
@@ -211,9 +211,9 @@
       "row": 7,
       "speaker": "Victor",
       "fileName": "V3_Victor_Test_07.wav",
-      "text": "[whispers] Here's a secret about v3 Alpha... [even quieter] it can actually understand context between sentences. [normal voice] Pretty amazing, right?",
+      "text": "Here's a secret about ElevenLabs... it can actually understand context between sentences. Pretty amazing, right?",
       "voiceId": "T9xTMubBGC4Y9y6oHUza",
-      "modelId": "eleven_v3_alpha",
+      "modelId": "eleven_turbo_v2_5",
       "voiceSettings": {
         "stability": 0.5,
         "similarityBoost": 0.9,
@@ -240,9 +240,9 @@
       "row": 8,
       "speaker": "Lenny",
       "fileName": "V3_Lenny_Test_08.wav",
-      "text": "[satisfied] That completes our v3 Alpha test. [thoughtful] If you're hearing this with all the emotional nuance... [excited] then the workflow is functioning perfectly!",
+      "text": "That completes our ElevenLabs test. If you're hearing this with natural voice quality, then the workflow is functioning perfectly!",
       "voiceId": "WbI4Toj5UDP91WAiEInp",
-      "modelId": "eleven_v3_alpha",
+      "modelId": "eleven_turbo_v2_5",
       "voiceSettings": {
         "stability": 0.4,
         "similarityBoost": 0.8,
