@@ -1,0 +1,1574 @@
+{
+  "episode": {
+    "title": "Distortion Check: The Ra Material - Episode 01",
+    "number": 1,
+    "description": "The beginning: introducing Don Elkins, Carla Rueckert, Jim McCarty, and the first Ra contact session on January 15, 1981",
+    "metadata": {
+      "created": "2025-01-28",
+      "version": "1.0",
+      "totalItems": 85,
+      "estimatedDuration": "35 minutes"
+    }
+  },
+  "voiceMapping": {
+    "Victor": "56h13yJuqPnc8Tg2dZbO",
+    "Lenny": "WbI4Toj5UDP91WAiEInp",
+    "Narrator": "tZssYepgGaQmegsMEXjK"
+  },
+  "defaultSettings": {
+    "modelId": "eleven_turbo_v2_5",
+    "voiceSettings": {
+      "stability": 0.5,
+      "similarityBoost": 0.75,
+      "style": 0.0,
+      "useSpeakerBoost": true
+    },
+    "generationConfig": {
+      "chunkLengthSchedule": [120, 160, 250, 350]
+    }
+  },
+  "content": [
+
+{
+  "row": 1,
+  "fileName": "0001.mp3",
+  "speaker": "Narrator",
+  "text": "Louisville, Kentucky. November 7, 1984. A man named Don Elkins stands at a crossroads. He is 55 years old. A physicist. A pilot. A professor. And for the past three years, he has been asking questions of something that calls itself Ra.",
+  "voiceId": "tZssYepgGaQmegsMEXjK",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 1,
+  "voiceSettings": {
+    "stability": 0.7,
+    "similarity_boost": 0.85,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "previous_text": "",
+  "next_text": "One hundred and six sessions. Thousands of questions. And answers that would challenge everything he thought he knew about reality, consciousness, and the nature of existence."
+},
+
+{
+  "row": 2,
+  "fileName": "0002.mp3",
+  "speaker": "Narrator",
+  "text": "One hundred and six sessions. Thousands of questions. And answers that would challenge everything he thought he knew about reality, consciousness, and the nature of existence.",
+  "voiceId": "tZssYepgGaQmegsMEXjK",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 2,
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Louisville, Kentucky. November 7, 1984. A man named Don Elkins stands at a crossroads. He is 55 years old. A physicist. A pilot. A professor. And for the past three years, he has been asking questions of something that calls itself Ra.",
+  "next_text": "Today, Don Elkins will make a choice that ends his life. But three years earlier, on January 15, 1981, something began."
+},
+
+{
+  "row": 3,
+  "fileName": "0003.mp3",
+  "speaker": "Narrator",
+  "text": "Today, Don Elkins will make a choice that ends his life. But three years earlier, on January 15, 1981, something began.",
+  "voiceId": "tZssYepgGaQmegsMEXjK",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 3,
+  "voiceSettings": {
+    "stability": 0.75,
+    "similarity_boost": 0.85,
+    "style": 0.15,
+    "use_speaker_boost": true
+  },
+  "previous_text": "One hundred and six sessions. Thousands of questions. And answers that would challenge everything he thought he knew about reality, consciousness, and the nature of existence.",
+  "next_text": "In a small apartment in Louisville, three people gathered. Don Elkins asked the questions. Carla Rueckert became the channel. Jim McCarty took notes. And something answered."
+},
+
+{
+  "row": 4,
+  "fileName": "0004.mp3",
+  "speaker": "Narrator",
+  "text": "In a small apartment in Louisville, three people gathered. Don Elkins asked the questions. Carla Rueckert became the channel. Jim McCarty took notes. And something answered.",
+  "voiceId": "tZssYepgGaQmegsMEXjK",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 4,
+  "voiceSettings": {
+    "stability": 0.7,
+    "similarity_boost": 0.85,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Today, Don Elkins will make a choice that ends his life. But three years earlier, on January 15, 1981, something began.",
+  "next_text": "I am Ra."
+},
+
+{
+  "row": 5,
+  "fileName": "0005.mp3",
+  "speaker": "Narrator",
+  "text": "I am Ra.",
+  "voiceId": "tZssYepgGaQmegsMEXjK",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 5,
+  "voiceSettings": {
+    "stability": 0.8,
+    "similarity_boost": 0.9,
+    "style": 0.1,
+    "use_speaker_boost": true
+  },
+  "previous_text": "In a small apartment in Louisville, three people gathered. Don Elkins asked the questions. Carla Rueckert became the channel. Jim McCarty took notes. And something answered.",
+  "next_text": "This is the story of those sessions. Of the three people who made them possible. Of the ideas they explored. And of the price they paid."
+},
+
+{
+  "row": 6,
+  "fileName": "0006.mp3",
+  "speaker": "Narrator",
+  "text": "This is the story of those sessions. Of the three people who made them possible. Of the ideas they explored. And of the price they paid.",
+  "voiceId": "tZssYepgGaQmegsMEXjK",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 6,
+  "voiceSettings": {
+    "stability": 0.75,
+    "similarity_boost": 0.85,
+    "style": 0.15,
+    "use_speaker_boost": true
+  },
+  "previous_text": "I am Ra.",
+  "next_text": "This is Distortion Check: The Ra Material."
+},
+
+{
+  "row": 7,
+  "fileName": "0007.mp3",
+  "speaker": "Narrator",
+  "text": "This is Distortion Check: The Ra Material.",
+  "voiceId": "tZssYepgGaQmegsMEXjK",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 7,
+  "voiceSettings": {
+    "stability": 0.7,
+    "similarity_boost": 0.8,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "previous_text": "This is the story of those sessions. Of the three people who made them possible. Of the ideas they explored. And of the price they paid.",
+  "next_text": "Alright, Lenny. We're doing this."
+},
+
+{
+  "row": 8,
+  "fileName": "0008.mp3",
+  "speaker": "Victor",
+  "text": "Alright, Lenny. We're doing this.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 8,
+  "voiceSettings": {
+    "stability": 0.45,
+    "similarity_boost": 0.75,
+    "style": 0.35,
+    "use_speaker_boost": true
+  },
+  "previous_text": "This is Distortion Check: The Ra Material.",
+  "next_text": "I still think you're crazy."
+},
+
+{
+  "row": 9,
+  "fileName": "0009.mp3",
+  "speaker": "Lenny",
+  "text": "I still think you're crazy.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 9,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Alright, Lenny. We're doing this.",
+  "next_text": "You've been saying that for twenty years."
+},
+
+{
+  "row": 10,
+  "fileName": "0010.mp3",
+  "speaker": "Victor",
+  "text": "You've been saying that for twenty years.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 10,
+  "voiceSettings": {
+    "stability": 0.4,
+    "similarity_boost": 0.7,
+    "style": 0.4,
+    "use_speaker_boost": true
+  },
+  "previous_text": "I still think you're crazy.",
+  "next_text": "And I've been right for twenty years."
+},
+
+{
+  "row": 11,
+  "fileName": "0011.mp3",
+  "speaker": "Lenny",
+  "text": "And I've been right for twenty years.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 11,
+  "voiceSettings": {
+    "stability": 0.45,
+    "similarity_boost": 0.75,
+    "style": 0.35,
+    "use_speaker_boost": true
+  },
+  "previous_text": "You've been saying that for twenty years.",
+  "next_text": "Look, if you're just tuning in, I'm Victor. This is my friend Lenny. And we're about to take you on a journey into one of the strangest, most compelling pieces of channeled material ever recorded."
+},
+
+{
+  "row": 12,
+  "fileName": "0012.mp3",
+  "speaker": "Victor",
+  "text": "Look, if you're just tuning in, I'm Victor. This is my friend Lenny. And we're about to take you on a journey into one of the strangest, most compelling pieces of channeled material ever recorded.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 12,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "And I've been right for twenty years.",
+  "next_text": "The Ra Material. Also known as The Law of One."
+},
+
+{
+  "row": 13,
+  "fileName": "0013.mp3",
+  "speaker": "Victor",
+  "text": "The Ra Material. Also known as The Law of One.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 13,
+  "voiceSettings": {
+    "stability": 0.55,
+    "similarity_boost": 0.75,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Look, if you're just tuning in, I'm Victor. This is my friend Lenny. And we're about to take you on a journey into one of the strangest, most compelling pieces of channeled material ever recorded.",
+  "next_text": "Between 1981 and 1984, three people in Louisville, Kentucky conducted 106 sessions of channeled contact with an intelligence calling itself Ra."
+},
+
+{
+  "row": 14,
+  "fileName": "0014.mp3",
+  "speaker": "Victor",
+  "text": "Between 1981 and 1984, three people in Louisville, Kentucky conducted 106 sessions of channeled contact with an intelligence calling itself Ra.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 14,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "The Ra Material. Also known as The Law of One.",
+  "next_text": "And before you ask, yes, we know how that sounds."
+},
+
+{
+  "row": 15,
+  "fileName": "0015.mp3",
+  "speaker": "Lenny",
+  "text": "And before you ask, yes, we know how that sounds.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 15,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Between 1981 and 1984, three people in Louisville, Kentucky conducted 106 sessions of channeled contact with an intelligence calling itself Ra.",
+  "next_text": "Channeling. Aliens. Ancient Egyptian gods. It sounds like New Age nonsense."
+},
+
+{
+  "row": 16,
+  "fileName": "0016.mp3",
+  "speaker": "Lenny",
+  "text": "Channeling. Aliens. Ancient Egyptian gods. It sounds like New Age nonsense.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 16,
+  "voiceSettings": {
+    "stability": 0.55,
+    "similarity_boost": 0.75,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "previous_text": "And before you ask, yes, we know how that sounds.",
+  "next_text": "And maybe it is. That's part of what we're here to figure out."
+},
+
+{
+  "row": 17,
+  "fileName": "0017.mp3",
+  "speaker": "Victor",
+  "text": "And maybe it is. That's part of what we're here to figure out.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 17,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Channeling. Aliens. Ancient Egyptian gods. It sounds like New Age nonsense.",
+  "next_text": "But here's the thing. Whether Ra is a real extraterrestrial intelligence, or whether this is Carla Rueckert's subconscious accessing something deep, the ideas in this material are fascinating."
+},
+
+{
+  "row": 18,
+  "fileName": "0018.mp3",
+  "speaker": "Victor",
+  "text": "But here's the thing. Whether Ra is a real extraterrestrial intelligence, or whether this is Carla Rueckert's subconscious accessing something deep, the ideas in this material are fascinating.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 18,
+  "voiceSettings": {
+    "stability": 0.45,
+    "similarity_boost": 0.75,
+    "style": 0.35,
+    "use_speaker_boost": true
+  },
+  "previous_text": "And maybe it is. That's part of what we're here to figure out.",
+  "next_text": "They touch on quantum physics, consciousness, the nature of reality, human evolution, and what it means to be alive."
+},
+
+{
+  "row": 19,
+  "fileName": "0019.mp3",
+  "speaker": "Victor",
+  "text": "They touch on quantum physics, consciousness, the nature of reality, human evolution, and what it means to be alive.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 19,
+  "voiceSettings": {
+    "stability": 0.4,
+    "similarity_boost": 0.75,
+    "style": 0.4,
+    "use_speaker_boost": true
+  },
+  "previous_text": "But here's the thing. Whether Ra is a real extraterrestrial intelligence, or whether this is Carla Rueckert's subconscious accessing something deep, the ideas in this material are fascinating.",
+  "next_text": "So we're going to explore it. Critically. Skeptically. But with open minds."
+},
+
+{
+  "row": 20,
+  "fileName": "0020.mp3",
+  "speaker": "Lenny",
+  "text": "So we're going to explore it. Critically. Skeptically. But with open minds.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 20,
+  "voiceSettings": {
+    "stability": 0.55,
+    "similarity_boost": 0.75,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "previous_text": "They touch on quantum physics, consciousness, the nature of reality, human evolution, and what it means to be alive.",
+  "next_text": "We're not here to convert you. We're not here to debunk it either."
+},
+
+{
+  "row": 21,
+  "fileName": "0021.mp3",
+  "speaker": "Victor",
+  "text": "We're not here to convert you. We're not here to debunk it either.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 21,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "previous_text": "So we're going to explore it. Critically. Skeptically. But with open minds.",
+  "next_text": "We're here to understand it. To see what it says. To test it where we can. And to tell the human story behind it."
+},
+
+{
+  "row": 22,
+  "fileName": "0022.mp3",
+  "speaker": "Victor",
+  "text": "We're here to understand it. To see what it says. To test it where we can. And to tell the human story behind it.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 22,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "We're not here to convert you. We're not here to debunk it either.",
+  "next_text": "Because that story, regardless of what you believe about Ra, is worth telling."
+},
+
+{
+  "row": 23,
+  "fileName": "0023.mp3",
+  "speaker": "Lenny",
+  "text": "Because that story, regardless of what you believe about Ra, is worth telling.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 23,
+  "voiceSettings": {
+    "stability": 0.55,
+    "similarity_boost": 0.75,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "previous_text": "We're here to understand it. To see what it says. To test it where we can. And to tell the human story behind it.",
+  "next_text": "So let's start at the beginning. With the three people who made this possible."
+},
+
+{
+  "row": 24,
+  "fileName": "0024.mp3",
+  "speaker": "Narrator",
+  "text": "So let's start at the beginning. With the three people who made this possible.",
+  "voiceId": "tZssYepgGaQmegsMEXjK",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 24,
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Because that story, regardless of what you believe about Ra, is worth telling.",
+  "next_text": "Don Elkins. Carla Rueckert. Jim McCarty."
+},
+
+{
+  "row": 25,
+  "fileName": "0025.mp3",
+  "speaker": "Narrator",
+  "text": "Don Elkins. Carla Rueckert. Jim McCarty.",
+  "voiceId": "tZssYepgGaQmegsMEXjK",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 25,
+  "voiceSettings": {
+    "stability": 0.7,
+    "similarity_boost": 0.85,
+    "style": 0.15,
+    "use_speaker_boost": true
+  },
+  "previous_text": "So let's start at the beginning. With the three people who made this possible.",
+  "next_text": "Don was the questioner. The seeker. The one who had been searching for answers for twenty years before Ra ever showed up."
+},
+
+{
+  "row": 26,
+  "fileName": "0026.mp3",
+  "speaker": "Victor",
+  "text": "Don was the questioner. The seeker. The one who had been searching for answers for twenty years before Ra ever showed up.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 26,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Don Elkins. Carla Rueckert. Jim McCarty.",
+  "next_text": "He was a physicist. Taught at the University of Louisville. But his real passion was UFOs and consciousness research."
+},
+
+{
+  "row": 27,
+  "fileName": "0027.mp3",
+  "speaker": "Victor",
+  "text": "He was a physicist. Taught at the University of Louisville. But his real passion was UFOs and consciousness research.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 27,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Don was the questioner. The seeker. The one who had been searching for answers for twenty years before Ra ever showed up.",
+  "next_text": "Starting in the 1950s, Don had been investigating UFO contactees, people who claimed to channel extraterrestrial beings."
+},
+
+{
+  "row": 28,
+  "fileName": "0028.mp3",
+  "speaker": "Victor",
+  "text": "Starting in the 1950s, Don had been investigating UFO contactees, people who claimed to channel extraterrestrial beings.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 28,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "previous_text": "He was a physicist. Taught at the University of Louisville. But his real passion was UFOs and consciousness research.",
+  "next_text": "He'd sit in on channeling sessions, take notes, ask questions. He was looking for patterns. For something consistent."
+},
+
+{
+  "row": 29,
+  "fileName": "0029.mp3",
+  "speaker": "Lenny",
+  "text": "He'd sit in on channeling sessions, take notes, ask questions. He was looking for patterns. For something consistent.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 29,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Starting in the 1950s, Don had been investigating UFO contactees, people who claimed to channel extraterrestrial beings.",
+  "next_text": "So he wasn't just a believer. He was a scientist trying to apply rigor to something most scientists wouldn't touch."
+},
+
+{
+  "row": 30,
+  "fileName": "0030.mp3",
+  "speaker": "Victor",
+  "text": "So he wasn't just a believer. He was a scientist trying to apply rigor to something most scientists wouldn't touch.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 30,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "He'd sit in on channeling sessions, take notes, ask questions. He was looking for patterns. For something consistent.",
+  "next_text": "Exactly. And that's important. Because when Ra showed up, Don knew how to ask questions."
+},
+
+{
+  "row": 31,
+  "fileName": "0031.mp3",
+  "speaker": "Lenny",
+  "text": "Exactly. And that's important. Because when Ra showed up, Don knew how to ask questions.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 31,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "So he wasn't just a believer. He was a scientist trying to apply rigor to something most scientists wouldn't touch.",
+  "next_text": "Then there was Carla. Carla Rueckert. She was the channel. The instrument, as Ra called her."
+},
+
+{
+  "row": 32,
+  "fileName": "0032.mp3",
+  "speaker": "Victor",
+  "text": "Then there was Carla. Carla Rueckert. She was the channel. The instrument, as Ra called her.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 32,
+  "voiceSettings": {
+    "stability": 0.55,
+    "similarity_boost": 0.75,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Exactly. And that's important. Because when Ra showed up, Don knew how to ask questions.",
+  "next_text": "Carla had been channeling since 1974. She'd worked with Don for years, channeling various entities in what's called conscious channeling."
+},
+
+{
+  "row": 33,
+  "fileName": "0033.mp3",
+  "speaker": "Victor",
+  "text": "Carla had been channeling since 1974. She'd worked with Don for years, channeling various entities in what's called conscious channeling.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 33,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Then there was Carla. Carla Rueckert. She was the channel. The instrument, as Ra called her.",
+  "next_text": "Conscious channeling means you're aware while it's happening. You're sort of translating impressions into words."
+},
+
+{
+  "row": 34,
+  "fileName": "0034.mp3",
+  "speaker": "Lenny",
+  "text": "Conscious channeling means you're aware while it's happening. You're sort of translating impressions into words.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 34,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Carla had been channeling since 1974. She'd worked with Don for years, channeling various entities in what's called conscious channeling.",
+  "next_text": "But when Ra came through, it was different. Carla would go into a deep trance. She wouldn't remember anything afterward."
+},
+
+{
+  "row": 35,
+  "fileName": "0035.mp3",
+  "speaker": "Victor",
+  "text": "But when Ra came through, it was different. Carla would go into a deep trance. She wouldn't remember anything afterward.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 35,
+  "voiceSettings": {
+    "stability": 0.55,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Conscious channeling means you're aware while it's happening. You're sort of translating impressions into words.",
+  "next_text": "This was what's called trance channeling. Full unconscious contact. And it took a toll on her physically."
+},
+
+{
+  "row": 36,
+  "fileName": "0036.mp3",
+  "speaker": "Victor",
+  "text": "This was what's called trance channeling. Full unconscious contact. And it took a toll on her physically.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 36,
+  "voiceSettings": {
+    "stability": 0.55,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "But when Ra came through, it was different. Carla would go into a deep trance. She wouldn't remember anything afterward.",
+  "next_text": "Carla was already dealing with chronic pain and health issues. The Ra contact made it worse. But she kept going because she believed in the work."
+},
+
+{
+  "row": 37,
+  "fileName": "0037.mp3",
+  "speaker": "Lenny",
+  "text": "Carla was already dealing with chronic pain and health issues. The Ra contact made it worse. But she kept going because she believed in the work.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 37,
+  "voiceSettings": {
+    "stability": 0.55,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "This was what's called trance channeling. Full unconscious contact. And it took a toll on her physically.",
+  "next_text": "That's dedication. Or obsession. Depending on how you look at it."
+},
+
+{
+  "row": 38,
+  "fileName": "0038.mp3",
+  "speaker": "Lenny",
+  "text": "That's dedication. Or obsession. Depending on how you look at it.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 38,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Carla was already dealing with chronic pain and health issues. The Ra contact made it worse. But she kept going because she believed in the work.",
+  "next_text": "Maybe both. And then there's Jim. Jim McCarty."
+},
+
+{
+  "row": 39,
+  "fileName": "0039.mp3",
+  "speaker": "Victor",
+  "text": "Maybe both. And then there's Jim. Jim McCarty.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 39,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "previous_text": "That's dedication. Or obsession. Depending on how you look at it.",
+  "next_text": "Jim was the scribe. He took notes during every session. But he was more than just a note-taker."
+},
+
+{
+  "row": 40,
+  "fileName": "0040.mp3",
+  "speaker": "Victor",
+  "text": "Jim was the scribe. He took notes during every session. But he was more than just a note-taker.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 40,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Maybe both. And then there's Jim. Jim McCarty.",
+  "next_text": "Jim provided stability. Emotional support. He was the grounding force for Don and Carla."
+},
+
+{
+  "row": 41,
+  "fileName": "0041.mp3",
+  "speaker": "Lenny",
+  "text": "Jim provided stability. Emotional support. He was the grounding force for Don and Carla.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 41,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Jim was the scribe. He took notes during every session. But he was more than just a note-taker.",
+  "next_text": "He also helped with the ritual. Before each session, they'd create what Ra called a sacred space. Candles, incense, meditation, prayer."
+},
+
+{
+  "row": 42,
+  "fileName": "0042.mp3",
+  "speaker": "Victor",
+  "text": "He also helped with the ritual. Before each session, they'd create what Ra called a sacred space. Candles, incense, meditation, prayer.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 42,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Jim provided stability. Emotional support. He was the grounding force for Don and Carla.",
+  "next_text": "Ra was very specific about the conditions needed for contact. Everything had to be just right."
+},
+
+{
+  "row": 43,
+  "fileName": "0043.mp3",
+  "speaker": "Victor",
+  "text": "Ra was very specific about the conditions needed for contact. Everything had to be just right.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 43,
+  "voiceSettings": {
+    "stability": 0.55,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "He also helped with the ritual. Before each session, they'd create what Ra called a sacred space. Candles, incense, meditation, prayer.",
+  "next_text": "So these three people. Don, Carla, and Jim. They formed this tight unit. And for three years, they did this work together."
+},
+
+{
+  "row": 44,
+  "fileName": "0044.mp3",
+  "speaker": "Lenny",
+  "text": "So these three people. Don, Carla, and Jim. They formed this tight unit. And for three years, they did this work together.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 44,
+  "voiceSettings": {
+    "stability": 0.55,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Ra was very specific about the conditions needed for contact. Everything had to be just right.",
+  "next_text": "Now let's talk about that first session. January 15, 1981."
+},
+
+{
+  "row": 45,
+  "fileName": "0045.mp3",
+  "speaker": "Narrator",
+  "text": "Now let's talk about that first session. January 15, 1981.",
+  "voiceId": "tZssYepgGaQmegsMEXjK",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 45,
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "So these three people. Don, Carla, and Jim. They formed this tight unit. And for three years, they did this work together.",
+  "next_text": "Carla lies down. Don sits nearby with his questions prepared. Jim is ready with his notebook."
+},
+
+{
+  "row": 46,
+  "fileName": "0046.mp3",
+  "speaker": "Narrator",
+  "text": "Carla lies down. Don sits nearby with his questions prepared. Jim is ready with his notebook.",
+  "voiceId": "tZssYepgGaQmegsMEXjK",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 46,
+  "voiceSettings": {
+    "stability": 0.7,
+    "similarity_boost": 0.85,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Now let's talk about that first session. January 15, 1981.",
+  "next_text": "They perform the ritual. The room is prepared. And then Carla goes under."
+},
+
+{
+  "row": 47,
+  "fileName": "0047.mp3",
+  "speaker": "Narrator",
+  "text": "They perform the ritual. The room is prepared. And then Carla goes under.",
+  "voiceId": "tZssYepgGaQmegsMEXjK",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 47,
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Carla lies down. Don sits nearby with his questions prepared. Jim is ready with his notebook.",
+  "next_text": "And for the first time, Ra speaks."
+},
+
+{
+  "row": 48,
+  "fileName": "0048.mp3",
+  "speaker": "Narrator",
+  "text": "And for the first time, Ra speaks.",
+  "voiceId": "tZssYepgGaQmegsMEXjK",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 48,
+  "voiceSettings": {
+    "stability": 0.7,
+    "similarity_boost": 0.85,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "They perform the ritual. The room is prepared. And then Carla goes under.",
+  "next_text": "I am Ra. I have not spoken through this instrument before."
+},
+
+{
+  "row": 49,
+  "fileName": "0049.mp3",
+  "speaker": "Victor",
+  "text": "I am Ra. I have not spoken through this instrument before.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 49,
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.15,
+    "use_speaker_boost": true
+  },
+  "previous_text": "And for the first time, Ra speaks.",
+  "next_text": "We had to wait until she was precisely tuned, as we send a narrow-band vibration."
+},
+
+{
+  "row": 50,
+  "fileName": "0050.mp3",
+  "speaker": "Victor",
+  "text": "We had to wait until she was precisely tuned, as we send a narrow-band vibration.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 50,
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.15,
+    "use_speaker_boost": true
+  },
+  "previous_text": "I am Ra. I have not spoken through this instrument before.",
+  "next_text": "Right from the start, Ra is talking about vibration. Tuning. Precision. These aren't vague mystical terms."
+},
+
+{
+  "row": 51,
+  "fileName": "0051.mp3",
+  "speaker": "Lenny",
+  "text": "Right from the start, Ra is talking about vibration. Tuning. Precision. These aren't vague mystical terms.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 51,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "We had to wait until she was precisely tuned, as we send a narrow-band vibration.",
+  "next_text": "Ra sounds technical. Almost scientific."
+},
+
+{
+  "row": 52,
+  "fileName": "0052.mp3",
+  "speaker": "Victor",
+  "text": "Ra sounds technical. Almost scientific.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 52,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Right from the start, Ra is talking about vibration. Tuning. Precision. These aren't vague mystical terms.",
+  "next_text": "Exactly. And that's one of the things that makes this material different. Ra uses precise language. Technical concepts. It's not flowery New Age speak."
+},
+
+{
+  "row": 53,
+  "fileName": "0053.mp3",
+  "speaker": "Victor",
+  "text": "Exactly. And that's one of the things that makes this material different. Ra uses precise language. Technical concepts. It's not flowery New Age speak.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 53,
+  "voiceSettings": {
+    "stability": 0.45,
+    "similarity_boost": 0.75,
+    "style": 0.35,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Ra sounds technical. Almost scientific.",
+  "next_text": "Don asks his first question. He wants to know who Ra is. Where they come from."
+},
+
+{
+  "row": 54,
+  "fileName": "0054.mp3",
+  "speaker": "Lenny",
+  "text": "Don asks his first question. He wants to know who Ra is. Where they come from.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 54,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Exactly. And that's one of the things that makes this material different. Ra uses precise language. Technical concepts. It's not flowery New Age speak.",
+  "next_text": "And Ra's answer is fascinating."
+},
+
+{
+  "row": 55,
+  "fileName": "0055.mp3",
+  "speaker": "Victor",
+  "text": "And Ra's answer is fascinating.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 55,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Don asks his first question. He wants to know who Ra is. Where they come from.",
+  "next_text": "I am Ra. We are those of the Confederation which for many of your years have been speaking to your peoples."
+},
+
+{
+  "row": 56,
+  "fileName": "0056.mp3",
+  "speaker": "Victor",
+  "text": "I am Ra. We are those of the Confederation which for many of your years have been speaking to your peoples.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 56,
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.15,
+    "use_speaker_boost": true
+  },
+  "previous_text": "And Ra's answer is fascinating.",
+  "next_text": "We are a social memory complex of those of the Law of One."
+},
+
+{
+  "row": 57,
+  "fileName": "0057.mp3",
+  "speaker": "Victor",
+  "text": "We are a social memory complex of those of the Law of One.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 57,
+  "voiceSettings": {
+    "stability": 0.65,
+    "similarity_boost": 0.8,
+    "style": 0.15,
+    "use_speaker_boost": true
+  },
+  "previous_text": "I am Ra. We are those of the Confederation which for many of your years have been speaking to your peoples.",
+  "next_text": "Okay, so right there we've got three huge concepts. The Confederation. Social memory complex. And the Law of One."
+},
+
+{
+  "row": 58,
+  "fileName": "0058.mp3",
+  "speaker": "Lenny",
+  "text": "Okay, so right there we've got three huge concepts. The Confederation. Social memory complex. And the Law of One.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 58,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "We are a social memory complex of those of the Law of One.",
+  "next_text": "We'll unpack all of these in future episodes. But for now, the key thing is this. Ra claims to be part of a group. A confederation of beings who have been trying to help humanity."
+},
+
+{
+  "row": 59,
+  "fileName": "0059.mp3",
+  "speaker": "Victor",
+  "text": "We'll unpack all of these in future episodes. But for now, the key thing is this. Ra claims to be part of a group. A confederation of beings who have been trying to help humanity.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 59,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Okay, so right there we've got three huge concepts. The Confederation. Social memory complex. And the Law of One.",
+  "next_text": "And they've been doing this for a long time. Thousands of years."
+},
+
+{
+  "row": 60,
+  "fileName": "0060.mp3",
+  "speaker": "Victor",
+  "text": "And they've been doing this for a long time. Thousands of years.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 60,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Ra claims to be part of a group. A confederation of beings who have been trying to help humanity.",
+  "next_text": "Ra even says they walked among humans in ancient Egypt. That's where the name comes from."
+},
+
+{
+  "row": 61,
+  "fileName": "0061.mp3",
+  "speaker": "Lenny",
+  "text": "Ra even says they walked among humans in ancient Egypt. That's where the name comes from.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 61,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "And they've been doing this for a long time. Thousands of years.",
+  "next_text": "They tried to teach the Law of One to the Egyptians. But according to Ra, the message got distorted. Turned into worship and hierarchy."
+},
+
+{
+  "row": 62,
+  "fileName": "0062.mp3",
+  "speaker": "Victor",
+  "text": "They tried to teach the Law of One to the Egyptians. But according to Ra, the message got distorted. Turned into worship and hierarchy.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 62,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Ra even says they walked among humans in ancient Egypt. That's where the name comes from.",
+  "next_text": "So Ra says they withdrew. And they've been trying to correct that distortion ever since."
+},
+
+{
+  "row": 63,
+  "fileName": "0063.mp3",
+  "speaker": "Victor",
+  "text": "So Ra says they withdrew. And they've been trying to correct that distortion ever since.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 63,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "They tried to teach the Law of One to the Egyptians. But according to Ra, the message got distorted. Turned into worship and hierarchy.",
+  "next_text": "Which is where the title of our show comes from. Distortion Check."
+},
+
+{
+  "row": 64,
+  "fileName": "0064.mp3",
+  "speaker": "Lenny",
+  "text": "Which is where the title of our show comes from. Distortion Check.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 64,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "So Ra says they withdrew. And they've been trying to correct that distortion ever since.",
+  "next_text": "Because Ra talks constantly about distortion. It's a core concept in the material."
+},
+
+{
+  "row": 65,
+  "fileName": "0065.mp3",
+  "speaker": "Victor",
+  "text": "Because Ra talks constantly about distortion. It's a core concept in the material.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 65,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Which is where the title of our show comes from. Distortion Check.",
+  "next_text": "Ra says that all manifestation, all of reality, is distortion. The moment the infinite Creator expresses itself, distortion begins."
+},
+
+{
+  "row": 66,
+  "fileName": "0066.mp3",
+  "speaker": "Victor",
+  "text": "Ra says that all manifestation, all of reality, is distortion. The moment the infinite Creator expresses itself, distortion begins.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 66,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Because Ra talks constantly about distortion. It's a core concept in the material.",
+  "next_text": "We'll get deep into this in the next episode. But the basic idea is that pure unity, pure oneness, has no form. No distinction."
+},
+
+{
+  "row": 67,
+  "fileName": "0067.mp3",
+  "speaker": "Lenny",
+  "text": "We'll get deep into this in the next episode. But the basic idea is that pure unity, pure oneness, has no form. No distinction.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 67,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Ra says that all manifestation, all of reality, is distortion. The moment the infinite Creator expresses itself, distortion begins.",
+  "next_text": "The moment you have a thing, you have distortion. Because now there's this thing and not-this-thing."
+},
+
+{
+  "row": 68,
+  "fileName": "0068.mp3",
+  "speaker": "Victor",
+  "text": "The moment you have a thing, you have distortion. Because now there's this thing and not-this-thing.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 68,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "We'll get deep into this in the next episode. But the basic idea is that pure unity, pure oneness, has no form. No distinction.",
+  "next_text": "So distortion isn't bad. It's just the nature of existence. But it can be more or less aligned with the original unity."
+},
+
+{
+  "row": 69,
+  "fileName": "0069.mp3",
+  "speaker": "Victor",
+  "text": "So distortion isn't bad. It's just the nature of existence. But it can be more or less aligned with the original unity.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 69,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "The moment you have a thing, you have distortion. Because now there's this thing and not-this-thing.",
+  "next_text": "And that's what Ra is trying to do. Help us align our understanding with the Law of One."
+},
+
+{
+  "row": 70,
+  "fileName": "0070.mp3",
+  "speaker": "Lenny",
+  "text": "And that's what Ra is trying to do. Help us align our understanding with the Law of One.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 70,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "So distortion isn't bad. It's just the nature of existence. But it can be more or less aligned with the original unity.",
+  "next_text": "In that first session, Don asks about the Confederation. Ra explains that it's a group of planets and beings working together."
+},
+
+{
+  "row": 71,
+  "fileName": "0071.mp3",
+  "speaker": "Victor",
+  "text": "In that first session, Don asks about the Confederation. Ra explains that it's a group of planets and beings working together.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 71,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "And that's what Ra is trying to do. Help us align our understanding with the Law of One.",
+  "next_text": "They're all at different levels of evolution. But they're united in service to others."
+},
+
+{
+  "row": 72,
+  "fileName": "0072.mp3",
+  "speaker": "Victor",
+  "text": "They're all at different levels of evolution. But they're united in service to others.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 72,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "In that first session, Don asks about the Confederation. Ra explains that it's a group of planets and beings working together.",
+  "next_text": "Service to others. That's another huge concept we'll explore. But basically, Ra says there are two paths. Service to others, and service to self."
+},
+
+{
+  "row": 73,
+  "fileName": "0073.mp3",
+  "speaker": "Lenny",
+  "text": "Service to others. That's another huge concept we'll explore. But basically, Ra says there are two paths. Service to others, and service to self.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 73,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "They're all at different levels of evolution. But they're united in service to others.",
+  "next_text": "Both are valid. Both lead to evolution. But they're very different."
+},
+
+{
+  "row": 74,
+  "fileName": "0074.mp3",
+  "speaker": "Victor",
+  "text": "Both are valid. Both lead to evolution. But they're very different.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 74,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.2,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Service to others. That's another huge concept we'll explore. But basically, Ra says there are two paths. Service to others, and service to self.",
+  "next_text": "The Confederation is on the service-to-others path. And they're trying to help Earth evolve."
+},
+
+{
+  "row": 75,
+  "fileName": "0075.mp3",
+  "speaker": "Lenny",
+  "text": "The Confederation is on the service-to-others path. And they're trying to help Earth evolve.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 75,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Both are valid. Both lead to evolution. But they're very different.",
+  "next_text": "But here's the thing. They can't just show up and fix everything. There are rules."
+},
+
+{
+  "row": 76,
+  "fileName": "0076.mp3",
+  "speaker": "Victor",
+  "text": "But here's the thing. They can't just show up and fix everything. There are rules.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 76,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "The Confederation is on the service-to-others path. And they're trying to help Earth evolve.",
+  "next_text": "Ra talks about the Law of Confusion. Also called free will."
+},
+
+{
+  "row": 77,
+  "fileName": "0077.mp3",
+  "speaker": "Victor",
+  "text": "Ra talks about the Law of Confusion. Also called free will.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 77,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "But here's the thing. They can't just show up and fix everything. There are rules.",
+  "next_text": "The Confederation cannot violate our free will. They can't prove they exist. They can't force us to believe or change."
+},
+
+{
+  "row": 78,
+  "fileName": "0078.mp3",
+  "speaker": "Lenny",
+  "text": "The Confederation cannot violate our free will. They can't prove they exist. They can't force us to believe or change.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 78,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Ra talks about the Law of Confusion. Also called free will.",
+  "next_text": "All they can do is offer information. And even that has to be done carefully, so it doesn't infringe on free will."
+},
+
+{
+  "row": 79,
+  "fileName": "0079.mp3",
+  "speaker": "Victor",
+  "text": "All they can do is offer information. And even that has to be done carefully, so it doesn't infringe on free will.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 79,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "The Confederation cannot violate our free will. They can't prove they exist. They can't force us to believe or change.",
+  "next_text": "Which is why channeling. It's ambiguous. You can believe it or not. It doesn't violate free will."
+},
+
+{
+  "row": 80,
+  "fileName": "0080.mp3",
+  "speaker": "Lenny",
+  "text": "Which is why channeling. It's ambiguous. You can believe it or not. It doesn't violate free will.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 80,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "All they can do is offer information. And even that has to be done carefully, so it doesn't infringe on free will.",
+  "next_text": "That's actually clever. If you think about it. If they landed on the White House lawn, that would be proof. That would remove the choice."
+},
+
+{
+  "row": 81,
+  "fileName": "0081.mp3",
+  "speaker": "Victor",
+  "text": "That's actually clever. If you think about it. If they landed on the White House lawn, that would be proof. That would remove the choice.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 81,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Which is why channeling. It's ambiguous. You can believe it or not. It doesn't violate free will.",
+  "next_text": "But channeling? That's deniable. You're free to dismiss it."
+},
+
+{
+  "row": 82,
+  "fileName": "0082.mp3",
+  "speaker": "Lenny",
+  "text": "But channeling? That's deniable. You're free to dismiss it.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 82,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "That's actually clever. If you think about it. If they landed on the White House lawn, that would be proof. That would remove the choice.",
+  "next_text": "Which I'm sure some people will. And that's fine. That's the point."
+},
+
+{
+  "row": 83,
+  "fileName": "0083.mp3",
+  "speaker": "Victor",
+  "text": "Which I'm sure some people will. And that's fine. That's the point.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 83,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "But channeling? That's deniable. You're free to dismiss it.",
+  "next_text": "So that's Episode One. The beginning. We've introduced Don, Carla, and Jim. We've talked about that first session. And we've touched on some of Ra's core concepts."
+},
+
+{
+  "row": 84,
+  "fileName": "0084.mp3",
+  "speaker": "Lenny",
+  "text": "So that's Episode One. The beginning. We've introduced Don, Carla, and Jim. We've talked about that first session. And we've touched on some of Ra's core concepts.",
+  "voiceId": "WbI4Toj5UDP91WAiEInp",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 84,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.25,
+    "use_speaker_boost": true
+  },
+  "previous_text": "Which I'm sure some people will. And that's fine. That's the point.",
+  "next_text": "Next time, we're going deep into the Law of One. What it means. How Ra explains it. And how it connects to modern physics. Until then, stay curious."
+},
+
+{
+  "row": 85,
+  "fileName": "0085.mp3",
+  "speaker": "Victor",
+  "text": "Next time, we're going deep into the Law of One. What it means. How Ra explains it. And how it connects to modern physics. Until then, stay curious.",
+  "voiceId": "56h13yJuqPnc8Tg2dZbO",
+  "modelId": "eleven_turbo_v2_5",
+  "seed": 85,
+  "voiceSettings": {
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0.3,
+    "use_speaker_boost": true
+  },
+  "previous_text": "So that's Episode One. The beginning. We've introduced Don, Carla, and Jim. We've talked about that first session. And we've touched on some of Ra's core concepts.",
+  "next_text": ""
+}
+
+  ],
+  "postProcessing": {
+    "normalization": true,
+    "removeBackground": false,
+    "enhanceClarity": true
+  },
+  "outputSettings": {
+    "fileFormat": "wav",
+    "sampleRate": 44100,
+    "bitDepth": 16,
+    "channels": 1
+  }
+}
