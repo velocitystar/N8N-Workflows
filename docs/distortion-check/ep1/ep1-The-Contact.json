@@ -18,7 +18,7 @@
       "row": 1,
       "fileName": "ep1_Narrator-cold-open_001.mp3",
       "speaker": "Narrator",
-      "text": "January 15th, 1981. Louisville, Kentucky. A small group gathered in a modest living room, as they had many times before. But this time, something different happened. Something that would produce over a hundred sessions of channeled material, spanning three years. Material that would challenge everything we think we know about consciousness, reality, and our place in the universe.",
+      "text": "January 15th, 1981. Louisville Kentucky. A small group gathered in a modest living room, as they had many times before. But this time, something different happened. Over the next three years, this group would produce over a hundred sessions of channeled material. Material that would challenge everything we think we know about consciousness, reality, and our place in the universe.",
       "voiceId": "tZssYepgGaQmegsMEXjK",
       "modelId": "eleven_turbo_v2_5",
       "seed": null,
@@ -54,7 +54,7 @@
       "row": 3,
       "fileName": "ep1_Victor-intro_003.mp3",
       "speaker": "Victor",
-      "text": "Alright, so here's the thing. I'm Victor, and this is my friend Lenny. We've been geeking out over sci-fi, metaphysics, and the nature of reality for... what, like twenty years now?",
+      "text": "Hey all, thanks for joining us as we discuss one of the most fascinating—and controversial—channeled texts ever recorded. I'm Victor, and this is my friend Lenny. We've been geeking out over sci-fi, metaphysics, and the nature of reality for... what, like twenty years now?",
       "voiceId": "3RzBUGdJG33h12wQHuAm",
       "modelId": "eleven_turbo_v2_5",
       "seed": null,
@@ -342,7 +342,7 @@
       "row": 19,
       "fileName": "ep1_Lenny-circuit_019.mp3",
       "speaker": "Lenny",
-      "text": "So wait, you said circuit. What does that mean? Like, electrical circuit?",
+      "text": "So wait, circuit?. What does that mean? Like, electrical circuit?",
       "voiceId": "Md0vI9p9McjjcQk1hIjO",
       "modelId": "eleven_turbo_v2_5",
       "seed": null,
@@ -696,13 +696,13 @@
         "use_speaker_boost": true
       },
       "previous_text": "Ra says that if higher beings interfere too directly with our free will, they damage our evolution. We have to make our own choices, our own mistakes, our own discoveries.",
-      "next_text": "Exactly. And Ra says they learned this the hard way."
+      "next_text": "Right. And Ra says they learned this the hard way."
     },
     {
       "row": 39,
       "fileName": "ep1_Victor-learned-hard-way_039.mp3",
       "speaker": "Victor",
-      "text": "Exactly. And Ra says they learned this the hard way. Thousands of years ago, Ra tried to help humanity directly—they showed up in Egypt, tried to teach the Law of One. And it backfired. People turned Ra's teachings into a religion, into hierarchy, into control. Ra says they've been trying to balance that distortion ever since.",
+      "text": "Right. And Ra says they learned this the hard way. Thousands of years ago, Ra tried to help humanity directly—they showed up in Egypt, tried to teach the Law of One. And it backfired. People turned Ra's teachings into a religion, into hierarchy, into control. Ra says they've been trying to balance that distortion ever since.",
       "voiceId": "3RzBUGdJG33h12wQHuAm",
       "modelId": "eleven_turbo_v2_5",
       "seed": null,
@@ -768,13 +768,13 @@
         "use_speaker_boost": true
       },
       "previous_text": "Ra uses the word distortion constantly. And at first, it sounds negative, right? Like something's wrong. But Ra says distortion is just... reality.",
-      "next_text": "Exactly. Ra says the first distortion is free will."
+      "next_text": "You Bet. Ra says the first distortion is free will."
     },
     {
       "row": 43,
       "fileName": "ep1_Victor-free-will_043.mp3",
       "speaker": "Victor",
-      "text": "Exactly. Ra says the first distortion is free will. The Creator gives itself the freedom to choose, to explore, to become. The second distortion is love—not romantic love, but the creative principle, the desire to know and be known. And the third distortion is light—the building block of everything, the tool the Creator uses to experience itself.",
+      "text": "You Bet. Ra says the first distortion is free will. The Creator gives itself the freedom to choose, to explore, to become. The second distortion is love—not romantic love, but the creative principle, the desire to know and be known. And the third distortion is light—the building block of everything, the tool the Creator uses to experience itself.",
       "voiceId": "3RzBUGdJG33h12wQHuAm",
       "modelId": "eleven_turbo_v2_5",
       "seed": null,
@@ -804,13 +804,13 @@
         "use_speaker_boost": true
       },
       "previous_text": "Ra says the first distortion is free will. The Creator gives itself the freedom to choose, to explore, to become. The second distortion is love. And the third distortion is light.",
-      "next_text": "Yep. And from there, Ra describes this whole cosmology—densities, planets, galaxies, consciousness evolving through different stages."
+      "next_text": "Yeah, for starters.. And from there, Ra describes this whole cosmology—densities, planets, galaxies, consciousness evolving through different stages."
     },
     {
       "row": 45,
       "fileName": "ep1_Victor-cosmology_045.mp3",
       "speaker": "Victor",
-      "text": "Yep. And from there, Ra describes this whole cosmology—densities, planets, galaxies, consciousness evolving through different stages. We're in third density right now, which is the density of self-awareness and choice. This is where we decide: service to self, or service to others. And that choice determines everything that comes next.",
+      "text": "Yeah, for starters.. And from there, Ra describes this whole cosmology—densities, planets, galaxies, consciousness evolving through different stages. We're in third density right now, which is the density of self-awareness and choice. This is where we decide: service to self, or service to others. And that choice determines everything that comes next.",
       "voiceId": "3RzBUGdJG33h12wQHuAm",
       "modelId": "eleven_turbo_v2_5",
       "seed": null,
@@ -840,13 +840,13 @@
         "use_speaker_boost": true
       },
       "previous_text": "We're in third density right now, which is the density of self-awareness and choice. This is where we decide: service to self, or service to others.",
-      "next_text": "According to Ra, yeah. We're at the end of a cycle."
+      "next_text": "According to Ra, absolutely. We're at the end of a cycle."
     },
     {
       "row": 47,
       "fileName": "ep1_Victor-end-cycle_047.mp3",
       "speaker": "Victor",
-      "text": "According to Ra, yeah. We're at the end of a cycle. Earth is transitioning from third density to fourth density—the density of love and understanding. But not everyone is ready. Some people will graduate to fourth density. Some will repeat third density on another planet. And some... well, Ra says some are here specifically to help with the transition.",
+      "text": "According to Ra, absolutely. We're at the end of a cycle. Earth is transitioning from third density to fourth density—the density of love and understanding. But not everyone is ready. Some people will graduate to fourth density. Some will repeat third density on another planet. And some... well, Ra says some are here specifically to help with the transition.",
       "voiceId": "3RzBUGdJG33h12wQHuAm",
       "modelId": "eleven_turbo_v2_5",
       "seed": null,
@@ -1272,13 +1272,13 @@
         "use_speaker_boost": true
       },
       "previous_text": "We are those of the Confederation who, eleven thousand of your years ago, came to two of your planetary cultures which were at that time closely in touch with the creation of the One Creator.",
-      "next_text": "Yeah. Ra says they came to help the Egyptians."
+      "next_text": "Correct. Ra says they came to help the Egyptians."
     },
     {
       "row": 71,
       "fileName": "ep1_Victor-help-egyptians_071.mp3",
       "speaker": "Victor",
-      "text": "Yeah. Ra says they came to help the Egyptians. They walked among them as brothers and sisters, trying to teach the Law of One. But it didn't go well. The Egyptians turned Ra into gods. They built temples. They created hierarchies. They distorted the message. And Ra felt responsible. So they left. And they've been trying to correct that distortion ever since.",
+      "text": "Correct. Ra says they came to help the Egyptians. They walked among them as brothers and sisters, trying to teach the Law of One. But it didn't go well. The Egyptians turned Ra into gods. They built temples. They created hierarchies. They distorted the message. And Ra felt responsible. So they left. And they've been trying to correct that distortion ever since.",
       "voiceId": "3RzBUGdJG33h12wQHuAm",
       "modelId": "eleven_turbo_v2_5",
       "seed": null,
