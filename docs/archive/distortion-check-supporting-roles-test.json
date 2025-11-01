@@ -1,0 +1,248 @@
+{
+  "episode": {
+    "title": "Ra Voice Test - 4 Options",
+    "number": "test",
+    "description": "Testing four Ra voice options in context with Victor and Lenny",
+    "created": "2025-10-31",
+    "version": "1.0",
+    "totalItems": 12,
+    "estimatedDuration": "2:00"
+  },
+  "voiceMapping": {
+    "Victor": "voice_id_for_victor",
+    "Lenny": "voice_id_for_lenny",
+    "Ra_OptionA": "voice_id_for_ra_optionA",
+    "Ra_OptionB": "voice_id_for_ra_optionB",
+    "Ra_OptionC": "voice_id_for_ra_optionC",
+    "Ra_OptionD": "voice_id_for_ra_optionD"
+  },
+  "defaultSettings": {
+    "modelId": "eleven_turbo_v2_5",
+    "voiceSettings": {
+      "stability": 0.65,
+      "similarity_boost": 0.75,
+      "style": 0.3,
+      "use_speaker_boost": true
+    },
+    "generationConfig": {
+      "chunk_length_schedule": [120, 160, 250, 290]
+    }
+  },
+  "content": [
+    {
+      "row": 1,
+      "fileName": "test_Victor-intro-Ra-purpose_001.mp3",
+      "speaker": "Victor",
+      "text": "Alright, so in Session 1, Don asks Ra the most fundamental question you could ask a supposed extraterrestrial intelligence: What is your purpose here? And Ra's answer... it's not what you'd expect. Listen to this.",
+      "voiceId": "voice_id_for_victor",
+      "modelId": "eleven_turbo_v2_5",
+      "seed": null,
+      "voiceSettings": {
+        "stability": 0.58,
+        "similarity_boost": 0.75,
+        "style": 0.35,
+        "use_speaker_boost": true
+      },
+      "previous_text": "",
+      "next_text": "We came to your peoples to enunciate the Law of One."
+    },
+    {
+      "row": 2,
+      "fileName": "test_Ra-optionA-BBC-narrator_002.mp3",
+      "speaker": "Ra_OptionA",
+      "text": "We came to your peoples to enunciate the Law of One. We wished to impress upon those who wished to learn of unity that in unity all paradoxes are resolved; all that is broken is healed; all that is forgotten is brought to light.",
+      "voiceId": "voice_id_for_ra_optionA",
+      "modelId": "eleven_turbo_v2_5",
+      "seed": null,
+      "voiceSettings": {
+        "stability": 0.6,
+        "similarity_boost": 0.75,
+        "style": 0.25,
+        "use_speaker_boost": true
+      },
+      "previous_text": "Alright, so in Session 1, Don asks Ra the most fundamental question you could ask a supposed extraterrestrial intelligence: What is your purpose here? And Ra's answer... it's not what you'd expect. Listen to this.",
+      "next_text": "Wait—enunciate? Who talks like that?"
+    },
+    {
+      "row": 3,
+      "fileName": "test_Lenny-reaction-enunciate_003.mp3",
+      "speaker": "Lenny",
+      "text": "Wait—enunciate? Who talks like that? And your peoples? That's... I mean, that's not how humans phrase things, right?",
+      "voiceId": "voice_id_for_lenny",
+      "modelId": "eleven_turbo_v2_5",
+      "seed": null,
+      "voiceSettings": {
+        "stability": 0.55,
+        "similarity_boost": 0.78,
+        "style": 0.42,
+        "use_speaker_boost": true
+      },
+      "previous_text": "We came to your peoples to enunciate the Law of One. We wished to impress upon those who wished to learn of unity that in unity all paradoxes are resolved; all that is broken is healed; all that is forgotten is brought to light.",
+      "next_text": "Alright, so in Session 1, Don asks Ra the most fundamental question you could ask a supposed extraterrestrial intelligence: What is your purpose here?"
+    },
+    {
+      "row": 4,
+      "fileName": "test_Victor-intro-Ra-purpose_004.mp3",
+      "speaker": "Victor",
+      "text": "Alright, so in Session 1, Don asks Ra the most fundamental question you could ask a supposed extraterrestrial intelligence: What is your purpose here? And Ra's answer... it's not what you'd expect. Listen to this.",
+      "voiceId": "voice_id_for_victor",
+      "modelId": "eleven_turbo_v2_5",
+      "seed": null,
+      "voiceSettings": {
+        "stability": 0.58,
+        "similarity_boost": 0.75,
+        "style": 0.35,
+        "use_speaker_boost": true
+      },
+      "previous_text": "Wait—enunciate? Who talks like that? And your peoples? That's... I mean, that's not how humans phrase things, right?",
+      "next_text": "We came to your peoples to enunciate the Law of One."
+    },
+    {
+      "row": 5,
+      "fileName": "test_Ra-optionB-elder-sage_005.mp3",
+      "speaker": "Ra_OptionB",
+      "text": "We came to your peoples to enunciate the Law of One. We wished to impress upon those who wished to learn of unity that in unity all paradoxes are resolved; all that is broken is healed; all that is forgotten is brought to light.",
+      "voiceId": "voice_id_for_ra_optionB",
+      "modelId": "eleven_turbo_v2_5",
+      "seed": null,
+      "voiceSettings": {
+        "stability": 0.65,
+        "similarity_boost": 0.7,
+        "style": 0.3,
+        "use_speaker_boost": true
+      },
+      "previous_text": "Alright, so in Session 1, Don asks Ra the most fundamental question you could ask a supposed extraterrestrial intelligence: What is your purpose here? And Ra's answer... it's not what you'd expect. Listen to this.",
+      "next_text": "Wait—enunciate? Who talks like that?"
+    },
+    {
+      "row": 6,
+      "fileName": "test_Lenny-reaction-enunciate_006.mp3",
+      "speaker": "Lenny",
+      "text": "Wait—enunciate? Who talks like that? And your peoples? That's... I mean, that's not how humans phrase things, right?",
+      "voiceId": "voice_id_for_lenny",
+      "modelId": "eleven_turbo_v2_5",
+      "seed": null,
+      "voiceSettings": {
+        "stability": 0.55,
+        "similarity_boost": 0.78,
+        "style": 0.42,
+        "use_speaker_boost": true
+      },
+      "previous_text": "We came to your peoples to enunciate the Law of One. We wished to impress upon those who wished to learn of unity that in unity all paradoxes are resolved; all that is broken is healed; all that is forgotten is brought to light.",
+      "next_text": "Alright, so in Session 1, Don asks Ra the most fundamental question you could ask a supposed extraterrestrial intelligence: What is your purpose here?"
+    },
+    {
+      "row": 7,
+      "fileName": "test_Victor-intro-Ra-purpose_007.mp3",
+      "speaker": "Victor",
+      "text": "Alright, so in Session 1, Don asks Ra the most fundamental question you could ask a supposed extraterrestrial intelligence: What is your purpose here? And Ra's answer... it's not what you'd expect. Listen to this.",
+      "voiceId": "voice_id_for_victor",
+      "modelId": "eleven_turbo_v2_5",
+      "seed": null,
+      "voiceSettings": {
+        "stability": 0.58,
+        "similarity_boost": 0.75,
+        "style": 0.35,
+        "use_speaker_boost": true
+      },
+      "previous_text": "Wait—enunciate? Who talks like that? And your peoples? That's... I mean, that's not how humans phrase things, right?",
+      "next_text": "We came to your peoples to enunciate the Law of One."
+    },
+    {
+      "row": 8,
+      "fileName": "test_Ra-optionC-clinical-academic_008.mp3",
+      "speaker": "Ra_OptionC",
+      "text": "We came to your peoples to enunciate the Law of One. We wished to impress upon those who wished to learn of unity that in unity all paradoxes are resolved; all that is broken is healed; all that is forgotten is brought to light.",
+      "voiceId": "voice_id_for_ra_optionC",
+      "modelId": "eleven_turbo_v2_5",
+      "seed": null,
+      "voiceSettings": {
+        "stability": 0.7,
+        "similarity_boost": 0.8,
+        "style": 0.15,
+        "use_speaker_boost": true
+      },
+      "previous_text": "Alright, so in Session 1, Don asks Ra the most fundamental question you could ask a supposed extraterrestrial intelligence: What is your purpose here? And Ra's answer... it's not what you'd expect. Listen to this.",
+      "next_text": "Wait—enunciate? Who talks like that?"
+    },
+    {
+      "row": 9,
+      "fileName": "test_Lenny-reaction-enunciate_009.mp3",
+      "speaker": "Lenny",
+      "text": "Wait—enunciate? Who talks like that? And your peoples? That's... I mean, that's not how humans phrase things, right?",
+      "voiceId": "voice_id_for_lenny",
+      "modelId": "eleven_turbo_v2_5",
+      "seed": null,
+      "voiceSettings": {
+        "stability": 0.55,
+        "similarity_boost": 0.78,
+        "style": 0.42,
+        "use_speaker_boost": true
+      },
+      "previous_text": "We came to your peoples to enunciate the Law of One. We wished to impress upon those who wished to learn of unity that in unity all paradoxes are resolved; all that is broken is healed; all that is forgotten is brought to light.",
+      "next_text": "Alright, so in Session 1, Don asks Ra the most fundamental question you could ask a supposed extraterrestrial intelligence: What is your purpose here?"
+    },
+    {
+      "row": 10,
+      "fileName": "test_Victor-intro-Ra-purpose_010.mp3",
+      "speaker": "Victor",
+      "text": "Alright, so in Session 1, Don asks Ra the most fundamental question you could ask a supposed extraterrestrial intelligence: What is your purpose here? And Ra's answer... it's not what you'd expect. Listen to this.",
+      "voiceId": "voice_id_for_victor",
+      "modelId": "eleven_turbo_v2_5",
+      "seed": null,
+      "voiceSettings": {
+        "stability": 0.58,
+        "similarity_boost": 0.75,
+        "style": 0.35,
+        "use_speaker_boost": true
+      },
+      "previous_text": "Wait—enunciate? Who talks like that? And your peoples? That's... I mean, that's not how humans phrase things, right?",
+      "next_text": "We came to your peoples to enunciate the Law of One."
+    },
+    {
+      "row": 11,
+      "fileName": "test_Ra-optionD-female-scholar_011.mp3",
+      "speaker": "Ra_OptionD",
+      "text": "We came to your peoples to enunciate the Law of One. We wished to impress upon those who wished to learn of unity that in unity all paradoxes are resolved; all that is broken is healed; all that is forgotten is brought to light.",
+      "voiceId": "voice_id_for_ra_optionD",
+      "modelId": "eleven_turbo_v2_5",
+      "seed": null,
+      "voiceSettings": {
+        "stability": 0.65,
+        "similarity_boost": 0.75,
+        "style": 0.25,
+        "use_speaker_boost": true
+      },
+      "previous_text": "Alright, so in Session 1, Don asks Ra the most fundamental question you could ask a supposed extraterrestrial intelligence: What is your purpose here? And Ra's answer... it's not what you'd expect. Listen to this.",
+      "next_text": "Wait—enunciate? Who talks like that?"
+    },
+    {
+      "row": 12,
+      "fileName": "test_Lenny-reaction-enunciate_012.mp3",
+      "speaker": "Lenny",
+      "text": "Wait—enunciate? Who talks like that? And your peoples? That's... I mean, that's not how humans phrase things, right?",
+      "voiceId": "voice_id_for_lenny",
+      "modelId": "eleven_turbo_v2_5",
+      "seed": null,
+      "voiceSettings": {
+        "stability": 0.55,
+        "similarity_boost": 0.78,
+        "style": 0.42,
+        "use_speaker_boost": true
+      },
+      "previous_text": "We came to your peoples to enunciate the Law of One. We wished to impress upon those who wished to learn of unity that in unity all paradoxes are resolved; all that is broken is healed; all that is forgotten is brought to light.",
+      "next_text": ""
+    }
+  ],
+  "postProcessing": {
+    "normalization": true,
+    "removeBackground": false,
+    "enhanceClarity": true
+  },
+  "outputSettings": {
+    "fileFormat": "mp3",
+    "sampleRate": 44100,
+    "bitDepth": 16,
+    "channels": "mono"
+  }
+}
